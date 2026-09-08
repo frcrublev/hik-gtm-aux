@@ -64,6 +64,37 @@ textarea{min-height:64px;resize:vertical}
 .identcard{animation:idPop .45s cubic-bezier(.2,1.3,.4,1) both}
 .line{animation:idPop .3s ease both}
 @media(prefers-reduced-motion:reduce){#form>.body>fieldset,#form #ident-fs,.identcard,.line{animation:none}}
+
+/* ── Efectos "cool" ── */
+.sheet{position:relative;z-index:1}
+body::before{content:'';position:fixed;inset:-20%;z-index:0;pointer-events:none;
+  background:radial-gradient(600px circle at 18% 8%,rgba(230,0,18,.11),transparent 60%),
+             radial-gradient(520px circle at 92% 26%,rgba(255,120,0,.09),transparent 60%),
+             radial-gradient(720px circle at 55% 102%,rgba(230,0,18,.07),transparent 60%);
+  animation:bgFloat 16s ease-in-out infinite alternate}
+@keyframes bgFloat{0%{transform:translate(0,0) scale(1)}100%{transform:translate(0,-3%) scale(1.05)}}
+.top{background:linear-gradient(120deg,#E60012,#B00010,#E60012);background-size:220% 100%;animation:topShift 9s ease infinite;position:relative;overflow:hidden}
+@keyframes topShift{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+h1{position:relative;display:inline-block}
+h1::after{content:'';position:absolute;top:0;left:-35%;width:22%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.55),transparent);transform:skewX(-20deg);animation:sheen 4.5s ease-in-out 1s infinite}
+@keyframes sheen{0%{left:-35%}50%,100%{left:135%}}
+legend i{animation:badgePulse 2.6s ease-in-out infinite}
+@keyframes badgePulse{0%,100%{box-shadow:0 1px 3px rgba(230,0,18,.32)}50%{box-shadow:0 0 0 4px rgba(230,0,18,.12),0 2px 8px rgba(230,0,18,.45)}}
+button.p{position:relative;overflow:hidden;transition:transform .12s,box-shadow .18s,filter .18s}
+button.p:hover:not(:disabled){transform:translateY(-1px);box-shadow:0 9px 24px rgba(230,0,18,.38)}
+button.p::after{content:'';position:absolute;top:0;left:-45%;width:32%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.4),transparent);transform:skewX(-20deg);animation:sheen 3.6s ease-in-out infinite;pointer-events:none}
+.combo-note{position:relative;overflow:hidden}
+.combo-note::after{content:'';position:absolute;top:0;left:-60%;width:38%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.6),transparent);transform:skewX(-20deg);animation:sheen 3.4s ease-in-out 1.4s infinite;pointer-events:none}
+.filebox:hover{box-shadow:0 6px 18px rgba(230,0,18,.14)}
+.eqblock{transition:box-shadow .18s,transform .18s}
+.eqblock:hover{box-shadow:0 6px 20px rgba(16,24,40,.07)}
+.addline{transition:background .15s,transform .12s,box-shadow .18s}
+.addline:hover{box-shadow:0 4px 14px rgba(230,0,18,.12)}
+.addline:active{transform:scale(.99)}
+@media(prefers-reduced-motion:reduce){
+  body::before,.top{animation:none}
+  h1::after,button.p::after,.combo-note::after,legend i{animation:none}
+}
 .filelist{margin-top:8px;display:flex;flex-direction:column;gap:5px}
 .fileitem{display:flex;align-items:center;gap:8px;font-size:13px;background:var(--bg);border:1px solid var(--line);border-radius:3px;padding:7px 10px}
 .fileitem .x{margin-left:auto;color:var(--dred);cursor:pointer;font-weight:700}
