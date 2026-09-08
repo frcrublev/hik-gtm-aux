@@ -87,33 +87,31 @@ button.p:hover:not(:disabled){filter:brightness(.97)}
       <div class="hint">11 dígitos, sin guiones.</div>
       <div class="f">
         <input type="text" id="cuit" inputmode="numeric" maxlength="13" placeholder="30712345678" autocomplete="off">
-        <div id="tier-info" style="display:none;margin-top:8px;font-size:13px;font-weight:600;padding:8px 11px;border-radius:3px"></div>
+        <div id="cuit-warn" style="display:none;margin-top:8px;font-size:13px;font-weight:600;color:#8a1c12;background:#FDECEA;border:1px solid #F5C6C0;padding:8px 11px;border-radius:3px">CUIT no reconocido / no es un DPP de esta promoción.</div>
         <div class="err" id="e-cuit">Ingresá un CUIT de 11 dígitos.</div>
       </div>
     </fieldset>
 
     <div id="rest">
 
-    <fieldset>
-      <legend><i>2</i>DPP Fantasy Name</legend>
-      <div class="hint">Nombre de fantasía de tu comercio.</div>
+    <fieldset id="ident-fs" hidden>
+      <legend><i>2</i>Tus datos</legend>
       <div class="f">
-        <input type="text" id="dpp" placeholder="Nombre de fantasía del DPP" autocomplete="off">
-        <div class="err" id="e-dpp">Completá el DPP Fantasy Name.</div>
+        <div style="background:var(--bg);border:1px solid var(--line);border-radius:3px;padding:11px 13px;font-size:14.5px">
+          <span style="color:var(--dim);font-size:12.5px">DPP:</span> <b id="ident-dpp">—</b>
+        </div>
+        <input type="hidden" id="dpp">
+        <div style="margin-top:12px">
+          <label for="contacto" style="display:block;font-size:12.5px;color:var(--dim);margin-bottom:5px">Contacto comercial de Hikvision <span style="font-size:11px">(podés ajustarlo)</span></label>
+          <input type="text" id="contacto" list="chs-list" placeholder="Channel Sales" autocomplete="off">
+          <datalist id="chs-list"></datalist>
+          <div class="err" id="e-contacto">Indicá con quién estás trabajando.</div>
+        </div>
       </div>
     </fieldset>
 
     <fieldset>
-      <legend><i>3</i>Contacto comercial de Hikvision</legend>
-      <div class="f">
-        <input type="text" id="contacto" list="chs-list" placeholder="Elegí o escribí tu contacto" autocomplete="off">
-        <datalist id="chs-list"></datalist>
-        <div class="err" id="e-contacto">Indicá con quién estás trabajando.</div>
-      </div>
-    </fieldset>
-
-    <fieldset>
-      <legend><i>4</i>Equipos comprados</legend>
+      <legend><i>3</i>Equipos comprados</legend>
       <div class="hint">Agregá una línea por modelo. Si compraste a más de un ND, indicá el ND en cada línea.</div>
       <div class="f">
         <div class="lhdr"><span>Modelo</span><span>Cant.</span><span>ND</span><span></span></div>
@@ -124,7 +122,7 @@ button.p:hover:not(:disabled){filter:brightness(.97)}
     </fieldset>
 
     <fieldset>
-      <legend><i>5</i>Factura</legend>
+      <legend><i>4</i>Factura</legend>
       <div class="hint">Subí la factura (foto o PDF). Podés subir más de una si compraste a varios ND.</div>
       <div class="f">
         <label class="filebox" for="facturas">📎 Tocá para subir factura(s) — imagen o PDF</label>
@@ -136,7 +134,7 @@ button.p:hover:not(:disabled){filter:brightness(.97)}
     </fieldset>
 
     <fieldset>
-      <legend><i>6</i>Otros productos o comentarios</legend>
+      <legend><i>5</i>Otros productos o comentarios</legend>
       <div class="hint">Opcional.</div>
       <div class="f"><textarea id="otros" placeholder="Otro modelo, aclaraciones, fecha estimada de compra…"></textarea></div>
     </fieldset>
@@ -272,26 +270,22 @@ var DPPCHS={"20263825188":"Ariel Donamari","33716519479":"Ariel Donamari","33714
 function isKnownCuit(cuit){ return typeof TIER !== 'undefined' && Object.prototype.hasOwnProperty.call(TIER, cuit); }
 function tierOf(cuit){ return (typeof TIER !== 'undefined' && TIER[cuit]) ? TIER[cuit] : ''; }
 function ncOf(tier){ return TIER_PRICE[tier] != null ? TIER_PRICE[tier] : null; }
-// Al tipear el CUIT se muestra el nivel del DPP y la NC estimada (informativo).
+// Al tipear el CUIT: si es un DPP del padrón, autocompleta DPP y contacto
+// y despliega el bloque "Tus datos". El nivel/NC ya no se muestra acá
+// (se valida al enviar).
 function updateTier(){
-  var box = document.getElementById('tier-info');
+  var warn = document.getElementById('cuit-warn');
+  var ident = document.getElementById('ident-fs');
   var cuit = (document.getElementById('cuit').value || '').replace(/\D/g, '');
-  if(cuit.length !== 11 || !isKnownCuit(cuit)){ box.style.display = 'none'; return; }
-  // Autocompletar el DPP Fantasy Name a partir del CUIT.
+  if(cuit.length !== 11){ warn.style.display = 'none'; ident.hidden = true; return; }
+  if(!isKnownCuit(cuit)){ warn.style.display = 'block'; ident.hidden = true; document.getElementById('dpp').value = ''; return; }
+  warn.style.display = 'none';
   var nm = (typeof DPPNAME !== 'undefined' && DPPNAME[cuit]) ? DPPNAME[cuit] : '';
-  if(nm) document.getElementById('dpp').value = nm;
-  // Autocompletar el contacto (Channel Sales) — editable.
   var cs = (typeof DPPCHS !== 'undefined' && DPPCHS[cuit]) ? DPPCHS[cuit] : '';
-  if(cs) document.getElementById('contacto').value = cs;
-  box.style.display = 'block';
-  var tier = tierOf(cuit), nc = ncOf(tier);
-  if(nc != null){
-    box.style.background = '#EAF7EE'; box.style.color = '#146c37'; box.style.border = '1px solid #B7E4C7';
-    box.innerHTML = 'DPP <b>' + _esc(tier) + '</b> · NC estimada del demo: <b>USD ' + nc.toFixed(2) + '</b> (1 unidad)';
-  } else {
-    box.style.background = '#FFF7E6'; box.style.color = '#8a5a00'; box.style.border = '1px solid #FFE1A8';
-    box.innerHTML = 'DPP identificado' + (tier ? ' · nivel <b>' + _esc(tier) + '</b>' : '') + ' · NC a confirmar por Hikvision';
-  }
+  document.getElementById('dpp').value = nm;
+  document.getElementById('ident-dpp').textContent = nm || '—';
+  var cel = document.getElementById('contacto'); if(cs) cel.value = cs;
+  ident.hidden = false;
 }
 
 function val(id){ return (document.getElementById(id).value || '').trim(); }
@@ -313,8 +307,9 @@ function readLines(){
 function validar(){
   var ok = true;
   var cuit = val('cuit').replace(/\D/g, '');
-  if(cuit.length !== 11){ mark('cuit', true); ok = false; } else mark('cuit', false);
-  ['dpp','contacto'].forEach(function(id){ if(!val(id)){ mark(id, true); ok = false; } else mark(id, false); });
+  // CUIT válido = 11 dígitos y DPP del padrón (dpp se completa solo si el CUIT es conocido).
+  if(cuit.length !== 11 || !val('dpp')){ mark('cuit', true); ok = false; document.getElementById('cuit-warn').style.display = (cuit.length === 11 ? 'block' : 'none'); } else mark('cuit', false);
+  if(!val('contacto')){ mark('contacto', true); ok = false; } else mark('contacto', false);
   var lines = readLines();
   var complete = lines.filter(function(l){ return l._complete; });
   var badLines = lines.length === 0 || complete.length === 0 || lines.some(function(l){ return !l._complete; });
