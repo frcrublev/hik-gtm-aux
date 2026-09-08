@@ -155,7 +155,7 @@ button.p:hover:not(:disabled){filter:brightness(.97)}
 
     <fieldset>
       <legend><i>2</i>Equipos comprados</legend>
-      <div class="hint">Agregá una línea por modelo. Si compraste a más de un ND, indicá el ND en cada línea.</div>
+      <div class="hint">Una línea por modelo. Indicá el ND en cada línea.</div>
       <div class="f">
         <div class="lhdr"><span>Modelo</span><span>Cant.</span><span>ND</span><span></span></div>
         <div id="lines"></div>
@@ -172,8 +172,9 @@ button.p:hover:not(:disabled){filter:brightness(.97)}
           <label class="filebox" for="facturas">📎 Subir factura(s) — imagen o PDF</label>
           <input type="file" id="facturas" accept="image/*,application/pdf" multiple style="display:none" onchange="onFiles()">
           <div class="fact-date">
-            <input type="text" id="fecha" inputmode="numeric" maxlength="10" placeholder="DD / MM / AAAA" oninput="fmtFecha(this)" title="Fecha de la factura (opcional)">
-            <div style="font-size:11px;color:var(--dim);margin-top:5px">Fecha de la factura (opcional)</div>
+            <input type="text" id="fecha" inputmode="numeric" maxlength="10" placeholder="DD / MM / AAAA" oninput="fmtFecha(this)" title="Fecha de la factura">
+            <div style="font-size:11px;color:var(--dim);margin-top:5px">Fecha de la factura</div>
+            <div class="err" id="e-fecha">Indicá la fecha (DD/MM/AAAA).</div>
           </div>
         </div>
         <div class="filelist" id="filelist"></div>
@@ -450,6 +451,7 @@ function validar(){
   if(badLines) ok = false;
   document.getElementById('e-fact').classList.toggle('on', _files.length === 0);
   if(_files.length === 0) ok = false;
+  if(!fechaISO()){ mark('fecha', true); ok = false; } else mark('fecha', false);
   if(!ok){ var first = document.querySelector('.err.on'); if(first) first.scrollIntoView({behavior:'smooth', block:'center'}); }
   return ok;
 }
