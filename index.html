@@ -150,10 +150,27 @@ button.p:hover:not(:disabled){filter:brightness(.97)}
   </div>
   </div>
 
+  <!-- Pantalla de felicitaciones + carga de RRSS (solo si es elegible) -->
+  <div class="done" id="celebrate">
+    <div style="font-size:56px;line-height:1;margin-bottom:6px">🎉</div>
+    <h2 style="color:var(--ok)">¡Felicitaciones!</h2>
+    <p id="celebrate-msg">Alcanzaste el combo de la promoción. Obtuviste el derecho a la <b>Nota de Crédito del demo</b>.</p>
+    <div style="text-align:left;max-width:460px;margin:0 auto">
+      <div style="font-family:'Poppins',sans-serif;font-weight:600;font-size:13px;color:var(--ink);margin-bottom:6px">Último paso — subí tu publicación en RRSS</div>
+      <div style="font-size:12.5px;color:var(--dim);margin-bottom:9px">Captura o imagen del posteo en tus redes sociales promocionando la compra. Es obligatorio para recibir la NC.</div>
+      <label class="filebox" for="rrss">📸 Tocá para subir tu publicación (imagen o PDF)</label>
+      <input type="file" id="rrss" accept="image/*,application/pdf" multiple style="display:none" onchange="onRrss()">
+      <div class="filelist" id="rrsslist"></div>
+      <div class="err" id="e-rrss">Subí al menos una captura de RRSS.</div>
+    </div>
+    <div class="banner" id="banner2" style="margin:14px 0 0"></div>
+    <div style="margin-top:18px"><button class="p" id="btn-confirm" onclick="confirmarElegible()" style="max-width:340px;width:100%">Confirmar y recibir mi NC</button></div>
+  </div>
+
   <div class="done" id="done">
     <div class="tick">✓</div>
-    <h2>¡Registro enviado!</h2>
-    <p>Recibimos tu registro de compra. Tu contacto comercial de Hikvision validará la promoción.</p>
+    <h2 id="done-title">¡Registro enviado!</h2>
+    <p id="done-msg">Recibimos tu registro de compra. Tu contacto comercial de Hikvision validará la promoción.</p>
     <button onclick="location.reload()">Cargar otro</button>
   </div>
 
@@ -168,6 +185,8 @@ button.p:hover:not(:disabled){filter:brightness(.97)}
 var CAMPAIGNS = {
   kvpro: {
     label: 'K/VPro-Y26Q3',
+    // Combo mínimo para acceder a la NC del demo (ajustable).
+    elig: { cams: 20, nvr: 2 },
     title: 'Registro de compra',
     subtitle: 'AcuSeek K/VPro + ColorVu 3.0 · Promo 14/09 — 31/10/2026',
     foot: 'Los datos se usan únicamente para validar tu compra dentro de la promoción vigente (14/09 — 31/10/2026).',
@@ -251,6 +270,20 @@ function renderFiles(){
   }).join('');
 }
 function rmFile(i){ _files.splice(i,1); renderFiles(); }
+var _rrss = [];
+function onRrss(){
+  var inp = document.getElementById('rrss');
+  for(var i=0;i<inp.files.length;i++) _rrss.push(inp.files[i]);
+  inp.value = '';
+  document.getElementById('e-rrss').classList.remove('on');
+  renderRrss();
+}
+function renderRrss(){
+  document.getElementById('rrsslist').innerHTML = _rrss.map(function(f,i){
+    return '<div class="fileitem">📸 ' + _esc(f.name) + ' <span class="x" onclick="rmRrss(' + i + ')">✕</span></div>';
+  }).join('');
+}
+function rmRrss(i){ _rrss.splice(i,1); renderRrss(); }
 
 function render(){
   if(!CFG){ document.getElementById('nofound').style.display = 'block'; return; }
@@ -261,8 +294,26 @@ function render(){
   if(CFG.foot) document.getElementById('t-foot').textContent = CFG.foot;
   var dl = document.getElementById('chs-list');
   (CFG.chs || []).forEach(function(n){ var o = document.createElement('option'); o.value = n; dl.appendChild(o); });
+  // Clasificar cada SKU como cámara ('cam') o NVR ('nvr') según su grupo.
+  _SKUKIND = {};
+  (CFG.groups || []).forEach(function(g){
+    var kind = /nvr/i.test(g.name) ? 'nvr' : (/c[áa]mara/i.test(g.name) ? 'cam' : 'otro');
+    (g.items || []).forEach(function(it){ _SKUKIND[it.sku] = kind; });
+  });
   addLine();
   document.getElementById('cuit').addEventListener('input', updateTier);
+}
+var _SKUKIND = {};
+// Suma de cantidades por tipo y test del combo mínimo.
+function comboCounts(lines){
+  var c = { cam:0, nvr:0 };
+  lines.forEach(function(l){ var k = _SKUKIND[l.sku]; if(k === 'cam') c.cam += (l.qty||0); else if(k === 'nvr') c.nvr += (l.qty||0); });
+  return c;
+}
+function esElegible(lines){
+  var need = CFG.elig || { cams:0, nvr:0 };
+  var c = comboCounts(lines);
+  return c.cam >= need.cams && c.nvr >= need.nvr;
 }
 
 // Nivel del DPP + NC estimada (1 unidad) a partir del CUIT.
@@ -328,52 +379,76 @@ function validar(){
 function banner(msg){ var b = document.getElementById('banner'); b.textContent = msg; b.classList.add('on'); }
 function safeName(s){ return (s||'file').replace(/[^\w.\-]+/g,'_').slice(-60); }
 
-async function enviar(){
+// Paso 1: validar. Si alcanza el combo → pantalla de felicitaciones (RRSS).
+// Si no → se registra normal, sin NC.
+function enviar(){
   if(!validar()) return;
   if(!sb){ banner('No se pudo conectar. Revisá tu conexión e intentá de nuevo.'); return; }
-  var btn = document.getElementById('btn-enviar');
+  var lines = readLines().filter(function(l){ return l._complete; });
+  if(esElegible(lines)){
+    document.getElementById('form').style.display = 'none';
+    document.getElementById('celebrate').classList.add('on');
+    window.scrollTo(0, 0);
+  } else {
+    finalizar(false);
+  }
+}
+// Paso 2 (elegible): exige RRSS y finaliza.
+function confirmarElegible(){
+  if(_rrss.length === 0){ document.getElementById('e-rrss').classList.add('on'); return; }
+  finalizar(true);
+}
+async function subir(files, prefix){
+  var cuit = val('cuit').replace(/\D/g, '');
+  var out = [];
+  for(var i=0;i<files.length;i++){
+    var f = files[i];
+    var path = prefix + SLUG + '/' + cuit + '_' + Date.now() + '_' + i + '_' + safeName(f.name);
+    var up = await sb.storage.from('facturas').upload(path, f, { upsert:false, contentType: f.type || undefined });
+    if(up.error) throw up.error;
+    out.push({ path: path, name: f.name });
+  }
+  return out;
+}
+async function finalizar(elegible){
+  var onCel = document.getElementById('celebrate').classList.contains('on');
+  var btn = document.getElementById(onCel ? 'btn-confirm' : 'btn-enviar');
+  var bannerId = onCel ? 'banner2' : 'banner';
   btn.disabled = true; btn.textContent = 'Enviando…';
-  document.getElementById('banner').classList.remove('on');
+  document.getElementById(bannerId).classList.remove('on');
   var cuit = val('cuit').replace(/\D/g, '');
   try{
-    // 1) Subir facturas al bucket privado
-    var uploaded = [];
-    for(var i=0;i<_files.length;i++){
-      var f = _files[i];
-      var path = SLUG + '/' + cuit + '_' + Date.now() + '_' + i + '_' + safeName(f.name);
-      var up = await sb.storage.from('facturas').upload(path, f, { upsert:false, contentType: f.type || undefined });
-      if(up.error) throw up.error;
-      uploaded.push({ path: path, name: f.name });
-    }
-    // 2) Insertar el registro
+    var facturas = await subir(_files, '');
+    var rrss = elegible ? await subir(_rrss, 'rrss/') : [];
     var lines = readLines().filter(function(l){ return l._complete; }).map(function(l){ return { sku:l.sku, qty:l.qty, nd:l.nd }; });
     var ndSet = {}; lines.forEach(function(l){ if(l.nd) ndSet[l.nd]=1; });
-    var tier = tierOf(cuit);
-    var nc = ncOf(tier);
+    var tier = tierOf(cuit), nc = ncOf(tier);
     var payload = {
-      campaign: SLUG,
-      campaign_name: CFG.label,
-      cuit: cuit,
-      dpp: val('dpp'),
-      contacto: val('contacto'),
-      tier: tier || null,
-      nc_amount: nc,
+      campaign: SLUG, campaign_name: CFG.label,
+      cuit: cuit, dpp: val('dpp'), contacto: val('contacto'),
+      tier: tier || null, nc_amount: nc, eligible: !!elegible,
       nd: Object.keys(ndSet).join(', '),
-      lines: lines,
-      items: lines.map(function(l){ return { sku:l.sku, qty:l.qty }; }),  // compat
-      factura_files: uploaded,
-      factura_fecha: val('fecha') || null,
-      comentarios: val('otros') || null,
+      lines: lines, items: lines.map(function(l){ return { sku:l.sku, qty:l.qty }; }),
+      factura_files: facturas, rrss_files: rrss,
+      factura_fecha: val('fecha') || null, comentarios: val('otros') || null,
       source: 'public'
     };
     var res = await sb.from('purchase_registrations').insert(payload);
     if(res.error) throw res.error;
     document.getElementById('form').style.display = 'none';
+    document.getElementById('celebrate').classList.remove('on');
+    if(elegible){
+      document.getElementById('done-title').textContent = '¡NC confirmada!';
+      document.getElementById('done-msg').innerHTML = 'Recibimos tu registro y tu publicación en RRSS. Hikvision emitirá la Nota de Crédito del demo por tu contacto comercial.';
+    } else {
+      document.getElementById('done-title').textContent = '¡Registro enviado!';
+      document.getElementById('done-msg').textContent = 'Recibimos tu registro de compra. Tu contacto comercial de Hikvision validará la promoción.';
+    }
     document.getElementById('done').classList.add('on');
     window.scrollTo(0, 0);
   }catch(e){
-    btn.disabled = false; btn.textContent = 'Enviar registro';
-    banner('No se pudo enviar el registro: ' + (e.message || e) + '. Intentá de nuevo en unos segundos.');
+    btn.disabled = false; btn.textContent = onCel ? 'Confirmar y recibir mi NC' : 'Enviar registro';
+    var b = document.getElementById(bannerId); b.textContent = 'No se pudo enviar: ' + (e.message || e) + '. Intentá de nuevo.'; b.classList.add('on');
   }
 }
 
