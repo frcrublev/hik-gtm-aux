@@ -63,6 +63,27 @@ button.p:hover:not(:disabled){filter:brightness(.97)}
 .foot{padding:16px 24px 0;font-size:12px;color:var(--dim);border-top:1px solid var(--line);margin-top:8px}
 .banner{display:none;background:rgba(184,0,14,.08);border:1px solid rgba(184,0,14,.3);color:var(--dred);font-size:13px;padding:11px 13px;border-radius:3px;margin:0 24px 8px}
 .banner.on{display:block}
+/* Pantalla de felicitaciones */
+.celebrate{position:relative;overflow:hidden}
+#confetti{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:1}
+.cel-inner{position:relative;z-index:2}
+.cel-trophy{font-size:76px;line-height:1;filter:drop-shadow(0 6px 12px rgba(0,0,0,.15));animation:celPop .7s cubic-bezier(.2,1.5,.4,1) both}
+.cel-title{font-family:'Poppins',sans-serif;font-weight:800;font-size:31px;letter-spacing:.02em;margin:8px 0 4px;background:linear-gradient(90deg,#E60012,#FF7A00);-webkit-background-clip:text;background-clip:text;color:transparent;animation:celRise .5s .12s both}
+.cel-sub{color:var(--dim);margin:0 0 18px;font-size:14.5px;animation:celRise .5s .22s both}
+.prize{max-width:360px;margin:0 auto 22px;background:linear-gradient(135deg,#FFF7DE,#FFE39E);border:1px solid #F2CE72;border-radius:14px;padding:15px 18px;box-shadow:0 12px 28px rgba(190,140,0,.22);position:relative;overflow:hidden;animation:celPop .6s .3s both}
+.prize::after{content:'';position:absolute;top:0;left:-70%;width:45%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.75),transparent);transform:skewX(-20deg);animation:celShine 2.6s 1s infinite}
+.prize-lbl{font-family:'Poppins',sans-serif;font-weight:700;font-size:11px;letter-spacing:.16em;color:#B07A10}
+.prize-name{font-family:'Poppins',sans-serif;font-weight:700;font-size:15px;color:#7A4E00;margin-top:3px}
+.prize-amt{font-family:'Poppins',sans-serif;font-weight:800;font-size:32px;line-height:1.1;color:#8a5600;margin-top:5px}
+.cel-step{max-width:460px;margin:0 auto;text-align:left;animation:celRise .5s .45s both}
+.cel-step-t{font-family:'Poppins',sans-serif;font-weight:600;font-size:13.5px;margin-bottom:6px}
+.cel-step-d{font-size:12.5px;color:var(--dim);margin-bottom:10px}
+.cel-btn{max-width:360px;margin:20px auto 0;animation:celGlow 1.9s ease-in-out infinite}
+@keyframes celPop{0%{transform:scale(.4);opacity:0}60%{transform:scale(1.12)}100%{transform:scale(1);opacity:1}}
+@keyframes celRise{0%{transform:translateY(16px);opacity:0}100%{transform:translateY(0);opacity:1}}
+@keyframes celShine{0%{left:-70%}100%{left:140%}}
+@keyframes celGlow{0%,100%{box-shadow:0 3px 10px rgba(230,0,18,.18)}50%{box-shadow:0 8px 30px rgba(230,0,18,.5)}}
+@media(prefers-reduced-motion:reduce){.cel-trophy,.cel-title,.cel-sub,.prize,.cel-step,.cel-btn{animation:none}.prize::after{display:none}}
 .nofound{padding:60px 24px;text-align:center;color:var(--dim)}
 .nofound h2{font-family:'Poppins',sans-serif;color:var(--ink);font-size:20px;margin:0 0 8px}
 @media(max-width:520px){h1{font-size:22px}.f,.hint{margin-left:0}legend{margin-bottom:8px}
@@ -155,20 +176,32 @@ button.p:hover:not(:disabled){filter:brightness(.97)}
   </div>
 
   <!-- Pantalla de felicitaciones + carga de RRSS (solo si es elegible) -->
-  <div class="done" id="celebrate">
-    <div style="font-size:56px;line-height:1;margin-bottom:6px">🎉</div>
-    <h2 style="color:var(--ok)">¡Felicitaciones!</h2>
-    <p id="celebrate-msg">Alcanzaste el combo de la promoción. Obtuviste el derecho a la <b>Nota de Crédito del demo</b>.</p>
-    <div style="text-align:left;max-width:460px;margin:0 auto">
-      <div style="font-family:'Poppins',sans-serif;font-weight:600;font-size:13px;color:var(--ink);margin-bottom:6px">Último paso — subí tu publicación en RRSS</div>
-      <div style="font-size:12.5px;color:var(--dim);margin-bottom:9px">Captura o imagen del posteo en tus redes sociales promocionando la compra. Es obligatorio para recibir la NC.</div>
-      <label class="filebox" for="rrss">📸 Tocá para subir tu publicación (imagen o PDF)</label>
-      <input type="file" id="rrss" accept="image/*,application/pdf" multiple style="display:none" onchange="onRrss()">
-      <div class="filelist" id="rrsslist"></div>
-      <div class="err" id="e-rrss">Subí al menos una captura de RRSS.</div>
+  <div class="done celebrate" id="celebrate">
+    <canvas id="confetti"></canvas>
+    <div class="cel-inner">
+      <div class="cel-trophy">🏆</div>
+      <h2 class="cel-title">¡FELICITACIONES!</h2>
+      <p class="cel-sub">Alcanzaste el combo de la promoción 🎉</p>
+
+      <div class="prize">
+        <div class="prize-lbl">CALIFICASTE PARA</div>
+        <div class="prize-name">Nota de Crédito del demo</div>
+        <div class="prize-amt" id="cel-amt">USD —</div>
+        <div style="font-size:11px;color:#9a7320;margin-top:4px">Sujeta a revisión y aprobación de Hikvision</div>
+      </div>
+
+      <div class="cel-step">
+        <div class="cel-step-t">Último paso — subí tu publicación en RRSS</div>
+        <div class="cel-step-d">Captura o imagen del posteo en tus redes sociales promocionando la compra. Es obligatorio para recibir la NC.</div>
+        <label class="filebox" for="rrss">📸 Tocá para subir tu publicación (imagen o PDF)</label>
+        <input type="file" id="rrss" accept="image/*,application/pdf" multiple style="display:none" onchange="onRrss()">
+        <div class="filelist" id="rrsslist"></div>
+        <div class="err" id="e-rrss">Subí al menos una captura de RRSS.</div>
+      </div>
+
+      <div class="banner" id="banner2" style="margin:14px 0 0"></div>
+      <button class="p cel-btn" id="btn-confirm" onclick="confirmarElegible()" style="width:100%">Confirmar y recibir mi NC</button>
     </div>
-    <div class="banner" id="banner2" style="margin:14px 0 0"></div>
-    <div style="margin-top:18px"><button class="p" id="btn-confirm" onclick="confirmarElegible()" style="max-width:340px;width:100%">Confirmar y recibir mi NC</button></div>
   </div>
 
   <div class="done" id="done">
@@ -178,9 +211,26 @@ button.p:hover:not(:disabled){filter:brightness(.97)}
     <button onclick="location.reload()">Cargar otro</button>
   </div>
 
+  <!-- Comprobante de solicitud de NC (en revisión) -->
+  <div class="done" id="receipt">
+    <div class="tick" style="background:#F59E0B">⏳</div>
+    <h2>Solicitud de NC en revisión</h2>
+    <p>Recibimos tu registro y tu publicación en RRSS. Tu Nota de Crédito queda <b>en revisión por Hikvision</b>; te avisaremos por tu contacto comercial una vez aprobada.</p>
+    <div id="rcpt-card" style="text-align:left;max-width:420px;margin:0 auto 20px;border:1px solid var(--line);border-radius:8px;overflow:hidden;font-size:13.5px">
+      <div style="background:var(--bg);border-bottom:1px solid var(--line);padding:10px 14px;font-family:'Poppins',sans-serif;font-weight:700;font-size:12px;letter-spacing:.05em;color:var(--dim)">COMPROBANTE DE SOLICITUD</div>
+      <div style="padding:12px 14px;display:flex;flex-direction:column;gap:6px" id="rcpt-body"></div>
+    </div>
+    <div style="display:flex;gap:9px;max-width:420px;margin:0 auto;flex-wrap:wrap">
+      <button class="p" onclick="downloadReceipt()" style="flex:1;min-width:150px">⬇ Descargar comprobante</button>
+      <button onclick="emailReceipt()" style="flex:1;min-width:150px;font-family:'Poppins',sans-serif;font-weight:600;font-size:15px;padding:13px;border-radius:4px;cursor:pointer;border:1px solid var(--line);background:#fff;color:var(--ink)">✉ Enviar por email</button>
+    </div>
+    <div style="margin-top:16px"><button onclick="location.reload()" style="background:none;border:none;color:var(--dim);text-decoration:underline;cursor:pointer;font-size:13px">Cargar otro</button></div>
+  </div>
+
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script>
 // ════════════════════════════════════════════════════════════════
 //  Configuración por campaña GTM. Cada GTM usa ?c=<slug>.
@@ -390,12 +440,43 @@ function enviar(){
   if(!sb){ banner('No se pudo conectar. Revisá tu conexión e intentá de nuevo.'); return; }
   var lines = readLines().filter(function(l){ return l._complete; });
   if(esElegible(lines)){
+    var tier = tierOf(val('cuit').replace(/\D/g, ''));
+    var nc = ncOf(tier);
+    document.getElementById('cel-amt').textContent = nc != null ? 'USD ' + nc.toFixed(2) : 'A confirmar';
     document.getElementById('form').style.display = 'none';
     document.getElementById('celebrate').classList.add('on');
     window.scrollTo(0, 0);
+    setTimeout(launchConfetti, 80);
   } else {
     finalizar(false);
   }
+}
+// Confetti (canvas, sin librerías)
+function launchConfetti(){
+  var c = document.getElementById('confetti'); if(!c) return;
+  var ctx = c.getContext('2d');
+  c.width = c.offsetWidth; c.height = c.offsetHeight;
+  if(!c.width || !c.height) return;
+  var colors = ['#E60012','#FFC400','#1E9E52','#2196F3','#FF6A00','#9C27B0'];
+  var P = [];
+  for(var i=0;i<150;i++) P.push({
+    x: Math.random()*c.width, y: -20 - Math.random()*c.height*0.5,
+    r: 4 + Math.random()*6, col: colors[i%colors.length],
+    vy: 2 + Math.random()*3.5, vx: -1.6 + Math.random()*3.2,
+    rot: Math.random()*6.28, vr: -0.22 + Math.random()*0.44, sq: Math.random()<0.5
+  });
+  var t0 = Date.now();
+  (function frame(){
+    ctx.clearRect(0,0,c.width,c.height);
+    for(var i=0;i<P.length;i++){ var p=P[i];
+      p.x+=p.vx; p.y+=p.vy; p.vy+=0.028; p.rot+=p.vr;
+      ctx.save(); ctx.translate(p.x,p.y); ctx.rotate(p.rot); ctx.fillStyle=p.col;
+      if(p.sq) ctx.fillRect(-p.r/2,-p.r/2,p.r,p.r*1.5);
+      else { ctx.beginPath(); ctx.arc(0,0,p.r/1.7,0,6.28); ctx.fill(); }
+      ctx.restore();
+    }
+    if(Date.now()-t0 < 5000) requestAnimationFrame(frame); else ctx.clearRect(0,0,c.width,c.height);
+  })();
 }
 // Paso 2 (elegible): exige RRSS y finaliza.
 function confirmarElegible(){
@@ -427,10 +508,12 @@ async function finalizar(elegible){
     var lines = readLines().filter(function(l){ return l._complete; }).map(function(l){ return { sku:l.sku, qty:l.qty, nd:l.nd }; });
     var ndSet = {}; lines.forEach(function(l){ if(l.nd) ndSet[l.nd]=1; });
     var tier = tierOf(cuit), nc = ncOf(tier);
+    var folio = 'NC-' + cuit.slice(-4) + '-' + Date.now().toString(36).toUpperCase();
     var payload = {
       campaign: SLUG, campaign_name: CFG.label,
       cuit: cuit, dpp: val('dpp'), contacto: val('contacto'),
       tier: tier || null, nc_amount: nc, eligible: !!elegible,
+      folio: folio, nc_status: elegible ? 'pending_review' : null,
       nd: Object.keys(ndSet).join(', '),
       lines: lines, items: lines.map(function(l){ return { sku:l.sku, qty:l.qty }; }),
       factura_files: facturas, rrss_files: rrss,
@@ -442,18 +525,101 @@ async function finalizar(elegible){
     document.getElementById('form').style.display = 'none';
     document.getElementById('celebrate').classList.remove('on');
     if(elegible){
-      document.getElementById('done-title').textContent = '¡NC confirmada!';
-      document.getElementById('done-msg').innerHTML = 'Recibimos tu registro y tu publicación en RRSS. Hikvision emitirá la Nota de Crédito del demo por tu contacto comercial.';
+      _lastReg = { folio:folio, fecha:new Date().toLocaleDateString('es-AR'), dpp:val('dpp'), cuit:cuit,
+        tier:tier||'—', nc: nc, contacto:val('contacto'),
+        lines: lines.map(function(l){ return l.sku + ' ×' + l.qty + (l.nd ? ' (' + l.nd + ')' : ''); }) };
+      renderReceipt();
+      document.getElementById('receipt').classList.add('on');
     } else {
       document.getElementById('done-title').textContent = '¡Registro enviado!';
       document.getElementById('done-msg').textContent = 'Recibimos tu registro de compra. Tu contacto comercial de Hikvision validará la promoción.';
+      document.getElementById('done').classList.add('on');
     }
-    document.getElementById('done').classList.add('on');
     window.scrollTo(0, 0);
   }catch(e){
     btn.disabled = false; btn.textContent = onCel ? 'Confirmar y recibir mi NC' : 'Enviar registro';
     var b = document.getElementById(bannerId); b.textContent = 'No se pudo enviar: ' + (e.message || e) + '. Intentá de nuevo.'; b.classList.add('on');
   }
+}
+
+// ── Comprobante de solicitud (en revisión) ──
+var _lastReg = null;
+function _ncTxt(r){ return r.nc != null ? 'USD ' + r.nc.toFixed(2) : 'A confirmar'; }
+function renderReceipt(){
+  var r = _lastReg; if(!r) return;
+  var rows = [
+    ['N.º de comprobante', r.folio],
+    ['Fecha', r.fecha],
+    ['DPP', r.dpp],
+    ['CUIT', r.cuit],
+    ['Nivel', r.tier],
+    ['NC estimada del demo', _ncTxt(r)],
+    ['Contacto Hikvision', r.contacto],
+    ['Estado', 'En revisión por Hikvision']
+  ];
+  var html = rows.map(function(x){
+    return '<div style="display:flex;justify-content:space-between;gap:12px"><span style="color:var(--dim)">' + _esc(x[0]) + '</span><b style="text-align:right">' + _esc(x[1]) + '</b></div>';
+  }).join('');
+  html += '<div style="border-top:1px dashed var(--line);margin-top:6px;padding-top:8px"><div style="color:var(--dim);margin-bottom:3px">Equipos</div>' +
+          r.lines.map(function(l){ return '<div style="font-size:12.5px">• ' + _esc(l) + '</div>'; }).join('') + '</div>';
+  document.getElementById('rcpt-body').innerHTML = html;
+}
+function _receiptText(){
+  var r = _lastReg; if(!r) return '';
+  return 'COMPROBANTE DE SOLICITUD DE NOTA DE CRÉDITO — EN REVISIÓN\n' +
+    'Promoción: ' + CFG.label + '\n\n' +
+    'N.º de comprobante: ' + r.folio + '\n' +
+    'Fecha: ' + r.fecha + '\n' +
+    'DPP: ' + r.dpp + '\n' +
+    'CUIT: ' + r.cuit + '\n' +
+    'Nivel: ' + r.tier + '\n' +
+    'NC estimada del demo: ' + _ncTxt(r) + '\n' +
+    'Contacto Hikvision: ' + r.contacto + '\n' +
+    'Estado: En revisión por Hikvision\n\n' +
+    'Equipos:\n' + r.lines.map(function(l){ return '  • ' + l; }).join('\n') + '\n\n' +
+    'Tu Nota de Crédito será emitida una vez aprobada por Hikvision.';
+}
+function downloadReceipt(){
+  var r = _lastReg; if(!r) return;
+  try{
+    var jsPDF = window.jspdf ? window.jspdf.jsPDF : null;
+    if(!jsPDF) throw new Error('no jspdf');
+    var doc = new jsPDF({ unit:'pt', format:'a4' });
+    var x = 48, y = 60;
+    doc.setFillColor(230,0,18); doc.rect(0,0,595,90,'F');
+    doc.setTextColor(255,255,255); doc.setFont('helvetica','bold'); doc.setFontSize(9);
+    doc.text('HIKVISION ARGENTINA', x, 40);
+    doc.setFontSize(19); doc.text('Comprobante de solicitud de NC', x, 66);
+    doc.setTextColor(20,20,20); doc.setFontSize(11); doc.setFont('helvetica','normal');
+    y = 130;
+    doc.setFont('helvetica','bold'); doc.setFontSize(13); doc.text('En revisión por Hikvision', x, y); y += 8;
+    doc.setDrawColor(220,220,220); doc.line(x, y+8, 547, y+8); y += 30;
+    doc.setFontSize(11);
+    var rows = [['N.º de comprobante', r.folio],['Fecha', r.fecha],['DPP', r.dpp],['CUIT', r.cuit],
+      ['Nivel', r.tier],['NC estimada del demo', _ncTxt(r)],['Contacto Hikvision', r.contacto],['Promoción', CFG.label]];
+    rows.forEach(function(row){
+      doc.setFont('helvetica','normal'); doc.setTextColor(110,110,110); doc.text(row[0], x, y);
+      doc.setFont('helvetica','bold'); doc.setTextColor(20,20,20); doc.text(String(row[1]), 547, y, {align:'right'}); y += 22;
+    });
+    y += 6; doc.setDrawColor(220,220,220); doc.line(x, y, 547, y); y += 22;
+    doc.setFont('helvetica','bold'); doc.setTextColor(20,20,20); doc.text('Equipos', x, y); y += 20;
+    doc.setFont('helvetica','normal'); doc.setFontSize(10);
+    r.lines.forEach(function(l){ doc.text('• ' + l, x, y); y += 16; });
+    y += 14; doc.setTextColor(110,110,110); doc.setFontSize(9);
+    doc.text('Tu Nota de Crédito será emitida una vez aprobada por Hikvision.', x, y);
+    doc.save('Comprobante-' + r.folio + '.pdf');
+  }catch(e){
+    // Respaldo: descarga en texto plano si jsPDF no cargó
+    var blob = new Blob([_receiptText()], {type:'text/plain;charset=utf-8'});
+    var a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+    a.download = 'Comprobante-' + r.folio + '.txt'; a.click();
+    setTimeout(function(){ URL.revokeObjectURL(a.href); }, 1000);
+  }
+}
+function emailReceipt(){
+  var r = _lastReg; if(!r) return;
+  var subject = 'Comprobante de solicitud de NC ' + r.folio + ' — ' + CFG.label;
+  location.href = 'mailto:?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(_receiptText());
 }
 
 render();
