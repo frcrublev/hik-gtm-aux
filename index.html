@@ -427,7 +427,7 @@ function render(){
   });
   var need = CFG.elig || { cams:0, nvr:0 };
   var ch = document.getElementById('combo-hint');
-  if(ch) ch.innerHTML = '🎁 Para obtener el <b>demo con Nota de Crédito</b>: <b>' + need.cams + ' cámaras</b> ColorVu 3.0 (1xx7G3) + <b>' + need.nvr + ' NVR</b> K/VPro de 16 o 32 canales.';
+  if(ch) ch.innerHTML = '🎁 <b>' + need.cams + ' cámaras</b> ColorVu 3.0 (1xx7G3) + <b>' + need.nvr + ' NVR</b> K/VPro = <b>1 Demo gratuito!</b>';
   addLine('cam'); addLine('nvr'); // front-end (cámara) + back-end (NVR)
   document.getElementById('cuit').addEventListener('input', updateTier);
 }
