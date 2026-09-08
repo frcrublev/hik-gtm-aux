@@ -222,7 +222,7 @@ button.p:hover:not(:disabled){filter:brightness(.97)}
           <label class="filebox" for="facturas">📎 Subir factura(s) — imagen o PDF</label>
           <input type="file" id="facturas" accept="image/*,application/pdf" multiple style="display:none" onchange="onFiles()">
           <div class="fact-date">
-            <input type="text" id="fecha" inputmode="numeric" maxlength="10" placeholder="DD / MM / AAAA" oninput="fmtFecha(this)" title="Fecha de la factura">
+            <input type="date" id="fecha" lang="es-AR" title="Fecha de la factura">
             <div style="font-size:11px;color:var(--dim);margin-top:5px">Fecha de la factura</div>
             <div class="err" id="e-fecha">Indicá la fecha (DD/MM/AAAA).</div>
           </div>
@@ -431,6 +431,9 @@ function render(){
   var ch = document.getElementById('combo-hint');
   if(ch) ch.innerHTML = '🎁 <b>' + need.cams + ' cámaras</b> ColorVu 3.0 (1xx7G3) + <b>' + need.nvr + ' NVR</b> K/VPro = <b>1 Demo gratuito!</b>';
   addLine('cam'); addLine('nvr'); // front-end (cámara) + back-end (NVR)
+  // Fecha de factura por defecto: hoy
+  var hoy = new Date(); var mm = ('0'+(hoy.getMonth()+1)).slice(-2), dd = ('0'+hoy.getDate()).slice(-2);
+  document.getElementById('fecha').value = hoy.getFullYear() + '-' + mm + '-' + dd;
   document.getElementById('cuit').addEventListener('input', updateTier);
 }
 var _SKUKIND = {};
@@ -516,14 +519,7 @@ function fmtFecha(el){
   else if(v.length > 2) out = v.slice(0,2)+'/'+v.slice(2);
   el.value = out;
 }
-function fechaISO(){
-  var v = (document.getElementById('fecha').value||'').replace(/\D/g,'');
-  if(v.length !== 8) return null;
-  var d = v.slice(0,2), m = v.slice(2,4), y = v.slice(4);
-  var dt = new Date(+y, +m-1, +d);
-  if(dt.getFullYear() != +y || dt.getMonth() != +m-1 || dt.getDate() != +d) return null;
-  return y+'-'+m+'-'+d;
-}
+function fechaISO(){ return document.getElementById('fecha').value || null; } // input type=date ya devuelve ISO
 function banner(msg){ var b = document.getElementById('banner'); b.textContent = msg; b.classList.add('on'); }
 function safeName(s){ return (s||'file').replace(/[^\w.\-]+/g,'_').slice(-60); }
 
