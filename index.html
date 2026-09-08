@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Registro de compra — AcuSeek K/VPro + ColorVu 3.0</title>
+<title>Registro de compra — GTM Hikvision Argentina</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Roboto:wght@400;500;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -51,6 +51,8 @@ button:hover:not(:disabled){filter:brightness(.97)}
 .foot{padding:16px 24px 0;font-size:12px;color:var(--dim);border-top:1px solid var(--line);margin-top:8px}
 .banner{display:none;background:rgba(184,0,14,.08);border:1px solid rgba(184,0,14,.3);color:var(--dred);font-size:13px;padding:11px 13px;border-radius:3px;margin:0 24px 8px}
 .banner.on{display:block}
+.nofound{padding:60px 24px;text-align:center;color:var(--dim)}
+.nofound h2{font-family:'Poppins',sans-serif;color:var(--ink);font-size:20px;margin:0 0 8px}
 @media(max-width:520px){h1{font-size:22px}.f,.hint{margin-left:0}legend{margin-bottom:8px}}
 </style>
 </head>
@@ -59,11 +61,17 @@ button:hover:not(:disabled){filter:brightness(.97)}
 
   <div class="top">
     <div class="brand">HIKVISION ARGENTINA</div>
-    <h1>Registro de compra</h1>
-    <p>AcuSeek K/VPro + ColorVu 3.0 · Promo 14/09 — 31/10/2026</p>
+    <h1 id="t-title">Registro de compra</h1>
+    <p id="t-sub">GTM</p>
   </div>
 
-  <div id="form">
+  <!-- Campaña no encontrada -->
+  <div class="nofound" id="nofound" style="display:none">
+    <h2>Registro no disponible</h2>
+    <p>El enlace no corresponde a ninguna promoción activa. Pedí a tu contacto de Hikvision el enlace correcto.</p>
+  </div>
+
+  <div id="form" style="display:none">
   <div class="body">
 
     <fieldset>
@@ -96,13 +104,7 @@ button:hover:not(:disabled){filter:brightness(.97)}
       <legend><i>4</i>ND donde compraste</legend>
       <div class="hint">Distribuidor que emitió la factura.</div>
       <div class="f">
-        <select id="nd">
-          <option value="">Seleccioná un ND…</option>
-          <option>Big Dipper</option>
-          <option>Fiesa</option>
-          <option>Seguridad Centro</option>
-          <option>Selnet</option>
-        </select>
+        <select id="nd"><option value="">Seleccioná un ND…</option></select>
         <div class="err" id="e-nd">Elegí una opción.</div>
       </div>
     </fieldset>
@@ -111,27 +113,14 @@ button:hover:not(:disabled){filter:brightness(.97)}
       <legend><i>5</i>Equipos comprados</legend>
       <div class="hint">Marcá los modelos e indicá la cantidad facturada.</div>
       <div class="f">
-        <div class="opts" id="skus">
-          <div class="grp">CÁMARAS COLORVU 3.0 — SERIE 1</div>
-          <label><input type="checkbox" data-sku="DS-2CD1027G3-LIU(2.8mm)"><span class="nm">DS-2CD1027G3-LIU<small>2.8 mm · 2 MP</small></span><input type="number" class="qty" min="1" placeholder="cant." disabled></label>
-          <label><input type="checkbox" data-sku="DS-2CD1047G3-LIUF(2.8mm)"><span class="nm">DS-2CD1047G3-LIUF<small>2.8 mm · 4 MP</small></span><input type="number" class="qty" min="1" placeholder="cant." disabled></label>
-          <label><input type="checkbox" data-sku="DS-2CD1047G3-LIUF/SRB(2.8)"><span class="nm">DS-2CD1047G3-LIUF/SRB<small>2.8 mm · 4 MP</small></span><input type="number" class="qty" min="1" placeholder="cant." disabled></label>
-          <label><input type="checkbox" data-sku="DS-2CD1327G3-LIU(2.8mm)"><span class="nm">DS-2CD1327G3-LIU<small>2.8 mm · 2 MP</small></span><input type="number" class="qty" min="1" placeholder="cant." disabled></label>
-          <label><input type="checkbox" data-sku="DS-2CD1347G3-LIUF(2.8mm)"><span class="nm">DS-2CD1347G3-LIUF<small>2.8 mm · 4 MP</small></span><input type="number" class="qty" min="1" placeholder="cant." disabled></label>
-          <label><input type="checkbox" data-sku="DS-2CD1F47G3H-LIU(2.8mm)"><span class="nm">DS-2CD1F47G3H-LIU<small>2.8 mm · 4 MP</small></span><input type="number" class="qty" min="1" placeholder="cant." disabled></label>
-          <label><input type="checkbox" data-sku="DS-2CD1T47G3-LIUF(4mm)"><span class="nm">DS-2CD1T47G3-LIUF<small>4 mm · 4 MP</small></span><input type="number" class="qty" min="1" placeholder="cant." disabled></label>
-
-          <div class="grp">NVR ACUSEEK K/VPRO — 16 Y 32 CANALES</div>
-          <label><input type="checkbox" data-sku="DS-7616NXI-K2/VPro"><span class="nm">DS-7616NXI-K2/VPro<small>16 canales · 2 HDD</small></span><input type="number" class="qty" min="1" placeholder="cant." disabled></label>
-          <label><input type="checkbox" data-sku="DS-7632NXI-K2/VPro"><span class="nm">DS-7632NXI-K2/VPro<small>32 canales · 2 HDD</small></span><input type="number" class="qty" min="1" placeholder="cant." disabled></label>
-        </div>
+        <div class="opts" id="skus"></div>
         <div class="err" id="e-sku">Marcá al menos un producto.</div>
       </div>
     </fieldset>
 
     <fieldset>
       <legend><i>6</i>Factura</legend>
-      <div class="hint">Necesario para validar el combo y el demo gratuito.</div>
+      <div class="hint">Necesario para validar la promoción.</div>
       <div class="f" style="display:flex;gap:10px">
         <div style="flex:1.4"><input type="text" id="fact" placeholder="N° de factura" autocomplete="off"></div>
         <div style="flex:1"><input type="date" id="fecha"></div>
@@ -145,7 +134,7 @@ button:hover:not(:disabled){filter:brightness(.97)}
       <div class="f"><textarea id="otros" placeholder="Otro modelo, cantidades, fecha estimada de compra…"></textarea></div>
     </fieldset>
 
-    <div class="foot">Los datos se usan únicamente para validar tu compra dentro de la promoción vigente (14/09 — 31/10/2026).</div>
+    <div class="foot" id="t-foot">Los datos se usan únicamente para validar tu compra dentro de la promoción vigente.</div>
   </div>
 
   <div class="banner" id="banner"></div>
@@ -167,18 +156,76 @@ button:hover:not(:disabled){filter:brightness(.97)}
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
 <script>
-// ── Conexión a Supabase (clave anónima: pública por diseño; RLS solo permite INSERT) ──
+// ════════════════════════════════════════════════════════════════
+//  Configuración por campaña GTM.
+//  Cada GTM usa el mismo formulario con ?c=<slug>. Para sumar una
+//  campaña nueva, agregá una entrada acá y compartí el enlace ?c=slug.
+// ════════════════════════════════════════════════════════════════
+var CAMPAIGNS = {
+  kvpro: {
+    label: 'K/VPro-Y26Q3',
+    title: 'Registro de compra',
+    subtitle: 'AcuSeek K/VPro + ColorVu 3.0 · Promo 14/09 — 31/10/2026',
+    foot: 'Los datos se usan únicamente para validar tu compra dentro de la promoción vigente (14/09 — 31/10/2026).',
+    nds: ['Big Dipper','Fiesa','Seguridad Centro','Selnet'],
+    groups: [
+      { name:'CÁMARAS COLORVU 3.0 — SERIE 1', items:[
+        {sku:'DS-2CD1027G3-LIU(2.8mm)',   desc:'2.8 mm · 2 MP'},
+        {sku:'DS-2CD1047G3-LIUF(2.8mm)',  desc:'2.8 mm · 4 MP'},
+        {sku:'DS-2CD1047G3-LIUF/SRB(2.8)',desc:'2.8 mm · 4 MP'},
+        {sku:'DS-2CD1327G3-LIU(2.8mm)',   desc:'2.8 mm · 2 MP'},
+        {sku:'DS-2CD1347G3-LIUF(2.8mm)',  desc:'2.8 mm · 4 MP'},
+        {sku:'DS-2CD1F47G3H-LIU(2.8mm)',  desc:'2.8 mm · 4 MP'},
+        {sku:'DS-2CD1T47G3-LIUF(4mm)',    desc:'4 mm · 4 MP'}
+      ]},
+      { name:'NVR ACUSEEK K/VPRO — 16 Y 32 CANALES', items:[
+        {sku:'DS-7616NXI-K2/VPro', desc:'16 canales · 2 HDD'},
+        {sku:'DS-7632NXI-K2/VPro', desc:'32 canales · 2 HDD'}
+      ]}
+    ]
+  }
+};
+
+function qp(name){ try{ return new URLSearchParams(location.search).get(name); }catch(e){ return null; } }
+function _esc(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+var SLUG = (qp('c') || 'kvpro').toLowerCase();
+var CFG  = CAMPAIGNS[SLUG];
+
+// ── Conexión a Supabase (clave anónima pública; RLS solo permite INSERT) ──
 var SUPABASE_URL  = "https://kffbbulbdhuexhysmzie.supabase.co";
 var SUPABASE_ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtmZmJidWxiZGh1ZXhoeXNtemllIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk5MTgxNzcsImV4cCI6MjA5NTQ5NDE3N30.RLsVbFBf85b8A_sbC-3ls8492gz3fFX54Ez_UzXji00";
 var sb = (window.supabase && window.supabase.createClient) ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON) : null;
 
-document.querySelectorAll('#skus input[type=checkbox]').forEach(function(c){
-  c.addEventListener('change', function(){
-    var q = c.closest('label').querySelector('.qty');
-    q.disabled = !c.checked;
-    if(c.checked) q.focus(); else q.value = '';
+function render(){
+  if(!CFG){ document.getElementById('nofound').style.display = 'block'; return; }
+  document.getElementById('form').style.display = '';
+  document.title = CFG.title + ' — ' + CFG.label;
+  document.getElementById('t-title').textContent = CFG.title;
+  document.getElementById('t-sub').textContent = CFG.subtitle || '';
+  if(CFG.foot) document.getElementById('t-foot').textContent = CFG.foot;
+  // ND
+  var nd = document.getElementById('nd');
+  (CFG.nds || []).forEach(function(n){ var o = document.createElement('option'); o.textContent = n; nd.appendChild(o); });
+  // SKUs
+  var html = '';
+  (CFG.groups || []).forEach(function(g){
+    html += '<div class="grp">' + _esc(g.name) + '</div>';
+    (g.items || []).forEach(function(it){
+      html += '<label><input type="checkbox" data-sku="' + _esc(it.sku) + '"><span class="nm">' + _esc(it.sku) +
+              (it.desc ? '<small>' + _esc(it.desc) + '</small>' : '') + '</span>' +
+              '<input type="number" class="qty" min="1" placeholder="cant." disabled></label>';
+    });
   });
-});
+  document.getElementById('skus').innerHTML = html;
+  document.querySelectorAll('#skus input[type=checkbox]').forEach(function(c){
+    c.addEventListener('change', function(){
+      var q = c.closest('label').querySelector('.qty');
+      q.disabled = !c.checked;
+      if(c.checked) q.focus(); else q.value = '';
+    });
+  });
+}
 
 function val(id){ return (document.getElementById(id).value || '').trim(); }
 function mark(id, bad){
@@ -208,10 +255,7 @@ function validar(){
   if(!ok){ var first = document.querySelector('.err.on'); if(first) first.scrollIntoView({behavior:'smooth', block:'center'}); }
   return ok;
 }
-function banner(msg){
-  var b = document.getElementById('banner');
-  b.textContent = msg; b.classList.add('on');
-}
+function banner(msg){ var b = document.getElementById('banner'); b.textContent = msg; b.classList.add('on'); }
 async function enviar(){
   if(!validar()) return;
   if(!sb){ banner('No se pudo conectar. Revisá tu conexión e intentá de nuevo.'); return; }
@@ -219,6 +263,8 @@ async function enviar(){
   btn.disabled = true; btn.textContent = 'Enviando…';
   document.getElementById('banner').classList.remove('on');
   var payload = {
+    campaign: SLUG,
+    campaign_name: CFG.label,
     cuit: val('cuit').replace(/\D/g, ''),
     dpp: val('dpp'),
     contacto: val('contacto'),
@@ -240,6 +286,8 @@ async function enviar(){
     banner('No se pudo enviar el registro: ' + (e.message || e) + '. Intentá de nuevo en unos segundos.');
   }
 }
+
+render();
 </script>
 </body>
 </html>
