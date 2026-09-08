@@ -13,7 +13,7 @@
 [hidden]{display:none!important}
 body{margin:0;background:#EFEFEF;color:var(--ink);font-family:'Roboto',system-ui,sans-serif;font-size:15px;line-height:1.55;padding:0 0 60px}
 .sheet{max-width:560px;margin:0 auto;background:#fff;min-height:100vh;box-shadow:0 0 22px rgba(0,0,0,.08)}
-.top{background:var(--red);color:#fff;padding:22px 24px}
+.top{background:linear-gradient(135deg,#E60012,#C10010);color:#fff;padding:24px 24px}
 .brand{font-family:'Poppins',sans-serif;font-weight:700;font-size:11px;letter-spacing:.22em}
 h1{font-family:'Poppins',sans-serif;font-weight:800;font-size:26px;line-height:1.08;margin:9px 0 0;letter-spacing:-.02em}
 .top p{margin:7px 0 0;font-size:13.5px;opacity:.95}
@@ -39,8 +39,26 @@ textarea{min-height:64px;resize:vertical}
 .lhdr{display:grid;grid-template-columns:1fr 78px 1fr auto;gap:8px;font-size:11px;font-weight:700;color:var(--dim);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}
 .lhdr span:nth-child(4){width:38px}
 /* Facturas */
-.filebox{border:1px dashed var(--line);border-radius:3px;padding:14px;text-align:center;cursor:pointer;color:var(--dim);font-size:13.5px}
-.filebox:hover{border-color:var(--red);color:var(--ink)}
+.filebox{border:1.5px dashed #D6C0C2;border-radius:8px;padding:14px;text-align:center;cursor:pointer;color:var(--dim);font-size:13.5px;background:#FCFAFA;transition:border-color .18s,color .18s,background .18s,transform .12s;display:flex;align-items:center;justify-content:center;min-height:52px;line-height:1.3}
+.filebox:hover{border-color:var(--red);color:var(--ink);background:rgba(230,0,18,.03)}
+.filebox:active{transform:scale(.99)}
+/* Factura: upload (crece) + fecha (fija) en una fila */
+.fact-row{display:flex;gap:12px;align-items:stretch;flex-wrap:wrap}
+.fact-row .filebox{flex:1 1 240px;margin:0}
+.fact-date{flex:0 0 168px;display:flex;flex-direction:column;justify-content:flex-start}
+.fact-date input{text-align:center}
+@media(max-width:520px){.fact-date{flex:1 1 100%}}
+/* Animaciones de entrada */
+@keyframes fieldIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+@keyframes idPop{0%{opacity:0;transform:translateY(8px) scale(.98)}100%{opacity:1;transform:none}}
+#form>.body>fieldset,#form #ident-fs{animation:fieldIn .5s cubic-bezier(.2,.7,.3,1) both}
+#form>.body>fieldset:nth-child(1){animation-delay:.02s}
+#rest>fieldset:nth-of-type(1){animation-delay:.06s}
+#rest>fieldset:nth-of-type(2){animation-delay:.1s}
+#rest>fieldset:nth-of-type(3){animation-delay:.14s}
+.identcard{animation:idPop .45s cubic-bezier(.2,1.3,.4,1) both}
+.line{animation:idPop .3s ease both}
+@media(prefers-reduced-motion:reduce){#form>.body>fieldset,#form #ident-fs,.identcard,.line{animation:none}}
 .filelist{margin-top:8px;display:flex;flex-direction:column;gap:5px}
 .fileitem{display:flex;align-items:center;gap:8px;font-size:13px;background:var(--bg);border:1px solid var(--line);border-radius:3px;padding:7px 10px}
 .fileitem .x{margin-left:auto;color:var(--dred);cursor:pointer;font-weight:700}
@@ -150,17 +168,15 @@ button.p:hover:not(:disabled){filter:brightness(.97)}
       <legend><i>3</i>Factura</legend>
       <div class="hint">Subí la factura (foto o PDF). Podés subir más de una si compraste a varios ND.</div>
       <div class="f">
-        <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:flex-start">
-          <div style="flex:2 1 220px;min-width:0">
-            <label class="filebox" for="facturas">📎 Tocá para subir factura(s) — imagen o PDF</label>
-            <input type="file" id="facturas" accept="image/*,application/pdf" multiple style="display:none" onchange="onFiles()">
-            <div class="filelist" id="filelist"></div>
-          </div>
-          <div style="flex:1 1 150px;min-width:0">
+        <div class="fact-row">
+          <label class="filebox" for="facturas">📎 Subir factura(s) — imagen o PDF</label>
+          <input type="file" id="facturas" accept="image/*,application/pdf" multiple style="display:none" onchange="onFiles()">
+          <div class="fact-date">
             <input type="text" id="fecha" inputmode="numeric" maxlength="10" placeholder="DD / MM / AAAA" oninput="fmtFecha(this)" title="Fecha de la factura (opcional)">
             <div style="font-size:11px;color:var(--dim);margin-top:5px">Fecha de la factura (opcional)</div>
           </div>
         </div>
+        <div class="filelist" id="filelist"></div>
         <div class="err" id="e-fact">Subí al menos una factura.</div>
       </div>
     </fieldset>
