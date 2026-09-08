@@ -22,38 +22,46 @@ legend{font-family:'Poppins',sans-serif;font-weight:600;font-size:15px;padding:0
 legend i{font-style:normal;font-size:11px;font-weight:700;color:#fff;background:var(--red);width:20px;height:20px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;flex:none}
 .hint{font-size:12.5px;color:var(--dim);margin:0 0 9px 29px}
 .f{margin-left:29px}
-input[type=text],input[type=date],select,textarea{width:100%;background:#fff;border:1px solid var(--line);padding:11px 12px;font-family:'Roboto',sans-serif;font-size:15px;color:var(--ink);border-radius:3px}
+input[type=text],input[type=date],input[type=number],select,textarea{width:100%;background:#fff;border:1px solid var(--line);padding:11px 12px;font-family:'Roboto',sans-serif;font-size:15px;color:var(--ink);border-radius:3px}
 input:focus,select:focus,textarea:focus{outline:0;border-color:var(--red);box-shadow:0 0 0 3px rgba(230,0,18,.1)}
-input.bad{border-color:var(--dred);background:rgba(184,0,14,.04)}
+input.bad,select.bad{border-color:var(--dred);background:rgba(184,0,14,.04)}
 .err{color:var(--dred);font-size:12.5px;margin-top:5px;display:none}
 .err.on{display:block}
 textarea{min-height:64px;resize:vertical}
-.opts{display:flex;flex-direction:column;gap:0;border:1px solid var(--line);border-radius:3px;overflow:hidden}
-.opts label{display:flex;align-items:center;gap:11px;padding:11px 13px;cursor:pointer;border-bottom:1px solid var(--line);transition:background .15s}
-.opts label:last-child{border-bottom:0}
-.opts label:hover{background:var(--bg)}
-.opts input[type=checkbox]{accent-color:var(--red);width:17px;height:17px;flex:none}
-.opts .nm{flex:1;font-size:14.5px}
-.opts .nm small{display:block;color:var(--dim);font-size:12px}
-.opts .qty{width:74px;border:1px solid var(--line);padding:6px 8px;font-family:'Roboto Mono',monospace;font-size:13px;text-align:right;border-radius:3px}
-.opts .qty:disabled{background:var(--bg);color:#BBB}
-.grp{font-family:'Poppins',sans-serif;font-weight:600;font-size:11.5px;letter-spacing:.1em;color:var(--dim);background:var(--bg);padding:8px 13px;border-bottom:1px solid var(--line)}
+/* Líneas de compra */
+.line{display:grid;grid-template-columns:1fr 78px 1fr auto;gap:8px;align-items:start;margin-bottom:10px}
+.line .l-qty{text-align:right;font-family:'Roboto Mono',monospace}
+.line .l-del{width:38px;padding:11px 0;background:#fff;border:1px solid var(--line);border-radius:3px;color:var(--dred);cursor:pointer;font-size:15px}
+.line .l-del:hover{background:rgba(184,0,14,.06)}
+.addline{width:100%;margin-top:2px;padding:11px;background:#fff;border:1px dashed var(--red);color:var(--red);border-radius:3px;cursor:pointer;font-family:'Poppins',sans-serif;font-weight:600;font-size:14px}
+.addline:hover{background:rgba(230,0,18,.05)}
+.lhdr{display:grid;grid-template-columns:1fr 78px 1fr auto;gap:8px;font-size:11px;font-weight:700;color:var(--dim);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}
+.lhdr span:nth-child(4){width:38px}
+/* Facturas */
+.filebox{border:1px dashed var(--line);border-radius:3px;padding:14px;text-align:center;cursor:pointer;color:var(--dim);font-size:13.5px}
+.filebox:hover{border-color:var(--red);color:var(--ink)}
+.filelist{margin-top:8px;display:flex;flex-direction:column;gap:5px}
+.fileitem{display:flex;align-items:center;gap:8px;font-size:13px;background:var(--bg);border:1px solid var(--line);border-radius:3px;padding:7px 10px}
+.fileitem .x{margin-left:auto;color:var(--dred);cursor:pointer;font-weight:700}
 .actions{position:sticky;bottom:0;background:#fff;border-top:1px solid var(--line);padding:14px 24px;display:flex;gap:9px}
-button{flex:1;font-family:'Poppins',sans-serif;font-weight:600;font-size:15px;padding:13px;border-radius:3px;cursor:pointer;border:1px solid var(--line);background:#fff;color:var(--ink)}
-button.p{background:var(--red);border-color:var(--red);color:#fff}
-button:disabled{opacity:.6;cursor:default}
-button:hover:not(:disabled){filter:brightness(.97)}
+button.p{flex:1;font-family:'Poppins',sans-serif;font-weight:600;font-size:15px;padding:13px;border-radius:3px;cursor:pointer;border:1px solid var(--red);background:var(--red);color:#fff}
+button.p:disabled{opacity:.6;cursor:default}
+button.p:hover:not(:disabled){filter:brightness(.97)}
 .done{display:none;padding:40px 24px;text-align:center}
 .done.on{display:block}
 .done .tick{width:56px;height:56px;border-radius:50%;background:var(--ok);color:#fff;font-size:28px;display:flex;align-items:center;justify-content:center;margin:0 auto 16px}
 .done h2{font-family:'Poppins',sans-serif;font-weight:700;font-size:22px;margin:0 0 8px}
 .done p{color:var(--dim);font-size:14px;margin:0 0 18px}
+.done button{font-family:'Poppins',sans-serif;font-weight:600;font-size:15px;padding:13px 22px;border-radius:3px;cursor:pointer;border:1px solid var(--red);background:var(--red);color:#fff}
 .foot{padding:16px 24px 0;font-size:12px;color:var(--dim);border-top:1px solid var(--line);margin-top:8px}
 .banner{display:none;background:rgba(184,0,14,.08);border:1px solid rgba(184,0,14,.3);color:var(--dred);font-size:13px;padding:11px 13px;border-radius:3px;margin:0 24px 8px}
 .banner.on{display:block}
 .nofound{padding:60px 24px;text-align:center;color:var(--dim)}
 .nofound h2{font-family:'Poppins',sans-serif;color:var(--ink);font-size:20px;margin:0 0 8px}
-@media(max-width:520px){h1{font-size:22px}.f,.hint{margin-left:0}legend{margin-bottom:8px}}
+@media(max-width:520px){h1{font-size:22px}.f,.hint{margin-left:0}legend{margin-bottom:8px}
+  .line,.lhdr{grid-template-columns:1fr 64px auto}
+  .lhdr span:nth-child(3){display:none}
+  .line .l-nd{grid-column:1 / span 2}}
 </style>
 </head>
 <body>
@@ -65,7 +73,6 @@ button:hover:not(:disabled){filter:brightness(.97)}
     <p id="t-sub">GTM</p>
   </div>
 
-  <!-- Campaña no encontrada -->
   <div class="nofound" id="nofound" style="display:none">
     <h2>Registro no disponible</h2>
     <p>El enlace no corresponde a ninguna promoción activa. Pedí a tu contacto de Hikvision el enlace correcto.</p>
@@ -102,37 +109,32 @@ button:hover:not(:disabled){filter:brightness(.97)}
     </fieldset>
 
     <fieldset>
-      <legend><i>4</i>ND donde compraste</legend>
-      <div class="hint">Distribuidor que emitió la factura.</div>
+      <legend><i>4</i>Equipos comprados</legend>
+      <div class="hint">Agregá una línea por modelo. Si compraste a más de un ND, indicá el ND en cada línea.</div>
       <div class="f">
-        <select id="nd"><option value="">Seleccioná un ND…</option></select>
-        <div class="err" id="e-nd">Elegí una opción.</div>
+        <div class="lhdr"><span>Modelo</span><span>Cant.</span><span>ND</span><span></span></div>
+        <div id="lines"></div>
+        <button type="button" class="addline" onclick="addLine()">➕ Agregar modelo</button>
+        <div class="err" id="e-lines">Agregá al menos un modelo con cantidad y ND.</div>
       </div>
     </fieldset>
 
     <fieldset>
-      <legend><i>5</i>Equipos comprados</legend>
-      <div class="hint">Marcá los modelos e indicá la cantidad facturada.</div>
+      <legend><i>5</i>Factura</legend>
+      <div class="hint">Subí la factura (foto o PDF). Podés subir más de una si compraste a varios ND.</div>
       <div class="f">
-        <div class="opts" id="skus"></div>
-        <div class="err" id="e-sku">Marcá al menos un producto.</div>
+        <label class="filebox" for="facturas">📎 Tocá para subir factura(s) — imagen o PDF</label>
+        <input type="file" id="facturas" accept="image/*,application/pdf" multiple style="display:none" onchange="onFiles()">
+        <div class="filelist" id="filelist"></div>
+        <div class="err" id="e-fact">Subí al menos una factura.</div>
+        <div style="margin-top:10px"><input type="date" id="fecha" title="Fecha de la factura (opcional)"></div>
       </div>
     </fieldset>
 
     <fieldset>
-      <legend><i>6</i>Factura</legend>
-      <div class="hint">Necesario para validar la promoción.</div>
-      <div class="f" style="display:flex;gap:10px">
-        <div style="flex:1.4"><input type="text" id="fact" placeholder="N° de factura" autocomplete="off"></div>
-        <div style="flex:1"><input type="date" id="fecha"></div>
-      </div>
-      <div class="err" id="e-fact" style="margin-left:29px">Completá el número y la fecha de la factura.</div>
-    </fieldset>
-
-    <fieldset>
-      <legend><i>7</i>Otros productos o comentarios</legend>
+      <legend><i>6</i>Otros productos o comentarios</legend>
       <div class="hint">Opcional.</div>
-      <div class="f"><textarea id="otros" placeholder="Otro modelo, cantidades, fecha estimada de compra…"></textarea></div>
+      <div class="f"><textarea id="otros" placeholder="Otro modelo, aclaraciones, fecha estimada de compra…"></textarea></div>
     </fieldset>
 
     <div class="foot" id="t-foot">Los datos se usan únicamente para validar tu compra dentro de la promoción vigente.</div>
@@ -148,9 +150,7 @@ button:hover:not(:disabled){filter:brightness(.97)}
     <div class="tick">✓</div>
     <h2>¡Registro enviado!</h2>
     <p>Recibimos tu registro de compra. Tu contacto comercial de Hikvision validará la promoción.</p>
-    <div class="actions" style="position:static;border-top:0;padding:8px 0 0">
-      <button class="p" onclick="location.reload()">Cargar otro</button>
-    </div>
+    <button onclick="location.reload()">Cargar otro</button>
   </div>
 
 </div>
@@ -158,9 +158,8 @@ button:hover:not(:disabled){filter:brightness(.97)}
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
 <script>
 // ════════════════════════════════════════════════════════════════
-//  Configuración por campaña GTM.
-//  Cada GTM usa el mismo formulario con ?c=<slug>. Para sumar una
-//  campaña nueva, agregá una entrada acá y compartí el enlace ?c=slug.
+//  Configuración por campaña GTM. Cada GTM usa ?c=<slug>.
+//  Para sumar una campaña: agregá una entrada y compartí ?c=slug.
 // ════════════════════════════════════════════════════════════════
 var CAMPAIGNS = {
   kvpro: {
@@ -169,19 +168,19 @@ var CAMPAIGNS = {
     subtitle: 'AcuSeek K/VPro + ColorVu 3.0 · Promo 14/09 — 31/10/2026',
     foot: 'Los datos se usan únicamente para validar tu compra dentro de la promoción vigente (14/09 — 31/10/2026).',
     nds: ['Big Dipper','Fiesa','Seguridad Centro','Selnet'],
-    // Contactos comerciales (Sell Out / Channel Sales).
     chs: ['Ariel Donamari','Camila Rodriguez','Diego Ripoli','Key Sepulveda','Nicolás Mardaraz','Paola Velasco'],
     groups: [
-      { name:'CÁMARAS COLORVU 3.0 — SERIE 1', items:[
-        {sku:'DS-2CD1027G3-LIU(2.8mm)',   desc:'2.8 mm · 2 MP'},
-        {sku:'DS-2CD1047G3-LIUF(2.8mm)',  desc:'2.8 mm · 4 MP'},
-        {sku:'DS-2CD1047G3-LIUF/SRB(2.8)',desc:'2.8 mm · 4 MP'},
-        {sku:'DS-2CD1327G3-LIU(2.8mm)',   desc:'2.8 mm · 2 MP'},
-        {sku:'DS-2CD1347G3-LIUF(2.8mm)',  desc:'2.8 mm · 4 MP'},
-        {sku:'DS-2CD1F47G3H-LIU(2.8mm)',  desc:'2.8 mm · 4 MP'},
-        {sku:'DS-2CD1T47G3-LIUF(4mm)',    desc:'4 mm · 4 MP'}
+      { name:'Cámaras ColorVu 3.0 — Serie 1', items:[
+        {sku:'DS-2CD1027G3-LIU(2.8mm)',    desc:'2.8 mm · 2 MP'},
+        {sku:'DS-2CD1047G3-LIUF(2.8mm)',   desc:'2.8 mm · 4 MP'},
+        {sku:'DS-2CD1047G3-LIUF/SRB(2.8)', desc:'2.8 mm · 4 MP'},
+        {sku:'DS-2CD1327G3-LIU(2.8mm)',    desc:'2.8 mm · 2 MP'},
+        {sku:'DS-2CD1347G3-LIUF(2.8mm)',   desc:'2.8 mm · 4 MP'},
+        {sku:'DS-2CD1F47G3H-LIU(2.8mm)',   desc:'2.8 mm · 4 MP'},
+        {sku:'DS-2CD1T47G3-LIUF(4mm)',     desc:'4 mm · 4 MP'}
       ]},
-      { name:'NVR ACUSEEK K/VPRO — 16 Y 32 CANALES', items:[
+      { name:'NVR AcuSeek K/VPro', items:[
+        {sku:'DS-7608NXI-K1/VPro', desc:'8 canales · 1 HDD'},
         {sku:'DS-7616NXI-K2/VPro', desc:'16 canales · 2 HDD'},
         {sku:'DS-7632NXI-K2/VPro', desc:'32 canales · 2 HDD'}
       ]}
@@ -195,10 +194,52 @@ function _esc(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g
 var SLUG = (qp('c') || 'kvpro').toLowerCase();
 var CFG  = CAMPAIGNS[SLUG];
 
-// ── Conexión a Supabase (clave anónima pública; RLS solo permite INSERT) ──
 var SUPABASE_URL  = "https://kffbbulbdhuexhysmzie.supabase.co";
 var SUPABASE_ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtmZmJidWxiZGh1ZXhoeXNtemllIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk5MTgxNzcsImV4cCI6MjA5NTQ5NDE3N30.RLsVbFBf85b8A_sbC-3ls8492gz3fFX54Ez_UzXji00";
 var sb = (window.supabase && window.supabase.createClient) ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON) : null;
+
+var _files = [];  // File[] de facturas
+
+function prodOptions(){
+  var h = '<option value="">Seleccioná modelo…</option>';
+  (CFG.groups || []).forEach(function(g){
+    h += '<optgroup label="' + _esc(g.name) + '">';
+    (g.items || []).forEach(function(it){
+      var lbl = it.sku + (it.desc ? ' — ' + it.desc : '');
+      h += '<option value="' + _esc(it.sku) + '">' + _esc(lbl) + '</option>';
+    });
+    h += '</optgroup>';
+  });
+  return h;
+}
+function ndOptions(){
+  var h = '<option value="">ND…</option>';
+  (CFG.nds || []).forEach(function(n){ h += '<option value="' + _esc(n) + '">' + _esc(n) + '</option>'; });
+  return h;
+}
+function addLine(){
+  var wrap = document.getElementById('lines');
+  var div = document.createElement('div');
+  div.className = 'line';
+  div.innerHTML = '<select class="l-prod">' + prodOptions() + '</select>' +
+                  '<input type="number" class="l-qty" min="1" placeholder="cant.">' +
+                  '<select class="l-nd">' + ndOptions() + '</select>' +
+                  '<button type="button" class="l-del" title="Quitar" onclick="this.closest(\'.line\').remove()">✕</button>';
+  wrap.appendChild(div);
+}
+function onFiles(){
+  var inp = document.getElementById('facturas');
+  for(var i=0;i<inp.files.length;i++) _files.push(inp.files[i]);
+  inp.value = '';
+  renderFiles();
+}
+function renderFiles(){
+  var box = document.getElementById('filelist');
+  box.innerHTML = _files.map(function(f,i){
+    return '<div class="fileitem">📄 ' + _esc(f.name) + ' <span class="x" onclick="rmFile(' + i + ')">✕</span></div>';
+  }).join('');
+}
+function rmFile(i){ _files.splice(i,1); renderFiles(); }
 
 function render(){
   if(!CFG){ document.getElementById('nofound').style.display = 'block'; return; }
@@ -207,30 +248,9 @@ function render(){
   document.getElementById('t-title').textContent = CFG.title;
   document.getElementById('t-sub').textContent = CFG.subtitle || '';
   if(CFG.foot) document.getElementById('t-foot').textContent = CFG.foot;
-  // ND
-  var nd = document.getElementById('nd');
-  (CFG.nds || []).forEach(function(n){ var o = document.createElement('option'); o.textContent = n; nd.appendChild(o); });
-  // Contactos comerciales (Sell Out / Channel Sales) → datalist
   var dl = document.getElementById('chs-list');
   (CFG.chs || []).forEach(function(n){ var o = document.createElement('option'); o.value = n; dl.appendChild(o); });
-  // SKUs
-  var html = '';
-  (CFG.groups || []).forEach(function(g){
-    html += '<div class="grp">' + _esc(g.name) + '</div>';
-    (g.items || []).forEach(function(it){
-      html += '<label><input type="checkbox" data-sku="' + _esc(it.sku) + '"><span class="nm">' + _esc(it.sku) +
-              (it.desc ? '<small>' + _esc(it.desc) + '</small>' : '') + '</span>' +
-              '<input type="number" class="qty" min="1" placeholder="cant." disabled></label>';
-    });
-  });
-  document.getElementById('skus').innerHTML = html;
-  document.querySelectorAll('#skus input[type=checkbox]').forEach(function(c){
-    c.addEventListener('change', function(){
-      var q = c.closest('label').querySelector('.qty');
-      q.disabled = !c.checked;
-      if(c.checked) q.focus(); else q.value = '';
-    });
-  });
+  addLine();
 }
 
 function val(id){ return (document.getElementById(id).value || '').trim(); }
@@ -239,11 +259,13 @@ function mark(id, bad){
   if(el && el.classList) el.classList.toggle('bad', bad);
   if(er) er.classList.toggle('on', bad);
 }
-function itemsSel(){
+function readLines(){
   var out = [];
-  document.querySelectorAll('#skus input[type=checkbox]:checked').forEach(function(c){
-    var q = c.closest('label').querySelector('.qty').value;
-    out.push({ sku: c.dataset.sku, qty: q ? Number(q) : null });
+  document.querySelectorAll('#lines .line').forEach(function(row){
+    var sku = row.querySelector('.l-prod').value;
+    var qty = row.querySelector('.l-qty').value;
+    var nd  = row.querySelector('.l-nd').value;
+    if(sku || qty || nd) out.push({ sku:sku, qty: qty ? Number(qty) : null, nd:nd, _complete: !!(sku && qty && nd), _row: row });
   });
   return out;
 }
@@ -251,37 +273,59 @@ function validar(){
   var ok = true;
   var cuit = val('cuit').replace(/\D/g, '');
   if(cuit.length !== 11){ mark('cuit', true); ok = false; } else mark('cuit', false);
-  ['dpp','contacto','nd','fact'].forEach(function(id){
-    if(!val(id)){ mark(id, true); ok = false; } else mark(id, false);
+  ['dpp','contacto'].forEach(function(id){ if(!val(id)){ mark(id, true); ok = false; } else mark(id, false); });
+  var lines = readLines();
+  var complete = lines.filter(function(l){ return l._complete; });
+  var badLines = lines.length === 0 || complete.length === 0 || lines.some(function(l){ return !l._complete; });
+  document.getElementById('e-lines').classList.toggle('on', badLines);
+  lines.forEach(function(l){
+    l._row.querySelector('.l-prod').classList.toggle('bad', !l.sku);
+    l._row.querySelector('.l-qty').classList.toggle('bad', !l.qty);
+    l._row.querySelector('.l-nd').classList.toggle('bad', !l.nd);
   });
-  if(!val('fecha')){ mark('fact', true); ok = false; }
-  var sel = itemsSel();
-  document.getElementById('e-sku').classList.toggle('on', sel.length === 0);
-  if(sel.length === 0) ok = false;
+  if(badLines) ok = false;
+  document.getElementById('e-fact').classList.toggle('on', _files.length === 0);
+  if(_files.length === 0) ok = false;
   if(!ok){ var first = document.querySelector('.err.on'); if(first) first.scrollIntoView({behavior:'smooth', block:'center'}); }
   return ok;
 }
 function banner(msg){ var b = document.getElementById('banner'); b.textContent = msg; b.classList.add('on'); }
+function safeName(s){ return (s||'file').replace(/[^\w.\-]+/g,'_').slice(-60); }
+
 async function enviar(){
   if(!validar()) return;
   if(!sb){ banner('No se pudo conectar. Revisá tu conexión e intentá de nuevo.'); return; }
   var btn = document.getElementById('btn-enviar');
   btn.disabled = true; btn.textContent = 'Enviando…';
   document.getElementById('banner').classList.remove('on');
-  var payload = {
-    campaign: SLUG,
-    campaign_name: CFG.label,
-    cuit: val('cuit').replace(/\D/g, ''),
-    dpp: val('dpp'),
-    contacto: val('contacto'),
-    nd: val('nd'),
-    items: itemsSel(),
-    factura: val('fact'),
-    factura_fecha: val('fecha') || null,
-    comentarios: val('otros') || null,
-    source: 'public'
-  };
+  var cuit = val('cuit').replace(/\D/g, '');
   try{
+    // 1) Subir facturas al bucket privado
+    var uploaded = [];
+    for(var i=0;i<_files.length;i++){
+      var f = _files[i];
+      var path = SLUG + '/' + cuit + '_' + Date.now() + '_' + i + '_' + safeName(f.name);
+      var up = await sb.storage.from('facturas').upload(path, f, { upsert:false, contentType: f.type || undefined });
+      if(up.error) throw up.error;
+      uploaded.push({ path: path, name: f.name });
+    }
+    // 2) Insertar el registro
+    var lines = readLines().filter(function(l){ return l._complete; }).map(function(l){ return { sku:l.sku, qty:l.qty, nd:l.nd }; });
+    var ndSet = {}; lines.forEach(function(l){ if(l.nd) ndSet[l.nd]=1; });
+    var payload = {
+      campaign: SLUG,
+      campaign_name: CFG.label,
+      cuit: cuit,
+      dpp: val('dpp'),
+      contacto: val('contacto'),
+      nd: Object.keys(ndSet).join(', '),
+      lines: lines,
+      items: lines.map(function(l){ return { sku:l.sku, qty:l.qty }; }),  // compat
+      factura_files: uploaded,
+      factura_fecha: val('fecha') || null,
+      comentarios: val('otros') || null,
+      source: 'public'
+    };
     var res = await sb.from('purchase_registrations').insert(payload);
     if(res.error) throw res.error;
     document.getElementById('form').style.display = 'none';
