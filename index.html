@@ -50,8 +50,10 @@ textarea{min-height:64px;resize:vertical}
 .combo-note{font-size:12.5px;color:#8a5a00;background:linear-gradient(90deg,#FFF6DE,#FFFBF0);border:1px solid #FFE1A8;border-radius:8px;padding:9px 12px;margin-bottom:14px;line-height:1.45}
 .combo-note b{color:#7A4E00}
 .eqblock{border:1px solid var(--line);border-radius:10px;padding:13px 14px 6px;margin-bottom:12px;background:#fff}
-.eqtitle{font-family:'Poppins','Noto Sans SC',sans-serif;font-weight:700;font-size:13px;color:var(--ink);margin-bottom:11px;display:flex;align-items:center;gap:9px}
-.eqtitle span{font-family:'Roboto',sans-serif;font-weight:600;font-size:9.5px;text-transform:uppercase;letter-spacing:.08em;color:#fff;background:var(--red);padding:2px 8px;border-radius:99px}
+.eqtitle{font-family:'Poppins','Noto Sans SC',sans-serif;font-weight:700;font-size:13px;color:var(--ink);margin-bottom:11px;display:flex;align-items:center;justify-content:space-between;gap:9px}
+.addmini{flex:none;width:28px;height:28px;border:none;border-radius:50%;background:var(--red);color:#fff;font-size:20px;line-height:1;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;padding:0;box-shadow:0 1px 4px rgba(230,0,18,.3);transition:transform .12s,box-shadow .18s}
+.addmini:hover{box-shadow:0 4px 12px rgba(230,0,18,.42);transform:translateY(-1px)}
+.addmini:active{transform:scale(.94)}
 @media(max-width:520px){.fact-date{flex:1 1 100%}}
 /* Animaciones de entrada */
 @keyframes fieldIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
@@ -195,16 +197,14 @@ button.p:hover:not(:disabled){filter:brightness(.97)}
       <div class="f">
         <div id="equipos">
           <div class="eqblock">
-            <div class="eqtitle">🎥 Cámaras ColorVu 3.0 <span>front-end</span></div>
+            <div class="eqtitle">🎥 Cámaras ColorVu 3.0 Serie 1<button type="button" class="addmini" onclick="addLine('cam')" title="Agregar cámara" aria-label="Agregar cámara">+</button></div>
             <div class="lhdr"><span>Modelo</span><span>Cant.</span><span>ND</span><span></span></div>
             <div id="lines-cam"></div>
-            <button type="button" class="addline" onclick="addLine('cam')">➕ Agregar cámara</button>
           </div>
           <div class="eqblock">
-            <div class="eqtitle">📹 NVR AcuSeek K/VPro <span>back-end</span></div>
+            <div class="eqtitle">📹 NVR AcuSeek K/VPro<button type="button" class="addmini" onclick="addLine('nvr')" title="Agregar NVR" aria-label="Agregar NVR">+</button></div>
             <div class="lhdr"><span>Modelo</span><span>Cant.</span><span>ND</span><span></span></div>
             <div id="lines-nvr"></div>
-            <button type="button" class="addline" onclick="addLine('nvr')">➕ Agregar NVR</button>
           </div>
         </div>
         <div id="combo-hint" class="combo-note"></div>
