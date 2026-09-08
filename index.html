@@ -233,9 +233,21 @@ button.p:hover:not(:disabled){filter:brightness(.97)}
     </fieldset>
 
     <fieldset>
-      <legend><i>4</i>Otros productos o comentarios</legend>
-      <div class="hint">Opcional.</div>
-      <div class="f"><textarea id="otros" placeholder="Otro modelo, aclaraciones, fecha estimada de compra…"></textarea></div>
+      <legend><i>4</i>Demo que vas a exhibir</legend>
+      <div class="hint">Modelo del NVR demo que comprás/exhibís y que Hikvision reintegra por NC.</div>
+      <div class="f">
+        <select id="demo-model"></select>
+        <div class="err" id="e-demo-model">Elegí el modelo del demo.</div>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend><i>5</i>ND para tu Nota de Crédito</legend>
+      <div class="hint">ND con el que querés aplicar la NC del demo.</div>
+      <div class="f">
+        <select id="nc-nd"></select>
+        <div class="err" id="e-nc-nd">Elegí un ND.</div>
+      </div>
     </fieldset>
 
     <div class="foot" id="t-foot">Los datos se usan únicamente para validar tu compra dentro de la promoción vigente.</div>
@@ -319,6 +331,7 @@ var CAMPAIGNS = {
     subtitle: 'AcuSeek K/VPro + ColorVu 3.0 · Promo 14/09 — 31/10/2026',
     foot: 'Los datos se usan únicamente para validar tu compra dentro de la promoción vigente (14/09 — 31/10/2026).',
     nds: ['Big Dipper','Fiesa','Seguridad Centro','Selnet'],
+    demoModels: ['DS-7608NXI-K1/VPro','DS-7616NXI-K2/VPro','DS-7632NXI-K2/VPro'],
     chs: ['Ariel Donamari','Camila Rodriguez','Diego Ripoli','Key Sepulveda','Nicolás Mardaraz','Paola Velasco'],
     groups: [
       { name:'Cámaras ColorVu 3.0 — Serie 1', items:[
@@ -431,6 +444,11 @@ function render(){
   var ch = document.getElementById('combo-hint');
   if(ch) ch.innerHTML = '🎁 <b>' + need.cams + ' cámaras</b> ColorVu 3.0 (1xx7G3) + <b>' + need.nvr + ' NVR</b> K/VPro = <b>1 Demo gratuito!</b>';
   addLine('cam'); addLine('nvr'); // front-end (cámara) + back-end (NVR)
+  // Demo comprado (NVR reintegrado) y ND para la NC
+  var dm = document.getElementById('demo-model');
+  dm.innerHTML = '<option value="">Seleccioná modelo…</option>' + (CFG.demoModels || []).map(function(m){ return '<option value="' + _esc(m) + '">' + _esc(m) + '</option>'; }).join('');
+  var ncnd = document.getElementById('nc-nd');
+  ncnd.innerHTML = '<option value="">Seleccioná un ND…</option>' + (CFG.nds || []).map(function(n){ return '<option value="' + _esc(n) + '">' + _esc(n) + '</option>'; }).join('');
   // Fecha de factura por defecto: hoy
   var hoy = new Date(); var mm = ('0'+(hoy.getMonth()+1)).slice(-2), dd = ('0'+hoy.getDate()).slice(-2);
   document.getElementById('fecha').value = hoy.getFullYear() + '-' + mm + '-' + dd;
@@ -509,6 +527,8 @@ function validar(){
   document.getElementById('e-fact').classList.toggle('on', _files.length === 0);
   if(_files.length === 0) ok = false;
   if(!fechaISO()){ mark('fecha', true); ok = false; } else mark('fecha', false);
+  if(!val('demo-model')){ mark('demo-model', true); ok = false; } else mark('demo-model', false);
+  if(!val('nc-nd')){ mark('nc-nd', true); ok = false; } else mark('nc-nd', false);
   if(!ok){ var first = document.querySelector('.err.on'); if(first) first.scrollIntoView({behavior:'smooth', block:'center'}); }
   return ok;
 }
@@ -622,7 +642,8 @@ async function finalizar(elegible){
       nd: Object.keys(ndSet).join(', '),
       lines: lines, items: lines.map(function(l){ return { sku:l.sku, qty:l.qty }; }),
       factura_files: facturas, rrss_files: rrss,
-      factura_fecha: fechaISO(), comentarios: val('otros') || null,
+      factura_fecha: fechaISO(),
+      demo_model: val('demo-model'), nc_nd: val('nc-nd'),
       source: 'public'
     };
     var res = await sb.from('purchase_registrations').insert(payload);
