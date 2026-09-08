@@ -84,7 +84,7 @@ button.p:hover:not(:disabled){filter:brightness(.97)}
 
     <fieldset>
       <legend><i>1</i>CUIT</legend>
-      <div class="hint">Ingresá tu CUIT (11 dígitos, sin guiones) para comenzar.</div>
+      <div class="hint">11 dígitos, sin guiones.</div>
       <div class="f">
         <input type="text" id="cuit" inputmode="numeric" maxlength="13" placeholder="30712345678" autocomplete="off">
         <div id="tier-info" style="display:none;margin-top:8px;font-size:13px;font-weight:600;padding:8px 11px;border-radius:3px"></div>
@@ -92,7 +92,7 @@ button.p:hover:not(:disabled){filter:brightness(.97)}
       </div>
     </fieldset>
 
-    <div id="rest" hidden>
+    <div id="rest">
 
     <fieldset>
       <legend><i>2</i>DPP Fantasy Name</legend>
@@ -147,7 +147,7 @@ button.p:hover:not(:disabled){filter:brightness(.97)}
   </div>
 
   <div class="banner" id="banner"></div>
-  <div class="actions" id="actions-bar" hidden>
+  <div class="actions" id="actions-bar">
     <button class="p" id="btn-enviar" onclick="enviar()">Enviar registro</button>
   </div>
   </div>
@@ -269,20 +269,12 @@ function render(){
 function isKnownCuit(cuit){ return typeof TIER !== 'undefined' && Object.prototype.hasOwnProperty.call(TIER, cuit); }
 function tierOf(cuit){ return (typeof TIER !== 'undefined' && TIER[cuit]) ? TIER[cuit] : ''; }
 function ncOf(tier){ return TIER_PRICE[tier] != null ? TIER_PRICE[tier] : null; }
-// Gate: el resto del formulario solo se muestra con un CUIT válido (del padrón).
+// Al tipear el CUIT se muestra el nivel del DPP y la NC estimada (informativo).
 function updateTier(){
   var box = document.getElementById('tier-info');
-  var rest = document.getElementById('rest');
-  var actions = document.getElementById('actions-bar');
   var cuit = (document.getElementById('cuit').value || '').replace(/\D/g, '');
-  if(cuit.length !== 11){ box.style.display = 'none'; rest.hidden = true; actions.hidden = true; return; }
+  if(cuit.length !== 11 || !isKnownCuit(cuit)){ box.style.display = 'none'; return; }
   box.style.display = 'block';
-  if(!isKnownCuit(cuit)){
-    box.style.background = '#FDECEA'; box.style.color = '#8a1c12'; box.style.border = '1px solid #F5C6C0';
-    box.innerHTML = 'CUIT no reconocido. Verificá el número o contactá a tu ejecutivo de Hikvision.';
-    rest.hidden = true; actions.hidden = true; return;
-  }
-  rest.hidden = false; actions.hidden = false;
   var tier = tierOf(cuit), nc = ncOf(tier);
   if(nc != null){
     box.style.background = '#EAF7EE'; box.style.color = '#146c37'; box.style.border = '1px solid #B7E4C7';
