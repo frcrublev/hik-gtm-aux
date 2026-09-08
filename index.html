@@ -49,6 +49,9 @@ textarea{min-height:64px;resize:vertical}
 .fact-date input{text-align:center}
 .combo-note{font-size:12.5px;color:#8a5a00;background:linear-gradient(90deg,#FFF6DE,#FFFBF0);border:1px solid #FFE1A8;border-radius:8px;padding:9px 12px;margin-bottom:14px;line-height:1.45}
 .combo-note b{color:#7A4E00}
+.eqblock{border:1px solid var(--line);border-radius:10px;padding:13px 14px 6px;margin-bottom:12px;background:#fff}
+.eqtitle{font-family:'Poppins','Noto Sans SC',sans-serif;font-weight:700;font-size:13px;color:var(--ink);margin-bottom:11px;display:flex;align-items:center;gap:9px}
+.eqtitle span{font-family:'Roboto',sans-serif;font-weight:600;font-size:9.5px;text-transform:uppercase;letter-spacing:.08em;color:#fff;background:var(--red);padding:2px 8px;border-radius:99px}
 @media(max-width:520px){.fact-date{flex:1 1 100%}}
 /* Animaciones de entrada */
 @keyframes fieldIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
@@ -160,9 +163,20 @@ button.p:hover:not(:disabled){filter:brightness(.97)}
       <div class="hint">Una línea por modelo. Indicá el ND en cada línea.</div>
       <div class="f">
         <div id="combo-hint" class="combo-note"></div>
-        <div class="lhdr"><span>Modelo</span><span>Cant.</span><span>ND</span><span></span></div>
-        <div id="lines"></div>
-        <button type="button" class="addline" onclick="addLine()">➕ Agregar modelo</button>
+        <div id="equipos">
+          <div class="eqblock">
+            <div class="eqtitle">🎥 Cámaras ColorVu 3.0 <span>front-end</span></div>
+            <div class="lhdr"><span>Modelo</span><span>Cant.</span><span>ND</span><span></span></div>
+            <div id="lines-cam"></div>
+            <button type="button" class="addline" onclick="addLine('cam')">➕ Agregar cámara</button>
+          </div>
+          <div class="eqblock">
+            <div class="eqtitle">📹 NVR AcuSeek K/VPro <span>back-end</span></div>
+            <div class="lhdr"><span>Modelo</span><span>Cant.</span><span>ND</span><span></span></div>
+            <div id="lines-nvr"></div>
+            <button type="button" class="addline" onclick="addLine('nvr')">➕ Agregar NVR</button>
+          </div>
+        </div>
         <div class="err" id="e-lines">Agregá al menos un modelo con cantidad y ND.</div>
       </div>
     </fieldset>
@@ -311,15 +325,15 @@ var sb = (window.supabase && window.supabase.createClient) ? window.supabase.cre
 
 var _files = [];  // File[] de facturas
 
-function prodOptions(){
+function _groupKind(name){ return /nvr/i.test(name) ? 'nvr' : (/c[áa]mara/i.test(name) ? 'cam' : 'otro'); }
+function prodOptions(kind){
   var h = '<option value="">Seleccioná modelo…</option>';
   (CFG.groups || []).forEach(function(g){
-    h += '<optgroup label="' + _esc(g.name) + '">';
+    if(kind && _groupKind(g.name) !== kind) return;
     (g.items || []).forEach(function(it){
       var lbl = it.sku + (it.desc ? ' — ' + it.desc : '');
       h += '<option value="' + _esc(it.sku) + '">' + _esc(lbl) + '</option>';
     });
-    h += '</optgroup>';
   });
   return h;
 }
@@ -328,11 +342,11 @@ function ndOptions(){
   (CFG.nds || []).forEach(function(n){ h += '<option value="' + _esc(n) + '">' + _esc(n) + '</option>'; });
   return h;
 }
-function addLine(){
-  var wrap = document.getElementById('lines');
+function addLine(kind){
+  var wrap = document.getElementById(kind === 'nvr' ? 'lines-nvr' : 'lines-cam');
   var div = document.createElement('div');
   div.className = 'line';
-  div.innerHTML = '<select class="l-prod">' + prodOptions() + '</select>' +
+  div.innerHTML = '<select class="l-prod">' + prodOptions(kind) + '</select>' +
                   '<input type="number" class="l-qty" min="1" placeholder="cant.">' +
                   '<select class="l-nd">' + ndOptions() + '</select>' +
                   '<button type="button" class="l-del" title="Quitar" onclick="this.closest(\'.line\').remove()">✕</button>';
@@ -384,7 +398,7 @@ function render(){
   var need = CFG.elig || { cams:0, nvr:0 };
   var ch = document.getElementById('combo-hint');
   if(ch) ch.innerHTML = '🎁 Para obtener el <b>demo con Nota de Crédito</b>: <b>' + need.cams + ' cámaras</b> ColorVu 3.0 + <b>' + need.nvr + ' NVR</b> K/VPro.';
-  addLine(); addLine(); // arranca con una fila de cámara + una de NVR
+  addLine('cam'); addLine('nvr'); // front-end (cámara) + back-end (NVR)
   document.getElementById('cuit').addEventListener('input', updateTier);
 }
 var _SKUKIND = {};
@@ -431,7 +445,7 @@ function mark(id, bad){
 }
 function readLines(){
   var out = [];
-  document.querySelectorAll('#lines .line').forEach(function(row){
+  document.querySelectorAll('#equipos .line').forEach(function(row){
     var sku = row.querySelector('.l-prod').value;
     var qty = row.querySelector('.l-qty').value;
     var nd  = row.querySelector('.l-nd').value;
