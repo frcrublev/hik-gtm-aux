@@ -330,7 +330,6 @@ var CAMPAIGNS = {
         {sku:'DS-2CD1T47G3-LIU(4mm)',       desc:'Latam AcuSense'}
       ]},
       { name:'NVR AcuSeek K/VPro', items:[
-        {sku:'DS-7608NXI-K1/VPro', desc:'8 canales · 1 HDD'},
         {sku:'DS-7616NXI-K2/VPro', desc:'16 canales · 2 HDD'},
         {sku:'DS-7632NXI-K2/VPro', desc:'32 canales · 2 HDD'},
         {sku:'DS-7732NXI-K4/VPro', desc:'32 canales · 4 HDD'}
@@ -428,7 +427,7 @@ function render(){
   });
   var need = CFG.elig || { cams:0, nvr:0 };
   var ch = document.getElementById('combo-hint');
-  if(ch) ch.innerHTML = '🎁 Para obtener el <b>demo con Nota de Crédito</b>: <b>' + need.cams + ' cámaras</b> ColorVu 3.0 + <b>' + need.nvr + ' NVR</b> K/VPro.';
+  if(ch) ch.innerHTML = '🎁 Para obtener el <b>demo con Nota de Crédito</b>: <b>' + need.cams + ' cámaras</b> ColorVu 3.0 (1xx7G3) + <b>' + need.nvr + ' NVR</b> K/VPro de 16 o 32 canales.';
   addLine('cam'); addLine('nvr'); // front-end (cámara) + back-end (NVR)
   document.getElementById('cuit').addEventListener('input', updateTier);
 }
