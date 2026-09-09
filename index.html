@@ -221,11 +221,10 @@ button.p:hover:not(:disabled){filter:brightness(.97)}
       <legend><i>3</i>Demo que vas a exhibir</legend>
       <div class="f">
         <div class="eqblock">
-          <div class="eqtitle">📺 NVR demo · reintegrado por NC</div>
           <div class="lhdr"><span>Modelo</span><span>Cant.</span><span>ND</span><span></span></div>
           <div class="line" id="demo-line">
             <select class="l-prod" id="demo-model"></select>
-            <input type="number" class="l-qty" id="demo-qty" value="1" min="1" max="1" readonly>
+            <select class="l-qty" id="demo-qty" onchange="onDemoQty()"><option value="1">1</option><option value="0">0</option></select>
             <select class="l-nd" id="demo-nd"></select>
             <span></span>
           </div>
@@ -421,6 +420,16 @@ function renderFiles(){
   }).join('');
 }
 function rmFile(i){ _files.splice(i,1); renderFiles(); }
+// Demo opcional: si la cantidad es 0, no se compra demo → modelo/ND deshabilitados.
+function onDemoQty(){
+  var buy = val('demo-qty') !== '0';
+  ['demo-model','demo-nd'].forEach(function(id){
+    var el = document.getElementById(id);
+    el.disabled = !buy;
+    if(!buy){ el.value = ''; el.classList.remove('bad'); }
+  });
+  document.getElementById('e-demo-model').classList.remove('on');
+}
 var _rrss = [];
 function onRrss(){
   var inp = document.getElementById('rrss');
@@ -476,7 +485,7 @@ function comboCounts(lines){
 function esElegible(lines){
   var need = CFG.elig || { cams:0, nvr:0 };
   var c = comboCounts(lines);
-  var demo = !!val('demo-model'); // +1 NVR de exhibición (el demo reintegrado por NC)
+  var demo = val('demo-qty') !== '0' && !!val('demo-model'); // +1 NVR de exhibición (demo reintegrado por NC)
   return c.cam >= need.cams && c.nvr >= need.nvr && demo;
 }
 
@@ -544,12 +553,13 @@ function validar(){
   document.getElementById('e-fact').classList.toggle('on', _files.length === 0);
   if(_files.length === 0) ok = false;
   if(!fechaISO()){ mark('fecha', true); ok = false; } else mark('fecha', false);
-  var demoBad = !val('demo-model') || !val('demo-nd');
-  document.getElementById('demo-line').querySelector('.l-prod').classList.toggle('bad', !val('demo-model'));
-  document.getElementById('demo-line').querySelector('.l-nd').classList.toggle('bad', !val('demo-nd'));
+  var buyDemo = val('demo-qty') !== '0';
+  var demoBad = buyDemo && (!val('demo-model') || !val('demo-nd'));
+  document.getElementById('demo-line').querySelector('.l-prod').classList.toggle('bad', buyDemo && !val('demo-model'));
+  document.getElementById('demo-line').querySelector('.l-nd').classList.toggle('bad', buyDemo && !val('demo-nd'));
   document.getElementById('e-demo-model').classList.toggle('on', demoBad);
   if(demoBad) ok = false;
-  if(!val('nc-nd')){ mark('nc-nd', true); ok = false; } else mark('nc-nd', false);
+  if(buyDemo && !val('nc-nd')){ mark('nc-nd', true); ok = false; } else mark('nc-nd', false);
   if(!ok){ var first = document.querySelector('.err.on'); if(first) first.scrollIntoView({behavior:'smooth', block:'center'}); }
   return ok;
 }
