@@ -217,7 +217,16 @@ button.p:hover:not(:disabled){filter:brightness(.97)}
     </fieldset>
 
     <fieldset>
-      <legend><i>3</i>Factura</legend>
+      <legend><i>3</i>Demo que vas a exhibir</legend>
+      <div class="hint">Modelo del NVR demo que comprás/exhibís y que Hikvision reintegra por NC. Es el <b>+1 NVR de exhibición</b> que suma al combo (20 cámaras + 2 NVR + 1 demo).</div>
+      <div class="f">
+        <select id="demo-model"></select>
+        <div class="err" id="e-demo-model">Elegí el modelo del demo.</div>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend><i>4</i>Factura</legend>
       <div class="hint">Subí la factura (foto o PDF). Podés subir más de una si compraste a varios ND.</div>
       <div class="f">
         <div class="fact-row">
@@ -231,15 +240,6 @@ button.p:hover:not(:disabled){filter:brightness(.97)}
         </div>
         <div class="filelist" id="filelist"></div>
         <div class="err" id="e-fact">Subí al menos una factura.</div>
-      </div>
-    </fieldset>
-
-    <fieldset>
-      <legend><i>4</i>Demo que vas a exhibir</legend>
-      <div class="hint">Modelo del NVR demo que comprás/exhibís y que Hikvision reintegra por NC.</div>
-      <div class="f">
-        <select id="demo-model"></select>
-        <div class="err" id="e-demo-model">Elegí el modelo del demo.</div>
       </div>
     </fieldset>
 
@@ -466,7 +466,8 @@ function comboCounts(lines){
 function esElegible(lines){
   var need = CFG.elig || { cams:0, nvr:0 };
   var c = comboCounts(lines);
-  return c.cam >= need.cams && c.nvr >= need.nvr;
+  var demo = !!val('demo-model'); // +1 NVR de exhibición (el demo reintegrado por NC)
+  return c.cam >= need.cams && c.nvr >= need.nvr && demo;
 }
 
 // Nivel del DPP + NC estimada (1 unidad) a partir del CUIT.
