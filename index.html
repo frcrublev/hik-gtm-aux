@@ -32,6 +32,7 @@ textarea{min-height:64px;resize:vertical}
 /* Líneas de compra */
 .line{display:grid;grid-template-columns:1fr 78px 1fr auto;gap:8px;align-items:start;margin-bottom:10px}
 .line .l-qty{text-align:right;font-family:'Roboto Mono',monospace}
+.line .l-qty[readonly]{background:#f4f4f5;color:var(--dim);cursor:default}
 .line .l-del{width:38px;padding:11px 0;background:#fff;border:1px solid var(--line);border-radius:3px;color:var(--dred);cursor:pointer;font-size:15px}
 .line .l-del:hover{background:rgba(184,0,14,.06)}
 .addline{width:100%;margin-top:2px;padding:11px;background:#fff;border:1px dashed var(--red);color:var(--red);border-radius:3px;cursor:pointer;font-family:'Poppins',sans-serif;font-weight:600;font-size:14px}
@@ -218,10 +219,18 @@ button.p:hover:not(:disabled){filter:brightness(.97)}
 
     <fieldset>
       <legend><i>3</i>Demo que vas a exhibir</legend>
-      <div class="hint">Modelo del NVR demo que comprás/exhibís y que Hikvision reintegra por NC. Es el <b>+1 NVR de exhibición</b> que suma al combo (20 cámaras + 2 NVR + 1 demo).</div>
       <div class="f">
-        <select id="demo-model"></select>
-        <div class="err" id="e-demo-model">Elegí el modelo del demo.</div>
+        <div class="eqblock">
+          <div class="eqtitle">📺 NVR demo · reintegrado por NC</div>
+          <div class="lhdr"><span>Modelo</span><span>Cant.</span><span>ND</span><span></span></div>
+          <div class="line" id="demo-line">
+            <select class="l-prod" id="demo-model"></select>
+            <input type="number" class="l-qty" id="demo-qty" value="1" min="1" max="1" readonly>
+            <select class="l-nd" id="demo-nd"></select>
+            <span></span>
+          </div>
+        </div>
+        <div class="err" id="e-demo-model">Elegí el modelo y el ND del demo.</div>
       </div>
     </fieldset>
 
@@ -240,15 +249,6 @@ button.p:hover:not(:disabled){filter:brightness(.97)}
         </div>
         <div class="filelist" id="filelist"></div>
         <div class="err" id="e-fact">Subí al menos una factura.</div>
-      </div>
-    </fieldset>
-
-    <fieldset>
-      <legend><i>5</i>ND para tu Nota de Crédito</legend>
-      <div class="hint">ND con el que querés aplicar la NC del demo.</div>
-      <div class="f">
-        <select id="nc-nd"></select>
-        <div class="err" id="e-nc-nd">Elegí un ND.</div>
       </div>
     </fieldset>
 
@@ -449,8 +449,7 @@ function render(){
   // Demo comprado (NVR reintegrado) y ND para la NC
   var dm = document.getElementById('demo-model');
   dm.innerHTML = '<option value="">Seleccioná modelo…</option>' + (CFG.demoModels || []).map(function(m){ return '<option value="' + _esc(m) + '">' + _esc(m) + '</option>'; }).join('');
-  var ncnd = document.getElementById('nc-nd');
-  ncnd.innerHTML = '<option value="">Seleccioná un ND…</option>' + (CFG.nds || []).map(function(n){ return '<option value="' + _esc(n) + '">' + _esc(n) + '</option>'; }).join('');
+  document.getElementById('demo-nd').innerHTML = ndOptions();
   // Fecha de factura por defecto: hoy
   var hoy = new Date(); var mm = ('0'+(hoy.getMonth()+1)).slice(-2), dd = ('0'+hoy.getDate()).slice(-2);
   document.getElementById('fecha').value = hoy.getFullYear() + '-' + mm + '-' + dd;
@@ -534,8 +533,11 @@ function validar(){
   document.getElementById('e-fact').classList.toggle('on', _files.length === 0);
   if(_files.length === 0) ok = false;
   if(!fechaISO()){ mark('fecha', true); ok = false; } else mark('fecha', false);
-  if(!val('demo-model')){ mark('demo-model', true); ok = false; } else mark('demo-model', false);
-  if(!val('nc-nd')){ mark('nc-nd', true); ok = false; } else mark('nc-nd', false);
+  var demoBad = !val('demo-model') || !val('demo-nd');
+  document.getElementById('demo-line').querySelector('.l-prod').classList.toggle('bad', !val('demo-model'));
+  document.getElementById('demo-line').querySelector('.l-nd').classList.toggle('bad', !val('demo-nd'));
+  document.getElementById('e-demo-model').classList.toggle('on', demoBad);
+  if(demoBad) ok = false;
   if(!ok){ var first = document.querySelector('.err.on'); if(first) first.scrollIntoView({behavior:'smooth', block:'center'}); }
   return ok;
 }
@@ -650,7 +652,7 @@ async function finalizar(elegible){
       lines: lines, items: lines.map(function(l){ return { sku:l.sku, qty:l.qty }; }),
       factura_files: facturas, rrss_files: rrss,
       factura_fecha: fechaISO(),
-      demo_model: val('demo-model'), nc_nd: val('nc-nd'),
+      demo_model: val('demo-model'), nc_nd: val('demo-nd'),
       source: 'public'
     };
     var res = await sb.from('purchase_registrations').insert(payload);
