@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- build: pública para DPP (sin calculadora) -->
+<title>AcuSeek K/VPro + ColorVu 3.0 — Documento comercial</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Roboto:wght@400;500;700&family=Roboto+Mono:wght@400;500&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--red:#E60012;--dred:#B8000E;--ink:#141414;--dim:#5A5A5A;--line:#E0E0E0;--bg:#FAFAFA;--bg2:#F2F2F2}
+*{box-sizing:border-box}
+body{margin:0;background:#fff;color:var(--ink);font-family:'Roboto','Noto Sans SC',system-ui,sans-serif;font-size:14.5px;line-height:1.58}
+body.zh{font-family:'Noto Sans SC','Roboto',system-ui,sans-serif;line-height:1.75}
+.wrap{max-width:960px;margin:0 auto;padding:0 22px 70px;display:flex;flex-direction:column}
+/* Orden de secciones: 01 Concepto · 02 Promoción · 03 Materiales · 04 K/VPro · 05 ColorVu · 06 FAQ */
+.wrap>header{order:0}
+#s1{order:1}#s4{order:2}#s6{order:3}#s2{order:4}#s3{order:5}#s5{order:6}#s7{order:7}#s8{order:8}
+.wrap>footer{order:9}
+h1,h2,h3{font-family:'Poppins','Noto Sans SC',sans-serif;font-weight:600;margin:0;letter-spacing:-.01em}
+body.zh h1,body.zh h2,body.zh h3{font-family:'Noto Sans SC',sans-serif;letter-spacing:0}
+.mono{font-family:'Roboto Mono',monospace}
+
+.langbar{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.96);border-bottom:1px solid var(--line);padding:8px 0}
+.langbar .inner{max-width:960px;margin:0 auto;padding:0 22px;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.langbar .nav{display:flex;gap:14px;font-size:12.5px}
+.langbar .nav a{color:var(--dim);text-decoration:none;cursor:pointer;user-select:none}
+.langbar .nav a:focus-visible{outline:2px solid var(--red);outline-offset:2px}
+.langbar .nav a:hover{color:var(--red)}
+.langbar .btns{display:flex}
+.langbar button{font-family:'Roboto','Noto Sans SC',sans-serif;font-size:12.5px;background:#fff;color:var(--dim);border:1px solid var(--line);padding:6px 15px;cursor:pointer}
+.langbar button+button{border-left:0}
+.langbar button[aria-pressed="true"]{background:var(--red);border-color:var(--red);color:#fff;font-weight:600}
+
+header{padding:30px 0 22px;border-bottom:3px solid var(--red)}
+.kicker{font-family:'Poppins',sans-serif;font-weight:700;font-size:11px;letter-spacing:.2em;color:var(--red)}
+h1{font-size:clamp(26px,4.6vw,40px);line-height:1.06;margin-top:8px;letter-spacing:-.02em}
+.sub{color:var(--dim);margin-top:7px;font-size:15px}
+
+section{padding-top:36px;scroll-margin-top:56px}
+.eyebrow{font-family:'Roboto Mono',monospace;font-size:11px;color:var(--red);letter-spacing:.12em;text-transform:uppercase}
+body.zh .eyebrow{font-family:'Noto Sans SC',sans-serif;letter-spacing:.05em;font-size:12px}
+h2{font-size:25px;margin:6px 0 10px}
+h3{font-size:17px;margin:22px 0 6px}
+p{margin:0 0 12px}
+.lead{color:var(--dim);max-width:76ch;text-align:justify;text-justify:inter-word}
+
+.hook{border-left:4px solid var(--red);padding:5px 0 5px 16px;margin:6px 0 18px}
+.hook .big{font-family:'Poppins','Noto Sans SC',sans-serif;font-weight:700;font-size:23px;line-height:1.22}
+body.zh .hook .big{font-family:'Noto Sans SC',sans-serif}
+
+.sp{border-top:1px solid var(--line);margin-top:6px}
+.sp div{display:flex;gap:14px;padding:10px 0;border-bottom:1px solid var(--line);align-items:baseline}
+.sp b{font-family:'Poppins','Noto Sans SC',sans-serif;font-weight:600;color:var(--red);min-width:104px;font-size:14px}
+.sp span{flex:1;color:var(--dim)}
+.sp span b{color:var(--ink);min-width:0;display:inline}
+
+.grid{display:grid;gap:12px}
+.g2{grid-template-columns:repeat(2,1fr)}
+.g3{grid-template-columns:repeat(3,1fr)}
+.card{background:var(--bg);border:1px solid var(--line);border-left:3px solid var(--red);padding:14px 16px}
+.card h3{font-size:15.5px;margin:0}
+.card p{margin:5px 0 0;color:var(--dim);font-size:13.5px}
+
+table{width:100%;border-collapse:collapse;font-size:13.5px;margin-top:8px}
+th,td{border:1px solid var(--line);padding:9px 11px;text-align:left;vertical-align:top}
+th{background:var(--bg2);font-family:'Poppins','Noto Sans SC',sans-serif;font-size:13px;font-weight:600}
+td{color:var(--dim)}td b{color:var(--ink)}
+tr.rec td{background:rgba(230,0,18,.045)}
+.badge{display:inline-block;font-family:'Poppins',sans-serif;font-size:10px;font-weight:700;background:var(--red);color:#fff;padding:2px 7px;margin-left:6px;vertical-align:middle}
+
+.promo{border:2px solid var(--ink);margin-top:10px}
+.promo .hd{background:var(--ink);color:#fff;padding:9px 16px;font-family:'Poppins','Noto Sans SC',sans-serif;font-weight:600;font-size:14px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.promo .row{display:flex;align-items:center;gap:14px;padding:13px 16px;border-bottom:1px solid var(--line)}
+.promo .row:last-child{border-bottom:0}
+.promo .row .t{flex:1}
+.promo .row .t b{font-family:'Poppins','Noto Sans SC',sans-serif;font-weight:600;display:block;font-size:15px}
+.promo .row .t span{color:var(--dim);font-size:12.5px}
+.promo .row .o{font-family:'Poppins',sans-serif;font-weight:800;font-size:25px;color:var(--red);white-space:nowrap}
+.promo .row.dark{background:var(--red);color:#fff}
+.promo .row.dark .t span{color:rgba(255,255,255,.9)}
+.promo .row.dark .o{color:#fff;font-size:20px}
+
+.qa{border-top:1px solid var(--line)}
+.qa details{border-bottom:1px solid var(--line)}
+.qa summary{cursor:pointer;padding:12px 0;font-family:'Poppins','Noto Sans SC',sans-serif;font-weight:600;font-size:15px;list-style:none;display:flex;gap:10px;align-items:flex-start}
+body.zh .qa summary{font-family:'Noto Sans SC',sans-serif}
+.qa summary::-webkit-details-marker{display:none}
+.qa summary::before{content:"+";color:var(--red);font-weight:700;flex:none;width:14px}
+.qa details[open] summary::before{content:"–"}
+.qa .a{padding:0 0 14px 24px;color:var(--dim);font-size:13.8px}
+
+.note{border-left:3px solid var(--dred);background:rgba(184,0,14,.05);padding:12px 15px;margin-top:14px;font-size:13.5px;color:var(--dim)}
+.note b{color:var(--dred)}
+ul{margin:8px 0 0;padding-left:18px;color:var(--dim)}li{margin:4px 0}
+ol{margin:8px 0 0;padding-left:20px;color:var(--dim)}
+footer{margin-top:46px;border-top:1px solid var(--line);padding-top:14px;font-size:12px;color:var(--dim);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+@media(max-width:760px){.g2,.g3{grid-template-columns:1fr}h2{font-size:21px}.sp div{flex-direction:column;gap:2px}.sp b{min-width:0}.langbar .nav{display:none}}
+@media print{.langbar{display:none}body{font-size:10.5pt}section{page-break-inside:avoid}.qa details{open:true}}
+
+
+.evo{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin-top:12px}
+.evo div{border:1px solid var(--line);padding:13px 15px;display:flex;flex-direction:column;gap:3px;font-size:13.5px;color:var(--dim)}
+.evo div+div{border-left:0}
+.evo .v{font-family:'Poppins',sans-serif;font-weight:700;font-size:15px;color:var(--dim)}
+.evo .now{border-color:var(--red);background:rgba(230,0,18,.05)}
+.evo .now .v,.evo .now span{color:var(--red)}
+.evo .now span:last-child{font-weight:600}
+.uses{margin-top:10px;border-top:1px solid var(--line)}
+.uses div{display:flex;gap:14px;align-items:flex-start;padding:12px 0;border-bottom:1px solid var(--line)}
+.uses i{font-style:normal;font-family:'Poppins',sans-serif;font-weight:700;font-size:13px;color:#fff;background:var(--red);
+  width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex:none;margin-top:1px}
+.uses p{margin:0;color:var(--dim);font-size:14px}
+.uses p b{color:var(--ink)}
+.find-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin:14px 0 14px}
+.find-grid div{border:1px solid var(--line);border-top:2px solid var(--red);padding:15px 12px 14px;display:flex;flex-direction:column;align-items:center;gap:7px;text-align:center;line-height:1.3;background:var(--bg);opacity:0;transform:translateY(8px);animation:chipIn .45s cubic-bezier(.2,1,.4,1) forwards}
+.find-grid div+div{border-left:0}
+.find-grid em{font-style:normal;line-height:0;color:var(--red)}
+.find-grid em svg{width:30px;height:30px;display:block;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.find-grid b{font-family:'Poppins','Noto Sans SC',sans-serif;font-weight:700;font-size:13.5px;color:var(--ink)}
+body.zh .find-grid b{font-family:'Noto Sans SC',sans-serif}
+.find-grid small{font-size:11px;line-height:1.35;color:var(--dim);min-height:2.7em;display:flex;align-items:center;justify-content:center}
+.find-grid div:nth-child(1){animation-delay:.05s}
+.find-grid div:nth-child(2){animation-delay:.12s}
+.find-grid div:nth-child(3){animation-delay:.19s}
+.find-grid div:nth-child(4){animation-delay:.26s}
+.find-grid div:nth-child(5){animation-delay:.33s}
+@keyframes chipIn{to{opacity:1;transform:none}}
+@media(max-width:760px){.find-grid{grid-template-columns:repeat(2,1fr)}.find-grid div+div{border-left:1px solid var(--line)}.find-grid div:nth-child(odd){border-right:0}}
+@media(prefers-reduced-motion:reduce){.find-grid div{animation:none;opacity:1;transform:none}}
+@media(max-width:760px){.evo{grid-template-columns:1fr}.evo div+div{border-left:1px solid var(--line);border-top:0}}
+
+
+.mat{margin-top:10px;border-top:1px solid var(--line)}
+.mat a{display:flex;gap:14px;align-items:center;padding:13px 0;border-bottom:1px solid var(--line);text-decoration:none;color:inherit;transition:background .18s ease,padding .18s ease}
+.mat a:hover{background:rgba(230,0,18,.04);padding-left:8px}
+.mat .kind{font-family:'Roboto Mono',monospace;font-size:10px;letter-spacing:.04em;border:1px solid var(--red);color:var(--red);padding:3px 8px;flex:none;width:104px;text-align:center}
+body.zh .mat .kind{font-family:'Noto Sans SC',sans-serif}
+.mat .nm{flex:1;font-family:'Poppins','Noto Sans SC',sans-serif;font-weight:600;font-size:15px}
+body.zh .mat .nm{font-family:'Noto Sans SC',sans-serif}
+.mat .nm small{display:block;font-family:'Roboto','Noto Sans SC',sans-serif;font-weight:400;font-size:12.5px;color:var(--dim);margin-top:2px}
+.mat .go{color:var(--red);font-size:18px;flex:none;transition:transform .18s ease}
+.mat a:hover .go{transform:translateX(4px)}
+.mat a.all{background:rgba(230,0,18,.05);border:1px solid var(--red);margin-top:12px;padding:14px 16px}
+.mat a.all:hover{padding-left:16px;background:rgba(230,0,18,.09)}
+@media print{.mat a{padding:8px 0}.mat .go{display:none}}
+
+
+
+/* ---------- extras ---------- */
+#prog{position:fixed;left:0;top:0;height:3px;width:0;background:linear-gradient(90deg,var(--red),#FF5A48);z-index:40;transition:width .12s linear}
+
+.eyebrow{position:relative;padding-left:0}
+h2{position:relative;display:inline-block}
+h2::after{content:"";position:absolute;left:0;bottom:-6px;height:3px;width:100%;background:var(--red);
+  transform:scaleX(0);transform-origin:left;transition:transform .55s cubic-bezier(.22,1,.36,1) .12s}
+.in h2::after{transform:scaleX(1)}
+
+.card{position:relative;overflow:hidden}
+
+table{position:relative}
+th{position:relative;overflow:hidden}
+tr.rec td{position:relative}
+tr.rec td:first-child::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--red);
+  transform:scaleY(0);transform-origin:top;transition:transform .45s ease .2s}
+.in tr.rec td:first-child::before{transform:scaleY(1)}
+
+
+
+
+.promo .row .o{position:relative}
+
+.qa summary{position:relative}
+.qa summary::after{content:"";position:absolute;left:0;right:0;bottom:0;height:2px;background:var(--red);
+  transform:scaleX(0);transform-origin:left;transition:transform .3s ease}
+.qa summary:hover::after,.qa details[open] summary::after{transform:scaleX(1)}
+
+.mat a .kind{transition:background .2s ease,color .2s ease}
+.mat a:hover .kind{background:var(--red);color:#fff}
+
+.langbar{transition:box-shadow .25s ease}
+.langbar.stuck{box-shadow:0 2px 14px rgba(0,0,0,.07)}
+
+#toTop{position:fixed;right:20px;bottom:20px;width:42px;height:42px;border-radius:50%;background:var(--ink);color:#fff;
+  border:0;font-size:17px;cursor:pointer;opacity:0;transform:translateY(12px) scale(.9);transition:opacity .25s ease,transform .25s ease,background .2s ease;z-index:39}
+#toTop.on{opacity:1;transform:none}
+#toTop:hover{background:var(--red)}
+
+@media(prefers-reduced-motion:reduce){#prog{display:none}h2::after{transform:scaleX(1)!important}.seek::before{animation:none}}
+@media print{#prog,#toTop{display:none}h2::after{transform:scaleX(1)!important}.seek::before,.card::before{display:none}tr.rec td:first-child::before{transform:scaleY(1)!important}}
+
+
+
+/* ---------- micro-visuales de los puntos de venta ---------- */
+.viz{height:44px;margin:-2px 0 10px;display:flex;align-items:center;gap:4px;position:relative}
+.viz *{box-sizing:border-box}
+@keyframes vPulse{0%,100%{opacity:.18;transform:scaleY(.55)}50%{opacity:1;transform:scaleY(1)}}
+@keyframes vFill{from{width:0}to{width:var(--w,100%)}}
+@keyframes vSharp{0%,45%{filter:blur(2.4px);letter-spacing:.06em;opacity:.55}70%,100%{filter:blur(0);letter-spacing:0;opacity:1}}
+@keyframes vBright{0%{background-position:0% 0}100%{background-position:-200% 0}}
+@keyframes vDrop{0%,20%{transform:translateY(0);opacity:1}55%,100%{transform:translateY(9px);opacity:0}}
+@keyframes vTrack{0%{left:2px}100%{left:calc(100% - 14px)}}
+@keyframes vNoise{0%,100%{opacity:.85}50%{opacity:.12}}
+@keyframes vSwap{0%,30%{opacity:1}45%,100%{opacity:0}}
+
+/* canales */
+.v-ch{display:grid;grid-template-columns:repeat(8,1fr);gap:3px;width:100%}
+.v-ch i{height:26px;background:rgba(230,0,18,.16);border-radius:2px;transform-origin:bottom}
+.in .v-ch i{animation:vPulse 2.2s ease-in-out infinite}
+.in .v-ch i:nth-child(n){animation-delay:calc(var(--i,0) * .1s)}
+
+/* objetivos persona/vehículo/animal */
+.v-tg{display:flex;gap:8px;align-items:flex-end;width:100%}
+.v-tg b{font-family:'Poppins',sans-serif;font-size:11px;font-weight:600;color:var(--dim);border:1px solid var(--line);
+  padding:4px 9px;border-radius:20px;background:#fff}
+.in .v-tg b{animation:vTag 3.6s ease-in-out infinite}
+.in .v-tg b:nth-child(2){animation-delay:1.2s}
+.in .v-tg b:nth-child(3){animation-delay:2.4s}
+@keyframes vTag{0%,66%,100%{border-color:var(--line);color:var(--dim);background:#fff}
+  12%,50%{border-color:var(--red);color:#fff;background:var(--red)}}
+
+/* barras de capacidad */
+.v-bar{width:100%}
+.v-bar span{display:block;height:8px;background:rgba(230,0,18,.14);border-radius:4px;margin-bottom:5px;overflow:hidden;position:relative}
+.v-bar span::after{content:"";position:absolute;left:0;top:0;bottom:0;background:var(--red);border-radius:4px;width:0}
+.in .v-bar span::after{animation:vFill 1.1s cubic-bezier(.22,1,.36,1) forwards}
+.in .v-bar span:nth-child(2)::after{animation-delay:.18s}
+.in .v-bar span:nth-child(3)::after{animation-delay:.36s}
+
+/* línea de tiempo 3/7/30 */
+.v-tl{width:100%;position:relative;padding-top:14px}
+.v-tl u{position:absolute;left:0;right:0;top:20px;height:2px;background:var(--line);text-decoration:none}
+.v-tl u::after{content:"";position:absolute;left:0;top:0;height:2px;background:var(--red);width:0}
+.in .v-tl u::after{animation:vFill 1.4s ease-out .2s forwards}
+.v-tl em{position:absolute;top:14px;transform:translateX(-50%);font-style:normal;font-family:'Poppins',sans-serif;
+  font-size:10px;font-weight:700;color:var(--dim);background:#FAFAFA;padding:0 4px}
+.v-tl em:nth-child(2){left:12%}.v-tl em:nth-child(3){left:38%}.v-tl em:nth-child(4){left:88%;color:var(--red)}
+
+/* cuadrícula de resultados */
+.v-dot{display:grid;grid-template-columns:repeat(12,1fr);gap:3px;width:100%}
+.v-dot i{aspect-ratio:1;border-radius:50%;background:rgba(230,0,18,.15)}
+.in .v-dot i{animation:vPop .5s ease-out both}
+@keyframes vPop{from{transform:scale(0);opacity:0}to{transform:scale(1);opacity:1}}
+
+/* enlace acuseek + acusearch */
+.v-lk{width:100%;position:relative;height:26px}
+.v-lk u{position:absolute;left:8px;right:8px;top:12px;height:2px;background:var(--line);text-decoration:none}
+.v-lk s{position:absolute;top:6px;width:14px;height:14px;border-radius:50%;background:var(--red);text-decoration:none}
+.v-lk s:first-of-type{left:0}.v-lk s:last-of-type{right:0;background:var(--ink)}
+.v-lk b{position:absolute;top:9px;width:8px;height:8px;border-radius:50%;background:var(--red);left:2px}
+.in .v-lk b{animation:vTrack 2.4s cubic-bezier(.5,0,.5,1) infinite}
+
+/* brillo */
+.v-lx{width:100%;height:26px;border-radius:3px;
+  background:linear-gradient(90deg,#0d0d10,#2a2a33,#8a8a99,#e8e8ee,#8a8a99,#2a2a33,#0d0d10);
+  background-size:200% 100%}
+.in .v-lx{animation:vBright 4.5s linear infinite}
+
+/* nitidez */
+.v-sh{width:100%;font-family:'Poppins',sans-serif;font-weight:700;font-size:17px;color:var(--ink);text-align:center}
+.in .v-sh{animation:vSharp 3.4s ease-in-out infinite}
+
+/* falsas alarmas */
+.v-al{display:flex;gap:6px;align-items:center;width:100%}
+.v-al i{width:11px;height:11px;border-radius:2px;background:var(--red)}
+.in .v-al i:nth-child(2){animation:vDrop 3s ease-in-out infinite .3s}
+.in .v-al i:nth-child(3){animation:vDrop 3s ease-in-out infinite .6s}
+.in .v-al i:nth-child(4){animation:vDrop 3s ease-in-out infinite .9s}
+.in .v-al i:nth-child(5){animation:vDrop 3s ease-in-out infinite 1.2s}
+.v-al b{margin-left:auto;font-family:'Poppins',sans-serif;font-size:11px;color:var(--dim)}
+
+/* ruido */
+.v-ns{display:grid;grid-template-columns:repeat(14,1fr);gap:2px;width:100%}
+.v-ns i{aspect-ratio:1;background:var(--dim);border-radius:1px}
+.in .v-ns i{animation:vNoise 2.6s ease-in-out infinite}
+
+/* wdr */
+.v-wd{display:flex;width:100%;height:26px;border-radius:3px;overflow:hidden}
+.v-wd i{flex:1}
+.v-wd i:first-child{background:#111}
+.v-wd i:last-child{background:#f2f2f2}
+.in .v-wd i{animation:vWdr 3.6s ease-in-out infinite}
+@keyframes vWdr{0%,100%{filter:none}50%{filter:contrast(.55) brightness(1.25)}}
+
+/* color */
+.v-lut{display:flex;gap:4px;width:100%}
+.v-lut i{flex:1;height:26px;border-radius:3px;position:relative;overflow:hidden}
+.v-lut i:nth-child(1){background:#E60012}.v-lut i:nth-child(2){background:#1E9E52}
+.v-lut i:nth-child(3){background:#2C6BE0}.v-lut i:nth-child(4){background:#F0A000}
+.v-lut i::after{content:"";position:absolute;inset:0;background:#8a8a8a}
+.in .v-lut i::after{animation:vSwap 3.6s ease-in-out infinite}
+.in .v-lut i:nth-child(2)::after{animation-delay:.15s}
+.in .v-lut i:nth-child(3)::after{animation-delay:.3s}
+.in .v-lut i:nth-child(4)::after{animation-delay:.45s}
+
+@media(prefers-reduced-motion:reduce){.viz *{animation:none!important}.v-bar span::after,.v-tl u::after{width:var(--w,100%)!important}.v-lut i::after,.v-al i{display:none}}
+@media print{.viz{display:none}}
+
+/* ---------- brillos ---------- */
+h1 .sweep{background:linear-gradient(90deg,var(--ink) 0%,var(--ink) 38%,var(--red) 50%,var(--ink) 62%,var(--ink) 100%);
+  background-size:280% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:sweep 6s ease-in-out infinite}
+@keyframes sweep{0%,100%{background-position:130% 0}50%{background-position:-30% 0}}
+
+#prog::after{content:"";position:absolute;right:0;top:-3px;bottom:-3px;width:22px;background:radial-gradient(ellipse,rgba(230,0,18,.55),transparent 70%)}
+
+.card{position:relative;overflow:hidden;transition:transform .22s ease,box-shadow .22s ease,border-left-width .22s ease}
+.card::before{content:"";position:absolute;inset:0;background:radial-gradient(340px circle at var(--mx,50%) var(--my,50%),rgba(230,0,18,.09),transparent 62%);
+  opacity:0;transition:opacity .28s ease;pointer-events:none}
+.card:hover::before{opacity:1}
+.card:hover{transform:translateY(-3px);box-shadow:0 6px 20px rgba(0,0,0,.08);border-left-width:6px}
+
+.seek{position:relative;overflow:hidden}
+.seek::before{content:"";position:absolute;inset:0;
+  background:linear-gradient(115deg,transparent 40%,rgba(230,0,18,.07) 50%,transparent 60%);
+  background-size:250% 100%;animation:swipe 5s ease-in-out infinite;pointer-events:none}
+@keyframes swipe{0%{background-position:120% 0}100%{background-position:-40% 0}}
+.seek .bar{position:relative;z-index:1;box-shadow:0 3px 14px rgba(230,0,18,.13)}
+.seek .res,.seek .ms{position:relative;z-index:1}
+.seek .hit{position:relative;overflow:hidden}
+.seek .hit::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(230,0,18,.16),transparent);
+  transform:translateX(-100%)}
+.seek .hit.on::after{animation:flash .7s ease-out}
+@keyframes flash{to{transform:translateX(100%)}}
+
+@keyframes sh{0%{transform:translateX(-120%) skewX(-16deg)}100%{transform:translateX(320%) skewX(-16deg)}}
+.evo .now{position:relative;overflow:hidden}
+.evo .now::after{content:"";position:absolute;top:0;bottom:0;left:0;width:40%;
+  background:linear-gradient(90deg,rgba(230,0,18,0),rgba(230,0,18,.14),rgba(230,0,18,0));
+  animation:sh 3.8s ease-in-out 1.2s infinite;pointer-events:none}
+
+.promo{position:relative;transition:box-shadow .3s ease}
+.promo:hover{box-shadow:0 8px 26px rgba(0,0,0,.10)}
+.promo .row.dark{position:relative;overflow:hidden}
+.promo .row.dark::after{content:"";position:absolute;top:0;bottom:0;left:0;width:34%;
+  background:linear-gradient(90deg,rgba(255,255,255,0),rgba(255,255,255,.22),rgba(255,255,255,0));
+  animation:sh 4.2s ease-in-out 1.8s infinite;pointer-events:none}
+.promo .row .t,.promo .row .o{position:relative;z-index:1}
+.promo .row:not(.dark):hover .o{text-shadow:0 0 22px rgba(230,0,18,.35)}
+
+@media(prefers-reduced-motion:reduce){.card::before{display:none}.seek::before,.evo .now::after,.promo .row.dark::after{animation:none;display:none}h1 .sweep{animation:none;color:var(--ink);-webkit-text-fill-color:var(--ink)}}
+@media print{.card::before,.seek::before,.evo .now::after,.promo .row.dark::after,#prog::after{display:none}h1 .sweep{animation:none;color:var(--ink);-webkit-text-fill-color:var(--ink)}}
+
+/* ---------- destacados ---------- */
+.kw{position:relative;color:var(--ink);font-weight:600;font-size:inherit;white-space:nowrap;z-index:0}
+.kw::after{content:"";position:absolute;left:-2px;right:-2px;bottom:-1px;height:7px;background:rgba(230,0,18,.16);
+  z-index:-1;transform:scaleX(0);transform-origin:left;transition:transform .5s cubic-bezier(.22,1,.36,1)}
+.in .kw::after,.kw.lit::after{transform:scaleX(1)}
+.kw.num{color:var(--red);font-family:'Poppins',sans-serif;font-weight:700}
+body.zh .kw.num{font-family:'Noto Sans SC',sans-serif}
+.card .kw::after{background:rgba(230,0,18,.18)}
+
+/* stagger de tarjetas y filas */
+.grid .card{opacity:0;transform:translateY(12px);transition:opacity .45s cubic-bezier(.22,1,.36,1),transform .45s cubic-bezier(.22,1,.36,1),box-shadow .22s ease}
+.in .grid .card{opacity:1;transform:none}
+.in .grid .card:nth-child(1){transition-delay:.05s}
+.in .grid .card:nth-child(2){transition-delay:.13s}
+.in .grid .card:nth-child(3){transition-delay:.21s}
+.in .grid .card:nth-child(4){transition-delay:.29s}
+.in .grid .card:nth-child(5){transition-delay:.37s}
+.in .grid .card:nth-child(6){transition-delay:.45s}
+.uses div{opacity:0;transform:translateX(-10px);transition:opacity .4s ease,transform .4s ease}
+.in .uses div{opacity:1;transform:none}
+.in .uses div:nth-child(1){transition-delay:.06s}
+.in .uses div:nth-child(2){transition-delay:.14s}
+.in .uses div:nth-child(3){transition-delay:.22s}
+.in .uses div:nth-child(4){transition-delay:.30s}
+.in .uses div:nth-child(5){transition-delay:.38s}
+.uses i{transition:transform .3s ease}
+.uses div:hover i{transform:scale(1.14)}
+.sp div{opacity:0;transform:translateY(8px);transition:opacity .4s ease,transform .4s ease}
+.in .sp div{opacity:1;transform:none}
+.in .sp div:nth-child(1){transition-delay:.05s}
+.in .sp div:nth-child(2){transition-delay:.12s}
+.in .sp div:nth-child(3){transition-delay:.19s}
+.in .sp div:nth-child(4){transition-delay:.26s}
+
+/* evolución */
+.evo div{opacity:0;transform:translateY(10px);transition:opacity .45s ease,transform .45s ease}
+.in .evo div{opacity:1;transform:none}
+.in .evo div:nth-child(2){transition-delay:.1s}
+.in .evo div:nth-child(3){transition-delay:.2s}
+
+/* promo */
+.promo .row .o{transition:transform .2s ease}
+.promo .row:hover .o{transform:scale(1.06)}
+.hook{position:relative}
+.hook::before{content:"";position:absolute;left:-4px;top:0;width:4px;height:100%;background:var(--red);
+  transform:scaleY(0);transform-origin:top;transition:transform .5s cubic-bezier(.22,1,.36,1) .1s}
+.in .hook::before{transform:scaleY(1)}
+
+@media(prefers-reduced-motion:reduce){.kw::after{transform:scaleX(1)!important}.grid .card,.uses div,.sp div,.evo div{opacity:1!important;transform:none!important}}
+@media print{.kw::after{transform:scaleX(1)!important}.grid .card,.uses div,.sp div,.evo div{opacity:1!important;transform:none!important}.evo .now::after,.promo .row.dark::after{display:none}}
+
+/* ---------- efectos ---------- */
+.reveal{opacity:0;transform:translateY(14px);transition:opacity .55s cubic-bezier(.22,1,.36,1),transform .55s cubic-bezier(.22,1,.36,1)}
+.reveal.in{opacity:1;transform:none}
+
+.card{transition:transform .22s ease,box-shadow .22s ease,border-left-color .22s ease}
+
+.promo .row{transition:background .2s ease}
+.promo .row:not(.dark):hover{background:rgba(230,0,18,.04)}
+tbody tr,table tr{transition:background .18s ease}
+table tr:hover td{background:rgba(230,0,18,.035)}
+.langbar .nav a{position:relative;padding-bottom:2px}
+.langbar .nav a::after{content:"";position:absolute;left:0;bottom:0;height:2px;width:0;background:var(--red);transition:width .25s ease}
+.langbar .nav a:hover::after,.langbar .nav a.act::after{width:100%}
+.langbar .nav a.act{color:var(--red);font-weight:600}
+.qa summary{transition:color .18s ease}
+.qa summary:hover{color:var(--red)}
+.qa .a{animation:fade .3s ease}
+@keyframes fade{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+
+/* demo de búsqueda */
+.seek{border:1px solid var(--line);background:var(--bg);padding:18px;margin:6px 0 18px}
+.seek .bar{display:flex;align-items:center;gap:10px;background:#fff;border:2px solid var(--red);padding:11px 14px}
+.seek .ico{width:15px;height:15px;border:2px solid var(--red);border-radius:50%;position:relative;flex:none}
+.seek .ico::after{content:"";position:absolute;right:-6px;bottom:-4px;width:7px;height:2px;background:var(--red);transform:rotate(45deg)}
+.seek .q{font-family:'Roboto Mono',monospace;font-size:15px;color:var(--ink);min-height:22px}
+body.zh .seek .q{font-family:'Noto Sans SC',sans-serif}
+.seek .cur{display:inline-block;width:2px;height:16px;background:var(--red);vertical-align:-3px;animation:blink 1s step-end infinite}
+@keyframes blink{50%{opacity:0}}
+.seek .res{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap;min-height:34px}
+.seek .hit{border:1px solid var(--line);background:#fff;padding:6px 11px;font-size:12.5px;color:var(--dim);
+  opacity:0;transform:translateY(6px);transition:opacity .3s ease,transform .3s ease}
+.seek .hit.on{opacity:1;transform:none}
+.seek .hit b{color:var(--red);font-family:'Roboto Mono',monospace;font-size:11px}
+.seek .ms{margin-top:10px;font-size:12px;color:var(--dim);opacity:0;transition:opacity .3s}
+.seek .ms.on{opacity:1}
+
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}.seek .hit{opacity:1;transform:none}.seek .ms{opacity:1}}
+@media print{.reveal{opacity:1!important;transform:none!important}h1 .sweep{color:var(--ink);-webkit-text-fill-color:var(--ink)}.seek{display:none}}
+
+</style>
+</head>
+<body>
+
+<div id="prog"></div>
+<div class="langbar"><div class="inner">
+  <div class="nav">
+    <a role="button" tabindex="0" data-go="s1" data-es="Concepto" data-zh="概念">Concepto</a>
+    <a role="button" tabindex="0" data-go="s4" data-es="Promoción" data-zh="促销">Promoción</a>
+    <a role="button" tabindex="0" data-go="s6" data-es="Materiales" data-zh="物料">Materiales</a>
+    <a role="button" tabindex="0" data-go="s2" data-es="K/VPro" data-zh="K/VPro">K/VPro</a>
+    <a role="button" tabindex="0" data-go="s3" data-es="ColorVu 3.0" data-zh="全彩3.0">ColorVu 3.0</a>
+    <a role="button" tabindex="0" data-go="s5" data-es="FAQ" data-zh="常见问题">FAQ</a>
+  </div>
+  <div style="display:flex;align-items:center;gap:10px">
+    <div class="btns">
+      <button id="btn-es" aria-pressed="true" onclick="setLang('es')">Español</button>
+      <button id="btn-zh" aria-pressed="false" onclick="setLang('zh')">中文</button>
+    </div>
+  </div>
+</div></div>
+
+<div class="wrap">
+
+<header>
+  <div class="kicker">HIKVISION ARGENTINA</div>
+  <h1><span class="sweep" data-es="Tu primera solución de IA con Hikvision" data-zh="海康威视 AI 入门方案">Tu primera solución de IA con Hikvision</span></h1>
+  <div class="sub" data-es="AcuSeek K/VPro + ColorVu 3.0 (Serie 1) — documento comercial para ventas de canal y DPP" data-zh="AcuSeek K/VPro + ColorVu 3.0（1系列）— 渠道销售与 DPP 商务文档">AcuSeek K/VPro + ColorVu 3.0 (Serie 1) — documento comercial para ventas de canal y DPP</div>
+</header>
+
+<section id="s1">
+  <div class="eyebrow" data-es="01 / Concepto" data-zh="01 / 概念">01 / Concepto</div>
+  <div class="hook" style="margin-bottom:20px"><div class="big" data-es="Antes había que revisar cada minuto de video. Hoy, solo necesitas una descripción." data-zh="过去要一分钟一分钟地翻录像。现在，只需要一句描述。">Antes había que revisar cada minuto de video. Hoy, solo necesitas una descripción.</div></div>
+  <div class="evo">
+    <div><span class="v">V1.0</span><span data-es="Búsqueda manual" data-zh="人工检索">Búsqueda manual</span></div>
+    <div><span class="v">V2.0</span><span data-es="Búsqueda por imagen" data-zh="以图搜图">Búsqueda por imagen</span></div>
+    <div class="now"><span class="v">V3.0</span><span data-es="Búsqueda por palabras" data-zh="文字检索">Búsqueda por palabras</span></div>
+  </div>
+  <h3 data-es="Qué es tecnología Acuseek" data-zh="什么是 Acuseek 技术">Qué es tecnología Acuseek</h3>
+  <div class="seek" id="seek">
+    <div class="bar"><span class="ico"></span><span class="q" id="seekQ"></span><span class="cur"></span></div>
+    <div class="res" id="seekR"></div>
+    <div class="ms" id="seekM"></div>
+  </div>
+  <div class="hook"><div class="big" data-es="Escribe lo que buscas y encuéntralo." data-zh="输入你要找的，然后找到它。">Escribe lo que buscas y encuéntralo.</div></div>
+  <div class="sp">
+    <div><b data-es="Fácil" data-zh="简单">Fácil</b><span data-es="Búsqueda descriptiva por características: encontrá lo que necesitás con una sola palabra." data-zh="基于特征的描述式检索：只需一个词，就能找到你需要的内容。">Búsqueda descriptiva por características: encontrá lo que necesitás con una sola palabra.</span></div>
+    <div><b data-es="Instantánea" data-zh="即时">Instantánea</b><span data-es="Caja de búsqueda, acceso en un clic: resultados en 1 segundo, incluso entre miles de grabaciones." data-zh="搜索框，一键进入，仅需 1 秒出结果，哪怕在数千条录像之中。">Caja de búsqueda, acceso en un clic: resultados en 1 segundo, incluso entre miles de grabaciones.</span></div>
+    <div><b data-es="Precisa" data-zh="精准">Precisa</b><span data-es="Con Hik-IA, hasta 90% de precisión: AcuSeek localiza el objetivo y AcuSearch lo identifica." data-zh="依托 Hik-IA，准确率最高达 90%，AcuSeek 快速定位目标，AcuSearch 精确识别。">Con Hik-IA, hasta 90% de precisión: AcuSeek localiza el objetivo y AcuSearch lo identifica.</span></div>
+    <div><b data-es="Flexible" data-zh="灵活">Flexible</b><span data-es="Desde la app Hik-Connect: en español, por voz o texto, búsqueda descriptiva completa." data-zh="通过 Hik-Connect App：西班牙语，语音或文字，完整的描述式检索。">Desde la app Hik-Connect: en español, por voz o texto, búsqueda descriptiva completa.</span></div>
+  </div>
+  <div class="note"><b data-es="K/VPro · Local GUI / Web:" data-zh="K/VPro · 本地 GUI / Web：">K/VPro · Local GUI / Web:</b> <span data-es="solo admite búsqueda por etiquetas predefinidas en español." data-zh="仅支持预设西语标签检索。">solo admite búsqueda por etiquetas predefinidas en español.</span> <b data-es="La interfaz del equipo está en inglés y no admite texto libre; la búsqueda descriptiva completa se realiza desde la app Hik-Connect." data-zh="设备界面为英文，不支持自由文本；完整的描述式检索需通过 Hik-Connect App 完成。">La interfaz del equipo está en inglés y no admite texto libre; la búsqueda descriptiva completa se realiza desde la app Hik-Connect.</b></div>
+  <h3 data-es="Qué puede encontrar" data-zh="能找到什么">Qué puede encontrar</h3>
+  <div class="find-grid">
+    <div><em><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6 8-6s8 2 8 6"/></svg></em><b data-es="Personas" data-zh="人">Personas</b><small data-es="Atributos, ropa, accesorios, objetos que lleva, estado" data-zh="属性、衣着、配饰、随身物品、状态">Atributos, ropa, accesorios, objetos que lleva, estado</small></div>
+    <div><em><svg viewBox="0 0 24 24"><path d="M19 17h1.5a1 1 0 0 0 1-1v-3.2a2 2 0 0 0-1.4-1.9l-3.1-1L14.2 7A2 2 0 0 0 12.6 6H6a2 2 0 0 0-1.8 1.1L2.6 10.4A2 2 0 0 0 2.4 11H2a1 1 0 0 0 0 2v3a1 1 0 0 0 1 1h2"/><path d="M7 11h13"/><circle cx="7" cy="17" r="2"/><circle cx="17" cy="17" r="2"/><path d="M9 17h6"/></svg></em><b data-es="Vehículos" data-zh="车辆">Vehículos</b><small data-es="Marca, tipo, color" data-zh="品牌、类型、颜色">Marca, tipo, color</small></div>
+    <div><em><svg viewBox="0 0 24 24"><circle cx="18.5" cy="17.5" r="3.5"/><circle cx="5.5" cy="17.5" r="3.5"/><circle cx="15" cy="5" r="1"/><path d="M12 17.5V14l-3-3 4-3 2 3h2"/></svg></em><b data-es="No motorizados" data-zh="非机动车">No motorizados</b><small data-es="Bici, moto eléctrica, triciclo, carro" data-zh="自行车、电动车、三轮车、推车">Bici, moto eléctrica, triciclo, carro</small></div>
+    <div><em><svg viewBox="0 0 24 24"><circle cx="11" cy="4.5" r="1.8"/><circle cx="17.5" cy="8" r="1.8"/><circle cx="4.5" cy="9" r="1.8"/><path d="M8.5 12.5a4 4 0 0 1 5 3.2 2.6 2.6 0 0 1-3 2.9 6 6 0 0 0-2 0 2.6 2.6 0 0 1-3-2.9 4 4 0 0 1 3-3.2Z"/></svg></em><b data-es="Animales" data-zh="动物">Animales</b><small data-es="En desarrollo" data-zh="开发中">En desarrollo</small></div>
+  </div>
+  <p class="lead" data-es="Se buscan objetivos, sus estados y acciones, y los atributos asociados — sin límite (≤ 4 recomendado). Funciona mejor con términos concretos y descriptivos; se desaconsejan modismos, acciones instantáneas o conceptos abstractos." data-zh="可检索目标、目标的状态与动作，以及关联属性——数量不限（建议 ≤ 4 个）。使用具体、可描述的词效果最佳；不建议使用谚语、瞬时动作或抽象概念。">Se buscan objetivos, sus estados y acciones, y los atributos asociados — sin límite (≤ 4 recomendado). Funciona mejor con términos concretos y descriptivos; se desaconsejan modismos, acciones instantáneas o conceptos abstractos.</p>
+</section>
+
+<section id="s2">
+  <div class="eyebrow" data-es="04 / Serie K/VPro" data-zh="04 / K/VPro 系列">04 / Serie K/VPro</div>
+  <h3 data-es="SKU disponibles en Argentina" data-zh="阿根廷在售 SKU">SKU disponibles en Argentina</h3>
+  <table>
+    <tr><th style="width:20%">SAP</th><th style="width:50%">SKU</th><th data-es="Configuración" data-zh="配置">Configuración</th></tr>
+    <tr><td class="mono">303624070</td><td><b>DS-7608NXI-K1/VPro</b></td><td data-es="8 canales · 1 HDD" data-zh="8 路 · 1 盘位">8 canales · 1 HDD</td></tr>
+    <tr class="rec"><td class="mono">303624080</td><td><b>DS-7616NXI-K2/VPro</b><span class="badge" data-es="FOCO" data-zh="主推">FOCO</span></td><td data-es="16 canales · 2 HDD" data-zh="16 路 · 2 盘位">16 canales · 2 HDD</td></tr>
+    <tr class="rec"><td class="mono">303624082</td><td><b>DS-7632NXI-K2/VPro</b><span class="badge" data-es="FOCO" data-zh="主推">FOCO</span></td><td data-es="32 canales · 2 HDD" data-zh="32 路 · 2 盘位">32 canales · 2 HDD</td></tr>
+    <tr><td class="mono">303624088</td><td><b>DS-7732NXI-K4/VPro</b></td><td data-es="32 canales · 4 HDD" data-zh="32 路 · 4 盘位">32 canales · 4 HDD</td></tr>
+  </table>
+
+  <h2 style="margin-top:26px" data-es="Puntos de venta" data-zh="产品卖点">Puntos de venta</h2>
+  <div class="grid g3">
+    <div class="card"><div class="viz"><div class="v-ch"><i style="--i:0"></i><i style="--i:1"></i><i style="--i:2"></i><i style="--i:3"></i><i style="--i:4"></i><i style="--i:5"></i><i style="--i:6"></i><i style="--i:7"></i></div></div><h3 data-es="AcuSeek en todos los canales" data-zh="全通道 AcuSeek">AcuSeek en todos los canales</h3><p data-es="Full channels con cámaras AcuSense. Desde 4 y hasta 32 canales." data-zh="搭配 AcuSense 摄像机全通道支持。4 路起，最高 32 路。">Full channels con cámaras AcuSense. Desde 4 y hasta 32 canales.</p></div>
+    <div class="card"><div class="viz"><div class="v-tg"><b>Persona</b><b>Vehículo</b><b>Animal</b></div></div><h3 data-es="Persona, vehículo y animal" data-zh="人、车、动物">Persona, vehículo y animal</h3><p data-es="Tipos de objetivo que se pueden buscar por descripción." data-zh="可通过描述检索的目标类型。">Tipos de objetivo que se pueden buscar por descripción.</p></div>
+    <div class="card"><div class="viz"><div class="v-bar"><span style="--w:88%"></span><span style="--w:64%"></span><span style="--w:40%"></span></div></div><h3 data-es="50.000 objetivos por día" data-zh="5万目标/天">50.000 objetivos por día</h3><p data-es="Capacidad de modelado de AcuSeek." data-zh="AcuSeek 建模能力。">Capacidad de modelado de AcuSeek.</p></div>
+    <div class="card"><div class="viz"><div class="v-tl"><u style="--w:100%"></u><em>3</em><em>7</em><em>30</em></div></div><h3 data-es="Hasta 30 días de búsqueda" data-zh="最长 30 天检索">Hasta 30 días de búsqueda</h3><p data-es="Local y web: 3 días · HC y HCT: 7 días · HCP: 30 días." data-zh="本地与 Web：3 天 · HC、HCT：7 天 · HCP：30 天。">Local y web: 3 días · HC y HCT: 7 días · HCP: 30 días.</p></div>
+    <div class="card"><div class="viz"><div class="v-dot"><i style="animation-delay:0.00s"></i><i style="animation-delay:0.02s"></i><i style="animation-delay:0.04s"></i><i style="animation-delay:0.06s"></i><i style="animation-delay:0.08s"></i><i style="animation-delay:0.10s"></i><i style="animation-delay:0.12s"></i><i style="animation-delay:0.14s"></i><i style="animation-delay:0.16s"></i><i style="animation-delay:0.18s"></i><i style="animation-delay:0.20s"></i><i style="animation-delay:0.22s"></i><i style="animation-delay:0.24s"></i><i style="animation-delay:0.26s"></i><i style="animation-delay:0.28s"></i><i style="animation-delay:0.30s"></i><i style="animation-delay:0.32s"></i><i style="animation-delay:0.34s"></i><i style="animation-delay:0.36s"></i><i style="animation-delay:0.38s"></i><i style="animation-delay:0.40s"></i><i style="animation-delay:0.42s"></i><i style="animation-delay:0.44s"></i><i style="animation-delay:0.46s"></i></div></div><h3 data-es="100 resultados por búsqueda" data-zh="单次 100 条结果">100 resultados por búsqueda</h3><p data-es="Número de resultados devueltos." data-zh="单次检索返回的结果数量。">Número de resultados devueltos.</p></div>
+    <div class="card"><div class="viz"><div class="v-lk"><u></u><s></s><s></s><b></b></div></div><h3 data-es="AcuSeek + AcuSearch" data-zh="AcuSeek + AcuSearch">AcuSeek + AcuSearch</h3><p data-es="Vinculación disponible: localizar y luego identificar con precisión." data-zh="支持联动：先定位，再精确识别。">Vinculación disponible: localizar y luego identificar con precisión.</p></div>
+  </div>
+</section>
+
+<section id="s3">
+  <div class="eyebrow" data-es="05 / ColorVu 3.0 — Serie 1" data-zh="05 / 全彩 3.0 — 1系列">05 / ColorVu 3.0 — Serie 1</div>
+  <h3 data-es="SKU disponibles en Argentina" data-zh="阿根廷在售 SKU">SKU disponibles en Argentina</h3>
+  <table>
+    <tr><th style="width:22%">SAP</th><th style="width:58%">SKU</th><th data-es="Resolución" data-zh="分辨率">Resolución</th></tr>
+    <tr class="rec"><td class="mono">311334440</td><td><b>DS-2CD1027G3-LIU</b>(2.8mm)(Latam AcuSense)<span class="badge" data-es="FOCO" data-zh="主推">FOCO</span></td><td>2 MP</td></tr>
+    <tr class="rec"><td class="mono">311334441</td><td><b>DS-2CD1047G3-LIU</b>(2.8mm)(Latam AcuSense)<span class="badge" data-es="FOCO" data-zh="主推">FOCO</span></td><td>4 MP</td></tr>
+    <tr><td class="mono">311334722</td><td><b>DS-2CD1047G3-LIUF/SRB</b>(2.8)Latam AcuSense</td><td>4 MP</td></tr>
+    <tr><td class="mono">311334725</td><td><b>DS-2CD1127G3-LIU</b>(2.8mm)(Latam AcuSense)</td><td>2 MP</td></tr>
+    <tr class="rec"><td class="mono">311334443</td><td><b>DS-2CD1327G3-LIU</b>(2.8mm)(Latam AcuSense)<span class="badge" data-es="FOCO" data-zh="主推">FOCO</span></td><td>2 MP</td></tr>
+    <tr><td class="mono">311334444</td><td><b>DS-2CD1347G3-LIU</b>(2.8mm)(Latam AcuSense)</td><td>4 MP</td></tr>
+    <tr><td class="mono">311334734</td><td><b>DS-2CD1347G3-LIUF/SRB</b>(2.8)Latam AcuSense</td><td>4 MP</td></tr>
+    <tr><td class="mono">311334447</td><td><b>DS-2CD1T47G3-LIU</b>(4mm)(Latam AcuSense)</td><td>4 MP</td></tr>
+  </table>
+  <div class="note" data-es="Todas ColorVu 3.0 Serie 1 (Latam AcuSense). Códigos SAP y precios según la lista de precios vigente." data-zh="均为 ColorVu 3.0 Serie 1（Latam AcuSense）。SAP 编码与价格以现行价格表为准。">Todas ColorVu 3.0 Serie 1 (Latam AcuSense). Códigos SAP y precios según la lista de precios vigente.</div>
+
+  <h2 style="margin-top:26px" data-es="Puntos de venta" data-zh="产品卖点">Puntos de venta</h2>
+  <div class="grid g3">
+    <div class="card"><div class="viz"><div class="v-lx"></div></div><h3 data-es="Mejora del brillo" data-zh="亮度提升">Mejora del brillo</h3><p data-es="0,0005 lux @ F1.0. ColorVu 2.0 admite 0,0008 lux." data-zh="0.0005 lux @ F1.0。ColorVu 2.0 为 0.0008 lux。">0,0005 lux @ F1.0. ColorVu 2.0 admite 0,0008 lux.</p></div>
+    <div class="card"><div class="viz"><div class="v-sh">0,0005 lux</div></div><h3 data-es="Reducción del desenfoque" data-zh="降低模糊">Reducción del desenfoque</h3><p data-es="Reduce eficazmente los problemas de desenfoque de movimiento." data-zh="有效减少运动模糊问题。">Reduce eficazmente los problemas de desenfoque de movimiento.</p></div>
+    <div class="card"><div class="viz"><div class="v-al"><i></i><i></i><i></i><i></i><i></i><b>false alarms</b></div></div><h3 data-es="Menos falsas alarmas" data-zh="降低误报率">Menos falsas alarmas</h3><p data-es="Disminución de la tasa de falsas alarmas." data-zh="误报率下降。">Disminución de la tasa de falsas alarmas.</p></div>
+  </div>
+  <h3 data-es="Tecnología HikIA-ISP (desarrollo propio)" data-zh="HikIA-ISP 自研技术">Tecnología HikIA-ISP (desarrollo propio)</h3>
+  <div class="grid g3">
+    <div class="card"><div class="viz"><div class="v-ns"><i style="animation-delay:0.00s"></i><i style="animation-delay:0.13s"></i><i style="animation-delay:0.26s"></i><i style="animation-delay:0.39s"></i><i style="animation-delay:0.52s"></i><i style="animation-delay:0.65s"></i><i style="animation-delay:0.78s"></i><i style="animation-delay:0.00s"></i><i style="animation-delay:0.13s"></i><i style="animation-delay:0.26s"></i><i style="animation-delay:0.39s"></i><i style="animation-delay:0.52s"></i><i style="animation-delay:0.65s"></i><i style="animation-delay:0.78s"></i><i style="animation-delay:0.00s"></i><i style="animation-delay:0.13s"></i><i style="animation-delay:0.26s"></i><i style="animation-delay:0.39s"></i><i style="animation-delay:0.52s"></i><i style="animation-delay:0.65s"></i><i style="animation-delay:0.78s"></i><i style="animation-delay:0.00s"></i><i style="animation-delay:0.13s"></i><i style="animation-delay:0.26s"></i><i style="animation-delay:0.39s"></i><i style="animation-delay:0.52s"></i><i style="animation-delay:0.65s"></i><i style="animation-delay:0.78s"></i></div></div><h3 data-es="Reducción de ruido con IA" data-zh="AI 降噪">Reducción de ruido con IA</h3><p data-es="Mejora la nitidez en imágenes en movimiento y en detalles estáticos." data-zh="提升运动画面清晰度与静态细节。">Mejora la nitidez en imágenes en movimiento y en detalles estáticos.</p></div>
+    <div class="card"><div class="viz"><div class="v-wd"><i></i><i></i></div></div><h3 data-es="WDR por IA" data-zh="AI 宽动态">WDR por IA</h3><p data-es="Autoajuste del rango dinámico: sin sobreexposición ni pérdida de detalle. Se enciende y apaga de forma automática según la escena." data-zh="动态范围自动调节：不过曝、不丢细节。根据场景自动开启与关闭。">Autoajuste del rango dinámico: sin sobreexposición ni pérdida de detalle. Se enciende y apaga de forma automática según la escena.</p></div>
+    <div class="card"><div class="viz"><div class="v-lut"><i></i><i></i><i></i><i></i></div></div><h3 data-es="Corrección de color 3D LUT" data-zh="3D LUT 色彩校正">Corrección de color 3D LUT</h3><p data-es="Revela los colores reales en escenas nocturnas, más vivos y verdaderos." data-zh="还原夜间场景真实色彩，更鲜活、更真实。">Revela los colores reales en escenas nocturnas, más vivos y verdaderos.</p></div>
+  </div>
+  <p class="lead" style="margin-top:14px" data-es="Especificaciones comunes a la línea: 0,0005 lux @ F1.0 · AcuSense · Smart Hybrid Light (IR / luz blanca) · WDR 120 dB · IP67." data-zh="全系共有规格：0.0005 lux @ F1.0 · AcuSense · Smart Hybrid Light（红外/白光）· 120 dB 宽动态 · IP67。">Especificaciones comunes a la línea: 0,0005 lux @ F1.0 · AcuSense · Smart Hybrid Light (IR / luz blanca) · WDR 120 dB · IP67.</p>
+</section>
+
+<section id="s4">
+  <div class="eyebrow" data-es="02 / Promoción" data-zh="02 / 促销">02 / Promoción</div>
+  <h2 data-es="Promoción de lanzamiento" data-zh="上市促销">Promoción de lanzamiento</h2>
+  <div class="promo">
+    <div class="hd"><span>DPP</span><span data-es="Vigencia 14/09 — 31/10/2026" data-zh="有效期 2026/09/14 — 10/31">Vigencia 14/09 — 31/10/2026</span></div>
+    <div class="row"><div class="t"><b data-es="Cámaras ColorVu 3.0 Serie 1 (1xx7G3)" data-zh="ColorVu 3.0 摄像机 1系列 (1xx7G3)">Cámaras ColorVu 3.0 Serie 1 (1xx7G3)</b><span data-es="Descuento sobre lista vigente" data-zh="现行价格表折扣">Descuento sobre lista vigente</span></div><div class="o">10% OFF</div></div>
+    <div class="row"><div class="t"><b data-es="NVR Serie K/VPro" data-zh="K/VPro 系列录像机">NVR Serie K/VPro</b><span data-es="Descuento sobre lista vigente" data-zh="现行价格表折扣">Descuento sobre lista vigente</span></div><div class="o">10% OFF</div></div>
+    <div class="row dark"><div class="t"><b data-es="Combo: 20 cámaras 1xx7G3 + 2 NVR K/VPro (16 o 32 canales)" data-zh="组合：20 台 1xx7G3 + 2 台 K/VPro（16 或 32 路）">Combo: 20 cámaras 1xx7G3 + 2 NVR K/VPro (16 o 32 canales)</b><span data-es="Te regalamos 1 DS-7608NXI-K1/VPro (se reintegra por Nota de Crédito)" data-zh="赠送 1 台 DS-7608NXI-K1/VPro（以信用票返还）">Te regalamos 1 DS-7608NXI-K1/VPro (se reintegra por Nota de Crédito)</span></div><div class="o" data-es="1 DEMO GRATIS" data-zh="送样机 1 台" style="font-size:19px">1 DEMO GRATIS</div></div>
+  </div>
+
+  <h3 data-es="Cómo obtener tu demo de regalo" data-zh="如何获得赠送样机">Cómo obtener tu demo de regalo</h3>
+  <div class="uses">
+    <div><i>1</i><p data-es="&lt;b&gt;Comprar el combo&lt;/b&gt; dentro de la vigencia: 20 cámaras 1xx7G3 + 2 NVR K/VPro de 16 o 32 canales." data-zh="&lt;b&gt;在有效期内采购组合：&lt;/b&gt;20 台 1xx7G3 摄像机 + 2 台 16/32 路 K/VPro 录像机。"><b>Comprar el combo</b> dentro de la vigencia: 20 cámaras 1xx7G3 + 2 NVR K/VPro de 16 o 32 canales.</p></div>
+    <div><i>2</i><p data-es="&lt;b&gt;Comprar y exhibir el demo:&lt;/b&gt; un DS-7608NXI-K1/VPro (o exhibí un K/VPro que ya tengas — 7616 o 7632) funcionando en tu showroom." data-zh="&lt;b&gt;采购并展示样机：&lt;/b&gt;一台 DS-7608NXI-K1/VPro（或用你已有的 7616 / 7632 K/VPro 展示），在展厅保持可演示状态。"><b>Comprar y exhibir el demo:</b> un DS-7608NXI-K1/VPro (o exhibí un K/VPro que ya tengas — 7616 o 7632) funcionando en tu showroom.</p></div>
+    <div><i>3</i><p data-es="&lt;b&gt;Registrar la compra&lt;/b&gt; en el formulario “Registro Compra” y publicar en tus RRSS." data-zh="&lt;b&gt;在「销售记录」表单登记采购&lt;/b&gt;并在社交媒体（RRSS）发布。"><b>Registrar la compra</b> en el formulario “Registro Compra” y publicar en tus RRSS.</p></div>
+    <div><i>4</i><p data-es="&lt;b&gt;Hikvision valida y te reintegra&lt;/b&gt; el valor de 1 DS-7608NXI-K1/VPro mediante una Nota de Crédito." data-zh="&lt;b&gt;海康核验后返还：&lt;/b&gt;以信用票 Nota de Crédito 返还 1 台 DS-7608NXI-K1/VPro 的等值金额。"><b>Hikvision valida y te reintegra</b> el valor de 1 DS-7608NXI-K1/VPro mediante una Nota de Crédito.</p></div>
+  </div>
+
+  <h3 data-es="Condiciones generales" data-zh="通用条款">Condiciones generales</h3>
+  <ul>
+    <li data-es="Los dos descuentos conviven en la misma orden: son líneas distintas." data-zh="两项折扣可在同一订单中并存，属于不同产品线。">Los dos descuentos conviven en la misma orden: son líneas distintas.</li>
+    <li data-es="La Nota de Crédito (valor del demo) no computa para el combo ni recibe descuento adicional." data-zh="样机等值信用票不计入组合达标数量，也不叠加其他折扣。">La Nota de Crédito (valor del demo) no computa para el combo ni recibe descuento adicional.</li>
+    <li data-es="1 Nota de Crédito (valor de 1 DS-7608NXI-K1/VPro) por DPP, hasta agotar cupo, por orden de cumplimiento." data-zh="每 DPP 限 1 张信用票（等值 1 台 DS-7608NXI-K1/VPro），名额有限，按达标先后顺序发放。">1 Nota de Crédito (valor de 1 DS-7608NXI-K1/VPro) por DPP, hasta agotar cupo, por orden de cumplimiento.</li>
+    <li data-es="La promo no se acumula con acuerdos anuales, precios de proyecto ni licitaciones." data-zh="本 promo 不与年度协议、项目价或招标价叠加。">La promo no se acumula con acuerdos anuales, precios de proyecto ni licitaciones.</li>
+  </ul>
+</section>
+
+<section id="s5">
+  <div class="eyebrow" data-es="06 / FAQ" data-zh="06 / 常见问题">06 / FAQ</div>
+  <h2 data-es="Preguntas frecuentes" data-zh="常见问题">Preguntas frecuentes</h2>
+  <div class="qa">
+    <details open>
+      <summary data-es="¿Cuánto tiempo hacia atrás puede buscar?" data-zh="能往前检索多久？">¿Cuánto tiempo hacia atrás puede buscar?</summary>
+      <div class="a" data-es="Depende de la plataforma: en la interfaz local y web del NVR, 3 días; en HC y HCT, 7 días; en HCP, 30 días." data-zh="取决于所用平台：录像机本地界面与 Web 为 3 天；HC、HCT 为 7 天；HCP 为 30 天。">Depende de la plataforma: en la interfaz local y web del NVR, 3 días; en HC y HCT, 7 días; en HCP, 30 días.</div>
+    </details>
+    <details>
+      <summary data-es="¿En qué idioma se hace la búsqueda?" data-zh="检索支持什么语言？">¿En qué idioma se hace la búsqueda?</summary>
+      <div class="a" data-es="En el K/VPro, la interfaz local y web del NVR están en inglés. La búsqueda multilenguaje — incluido el español — está disponible en la app Hik-Connect." data-zh="K/VPro 的录像机本地界面与 Web 为英文。多语言检索（含西班牙语）通过 Hik-Connect App 使用。">En el K/VPro, la interfaz local y web del NVR están en inglés. La búsqueda multilenguaje — incluido el español — está disponible en la app Hik-Connect.</div>
+    </details>
+    <details>
+      <summary data-es="¿Qué puede buscar?" data-zh="能检索哪些目标？">¿Qué puede buscar?</summary>
+      <div class="a" data-es="Persona, vehículo y animal. La búsqueda por patente no está disponible en el K/VPro." data-zh="人、车、动物。K/VPro 不支持车牌检索。">Persona, vehículo y animal. La búsqueda por patente no está disponible en el K/VPro.</div>
+    </details>
+    <details>
+      <summary data-es="¿Cuántos resultados devuelve?" data-zh="返回多少条结果？">¿Cuántos resultados devuelve?</summary>
+      <div class="a" data-es="Hasta 100 resultados por búsqueda en el K/VPro." data-zh="K/VPro 单次检索最多返回 100 条结果。">Hasta 100 resultados por búsqueda en el K/VPro.</div>
+    </details>
+    <details>
+      <summary data-es="¿Con qué cámaras funciona AcuSeek?" data-zh="AcuSeek 兼容哪些摄像机？">¿Con qué cámaras funciona AcuSeek?</summary>
+      <div class="a" data-es="Con cámaras AcuSense en todos los canales. La lista oficial incluye líneas 1, 2 y 3, DeepinView, DeepinViewX, PTZ y cámaras térmicas, cada una con su versión de firmware. Para verificar un modelo puntual, usá el Product Selector de Hikvision y filtrá por AI → AcuSeek en el sitio local." data-zh="支持全通道 AcuSense 摄像机。官方清单涵盖 1、2、3 系列、DeepinView、DeepinViewX、PTZ 及热成像摄像机，各自对应不同固件版本。核对具体型号请使用海康 Product Selector，在本地站点按 AI → AcuSeek 筛选。">Con cámaras AcuSense en todos los canales. La lista oficial incluye líneas 1, 2 y 3, DeepinView, DeepinViewX, PTZ y cámaras térmicas, cada una con su versión de firmware. Para verificar un modelo puntual, usá el Product Selector de Hikvision y filtrá por AI → AcuSeek en el sitio local.</div>
+    </details>
+    <details>
+      <summary data-es="¿Las cámaras 1xx7G3 ya soportan AcuSeek?" data-zh="1xx7G3 摄像机是否已支持 AcuSeek？">¿Las cámaras 1xx7G3 ya soportan AcuSeek?</summary>
+      <div class="a" data-es="La línea 1 figura en la lista de compatibilidad: 1xx7G3 con firmware V5.9.12 y 1XX7G3H con V5.8.13. Confirmá la disponibilidad del firmware con tu contacto de Producto antes de comprometer una fecha con el cliente." data-zh="1 系列已在兼容清单中：1xx7G3 对应固件 V5.9.12，1XX7G3H 对应 V5.8.13。向客户承诺时间前，请先与产品对接人确认固件的可用状态。">La línea 1 figura en la lista de compatibilidad: 1xx7G3 con firmware V5.9.12 y 1XX7G3H con V5.8.13. Confirmá la disponibilidad del firmware con tu contacto de Producto antes de comprometer una fecha con el cliente.</div>
+    </details>
+    <details>
+      <summary data-es="¿Cuál es la diferencia entre AcuSeek y AcuSearch?" data-zh="AcuSeek 和 AcuSearch 有什么区别？">¿Cuál es la diferencia entre AcuSeek y AcuSearch?</summary>
+      <div class="a" data-es="AcuSeek localiza rápidamente el objetivo a partir de una descripción; AcuSearch lo identifica con precisión y permite seguir la ruta de su actividad. En el K/VPro los dos trabajan vinculados." data-zh="AcuSeek 依据描述快速定位目标；AcuSearch 精确识别并可追踪其活动轨迹。在 K/VPro 上两者联动工作。">AcuSeek localiza rápidamente el objetivo a partir de una descripción; AcuSearch lo identifica con precisión y permite seguir la ruta de su actividad. En el K/VPro los dos trabajan vinculados.</div>
+    </details>
+    <details>
+      <summary data-es="¿Cuándo conviene ofrecer I/VPro en lugar de K/VPro?" data-zh="什么时候该推 I/VPro 而不是 K/VPro？">¿Cuándo conviene ofrecer I/VPro en lugar de K/VPro?</summary>
+      <div class="a" data-es="Cuando el cliente necesita más de 32 canales, más capacidad de modelado (300.000 objetivos por día), 7 días de búsqueda en local y web, 200 resultados por búsqueda, o interfaz multilenguaje también en el NVR." data-zh="当客户需要超过 32 路、更高建模能力（30万目标/天）、本地与 Web 端 7 天检索、单次 200 条结果，或录像机端也需要多语言界面时。">Cuando el cliente necesita más de 32 canales, más capacidad de modelado (300.000 objetivos por día), 7 días de búsqueda en local y web, 200 resultados por búsqueda, o interfaz multilenguaje también en el NVR.</div>
+    </details>
+    <details>
+      <summary data-es="¿Qué material de apoyo hay disponible?" data-zh="有哪些配套物料？">¿Qué material de apoyo hay disponible?</summary>
+      <div class="a" data-es="En español: poster y flyer de campaña, video demo AcuSeek vs. búsqueda tradicional, simulación de robo resuelto con AcuSeek, AcuSeek en Hik-Connect, HikCentral Professional con AcuSeek, instalación de disco duro, video demo del NVR K/VPro y landing de lanzamiento. Los enlaces están en la sección 06." data-zh="西语物料：活动海报与传单、AcuSeek 对比传统检索演示视频、模拟盗窃案例视频、Hik-Connect 端 AcuSeek、HikCentral Professional 端 AcuSeek、硬盘安装教程、K/VPro 录像机演示视频、上市一指禅。链接见第 06 节。">En español: poster y flyer de campaña, video demo AcuSeek vs. búsqueda tradicional, simulación de robo resuelto con AcuSeek, AcuSeek en Hik-Connect, HikCentral Professional con AcuSeek, instalación de disco duro, video demo del NVR K/VPro y landing de lanzamiento. Los enlaces están en la sección 06.</div>
+    </details>
+  </div>
+</section>
+
+<section id="s6">
+  <div class="eyebrow" data-es="03 / Materiales" data-zh="03 / 物料">03 / Materiales</div>
+  <h2 data-es="Descargas" data-zh="资料下载">Descargas</h2>
+  <p class="lead" data-es="Acceso a través de SharePoint. Si no podés abrir un archivo, pedí acceso a tu contacto de Marketing." data-zh="通过 SharePoint 访问。若无法打开，请向市场部对接人申请权限。">Acceso a través de SharePoint. Si no podés abrir un archivo, pedí acceso a tu contacto de Marketing.</p>
+  <div class="mat">
+    <a href="https://hikvisionlatam-my.sharepoint.com/:p:/r/personal/francis_fang_hikvisionlatam_onmicrosoft_com/_layouts/15/Doc.aspx?sourcedoc=%7B1981CA69-F6D9-47C0-A5DB-8B0BF57515FA%7D&amp;file=26Q3-HIK-ARG-GTM-ACUSEEK%20KVPRO%2BCV%203.0%20Serie%201.pptx&amp;action=edit&amp;mobileredirect=true" target="_blank" rel="noopener">
+      <span class="kind">PPT</span>
+      <span class="nm" data-es="Presentación GTM AcuSeek K/VPro + ColorVu 3.0&lt;small&gt;Material completo de producto y campaña&lt;/small&gt;" data-zh="GTM 演示文稿 AcuSeek K/VPro + ColorVu 3.0&lt;small&gt;完整的产品与活动资料&lt;/small&gt;">Presentación GTM AcuSeek K/VPro + ColorVu 3.0<small>Material completo de producto y campaña</small></span>
+      <span class="go">→</span>
+    </a>
+    <a href="https://hikvisionlatam-my.sharepoint.com/:i:/g/personal/francis_fang_hikvisionlatam_onmicrosoft_com/IQBHsG4sydhwRq1xPryAhLtJAdB1ghPvrsnC7BtNtcfCpcs" target="_blank" rel="noopener">
+      <span class="kind" data-es="One Swipe" data-zh="One Swipe">One Swipe</span>
+      <span class="nm" data-es="Landing de lanzamiento&lt;small&gt;Pieza vertical lista para compartir&lt;/small&gt;" data-zh="上市一指禅&lt;small&gt;可直接转发的竖版长图&lt;/small&gt;">Landing de lanzamiento<small>Pieza vertical lista para compartir</small></span>
+      <span class="go">→</span>
+    </a>
+    <a href="https://hikvisionlatam-my.sharepoint.com/:v:/g/personal/francis_fang_hikvisionlatam_onmicrosoft_com/IQAm0IL39qQ3RZt8R1ntG7-rAb4V8tTkY4hc7yrEag_S82M" target="_blank" rel="noopener">
+      <span class="kind" data-es="VIDEO" data-zh="视频">VIDEO</span>
+      <span class="nm" data-es="Video principal de campaña&lt;small&gt;Demo del NVR K/VPro con AcuSeek&lt;/small&gt;" data-zh="主推视频&lt;small&gt;K/VPro 录像机 AcuSeek 演示&lt;/small&gt;">Video principal de campaña<small>Demo del NVR K/VPro con AcuSeek</small></span>
+      <span class="go">→</span>
+    </a>
+    <a href="https://hikvisionlatam-my.sharepoint.com/:b:/g/personal/francis_fang_hikvisionlatam_onmicrosoft_com/IQDfEBOTjF1MQ46SP6UC1sDfAdnDkkeXABMXLxmPUUsFa4s" target="_blank" rel="noopener">
+      <span class="kind" data-es="Compatibilidad" data-zh="兼容性">Compatibilidad</span>
+      <span class="nm" data-es="Lista de compatibilidad AcuSeek&lt;small&gt;Cámaras y versiones de firmware&lt;/small&gt;" data-zh="AcuSeek 兼容性清单&lt;small&gt;摄像机型号与固件版本&lt;/small&gt;">Lista de compatibilidad AcuSeek<small>Cámaras y versiones de firmware</small></span>
+      <span class="go">→</span>
+    </a>
+    <a class="all" href="https://hikvisionlatam-my.sharepoint.com/:f:/g/personal/francis_fang_hikvisionlatam_onmicrosoft_com/IgDrDPz0HrigR5DnrS88ho3GAUP0vcp_CY_-O2aaoLdUre0" target="_blank" rel="noopener">
+      <span class="kind" data-es="CARPETA" data-zh="文件夹">CARPETA</span>
+      <span class="nm" data-es="Todos los materiales de la campaña&lt;small&gt;Carpeta completa en SharePoint&lt;/small&gt;" data-zh="全部活动物料&lt;small&gt;SharePoint 完整文件夹&lt;/small&gt;">Todos los materiales de la campaña<small>Carpeta completa en SharePoint</small></span>
+      <span class="go">→</span>
+    </a>
+  </div>
+</section>
+
+
+
+<section id="s8">
+  <div class="eyebrow" data-es="Detalle del producto" data-zh="产品详情">Detalle del producto</div>
+  <h2 style="margin-top:26px" data-es="Posicionamiento del producto" data-zh="产品定位">Posicionamiento del producto</h2>
+  <p class="lead" data-es="Basado en las necesidades habituales de las pequeñas y medianas empresas (SMB), el NVR AcuSeek K Series incorpora la búsqueda inteligente “buscar objetivos por texto”, que transforma el modo tradicional de revisar grabaciones. Además de acelerar la búsqueda, el algoritmo de IA mejora de forma notable la precisión, resolviendo el problema de objetivos omitidos o mal detectados en los sistemas tradicionales." data-zh="基于中小型企业（SMB）的普遍需求，AcuSeek K系列NVR推出「用文本搜目标」的智能检索功能，彻底革新传统安防检索模式。该系列产品不仅大幅提升检索效率，更通过AI精准算法显著提高检索准确性，有效解决传统安防系统中目标漏检、误检的痛点。">Basado en las necesidades habituales de las pequeñas y medianas empresas (SMB), el NVR AcuSeek K Series incorpora la búsqueda inteligente “buscar objetivos por texto”, que transforma el modo tradicional de revisar grabaciones. Además de acelerar la búsqueda, el algoritmo de IA mejora de forma notable la precisión, resolviendo el problema de objetivos omitidos o mal detectados en los sistemas tradicionales.</p>
+  <p class="lead" data-es="A diferencia del NVR tradicional, que depende de la reproducción manual cuadro por cuadro, el usuario solo escribe una descripción en lenguaje natural — “peatón con camisa azul”, “auto negro detenido en la puerta” — y el sistema localiza el objetivo, con identificación precisa y ubicación en un clic." data-zh="区别于传统NVR依赖人工逐帧回放的低效方式，用户只需输入如「穿蓝色衬衫的行人」「停在门口的黑色轿车」等自然语言描述，系统即可快速锁定目标，实现精准识别与一键定位。">A diferencia del NVR tradicional, que depende de la reproducción manual cuadro por cuadro, el usuario solo escribe una descripción en lenguaje natural — “peatón con camisa azul”, “auto negro detenido en la puerta” — y el sistema localiza el objetivo, con identificación precisa y ubicación en un clic.</p>
+  <h3 data-es="Cliente objetivo" data-zh="目标客户">Cliente objetivo</h3>
+  <p class="lead" data-es="Clientes de pequeñas y medianas empresas (SMB)." data-zh="中小型企业客户。">Clientes de pequeñas y medianas empresas (SMB).</p>
+</section>
+
+<footer>
+  <div data-es="Hikvision Argentina · AcuSeek K/VPro + ColorVu 3.0 · Documento comercial para canal" data-zh="Hikvision Argentina · AcuSeek K/VPro + ColorVu 3.0 · 渠道商务文档">Hikvision Argentina · AcuSeek K/VPro + ColorVu 3.0 · Documento comercial para canal</div>
+  <div class="mono" data-es="Especificaciones sujetas a la ficha técnica oficial" data-zh="规格以官方技术手册为准">Especificaciones sujetas a la ficha técnica oficial</div>
+</footer>
+
+</div>
+<button id="toTop" aria-label="Volver arriba" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+<script>
+function setLang(l){
+  document.querySelectorAll('[data-es]').forEach(function(el){
+    var v=el.getAttribute('data-'+l); if(v!==null) el.innerHTML=v;
+  });
+  document.body.classList.toggle('zh', l==='zh');
+  document.documentElement.lang=(l==='zh')?'zh-CN':'es-AR';
+  document.getElementById('btn-es').setAttribute('aria-pressed', l==='es');
+  document.getElementById('btn-zh').setAttribute('aria-pressed', l==='zh');
+  if(window.__highlight) window.__highlight();
+  if(window.__seekRun) window.__seekRun();
+  try{ window.storage.set('doc_lang', l); }catch(e){}
+}
+window.addEventListener('beforeprint', function(){
+  document.querySelectorAll('.qa details').forEach(function(d){ d.open = true; });
+});
+
+
+/* ---------- efectos ---------- */
+(function(){
+  var mo = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  document.querySelectorAll('section, header').forEach(function(el){ el.classList.add('reveal'); });
+  if (mo || !('IntersectionObserver' in window)) {
+    document.querySelectorAll('.reveal').forEach(function(el){ el.classList.add('in'); });
+  } else {
+    var io = new IntersectionObserver(function(es){
+      es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, {rootMargin:'0px 0px -8% 0px', threshold:.06});
+    document.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); });
+  }
+
+  var links = [].slice.call(document.querySelectorAll('.langbar .nav a'));
+  var secs = links.map(function(a){ return document.getElementById(a.getAttribute('data-go')); });
+  links.forEach(function(a, i){
+    function go(){
+      var t = secs[i];
+      if(!t) return;
+      var y = t.getBoundingClientRect().top + window.scrollY - 56;
+      window.scrollTo({top: y, behavior: 'smooth'});
+    }
+    a.addEventListener('click', go);
+    a.addEventListener('keydown', function(e){
+      if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); go(); }
+    });
+  });
+  function onScroll(){
+    var y = window.scrollY + 90, idx = 0;
+    secs.forEach(function(sec,i){ if(sec && sec.offsetTop <= y) idx = i; });
+    links.forEach(function(a,i){ a.classList.toggle('act', i===idx); });
+  }
+  window.addEventListener('scroll', onScroll, {passive:true}); onScroll();
+
+  var Q = {
+    es: [
+      {text:'Perro Blanco', hits:['Cámara 03 · 21:14','Cámara 07 · 21:16'], ms:'2 coincidencias · 0,8 s'},
+      {text:'auto negro detenido en la puerta', hits:['Cámara 01 · 08:32','Cámara 05 · 08:35','Cámara 01 · 09:02'], ms:'3 coincidencias · 0,9 s'},
+      {text:'persona cargando maletas', hits:['Cámara 02 · 17:41','Cámara 06 · 17:44'], ms:'2 coincidencias · 0,7 s'}
+    ],
+    zh: [
+      {text:'白色的狗', hits:['通道 03 · 21:14','通道 07 · 21:16'], ms:'2 条匹配 · 0.8 秒'},
+      {text:'停在门口的黑色轿车', hits:['通道 01 · 08:32','通道 05 · 08:35','通道 01 · 09:02'], ms:'3 条匹配 · 0.9 秒'},
+      {text:'提着行李箱的人', hits:['通道 02 · 17:41','通道 06 · 17:44'], ms:'2 条匹配 · 0.7 秒'}
+    ]
+  };
+  var qi = 0;
+  var qEl = document.getElementById('seekQ'), rEl = document.getElementById('seekR'), mEl = document.getElementById('seekM');
+  var timers = [], started = false;
+  function clearT(){ timers.forEach(clearTimeout); timers = []; }
+  function run(){
+    if(!qEl) return;
+    clearT();
+    var lang = document.body.classList.contains('zh') ? 'zh' : 'es';
+    var list = Q[lang]; var d = list[qi % list.length];
+    rEl.innerHTML = d.hits.map(function(h){ return '<span class="hit"><b>MATCH</b> ' + h + '</span>'; }).join('');
+    mEl.textContent = d.ms; mEl.classList.remove('on');
+    var hits = [].slice.call(rEl.children);
+    if(mo){ qEl.textContent = d.text; hits.forEach(function(h){ h.classList.add('on'); }); mEl.classList.add('on'); return; }
+    qEl.textContent = '';
+    var i = 0;
+    (function type(){
+      if(i <= d.text.length){
+        qEl.textContent = d.text.slice(0, i++);
+        timers.push(setTimeout(type, 62));
+      } else {
+        hits.forEach(function(h,k){ timers.push(setTimeout(function(){ h.classList.add('on'); }, 260 + k*130)); });
+        timers.push(setTimeout(function(){ mEl.classList.add('on'); }, 700));
+        timers.push(setTimeout(function(){ qi++; run(); }, 5200));
+      }
+    })();
+  }
+  var seek = document.getElementById('seek');
+  if(seek){
+    if('IntersectionObserver' in window){
+      new IntersectionObserver(function(es,o){
+        es.forEach(function(e){ if(e.isIntersecting && !started){ started = true; run(); o.disconnect(); } });
+      }, {threshold:.3}).observe(seek);
+    } else { run(); }
+  }
+  window.__seekRun = run;
+})();
+
+
+
+/* ---------- barra de progreso, sticky y botón subir ---------- */
+(function(){
+  var prog = document.getElementById('prog');
+  var top = document.getElementById('toTop');
+  var bar = document.querySelector('.langbar');
+  function onScroll(){
+    var h = document.documentElement.scrollHeight - window.innerHeight;
+    var y = window.scrollY;
+    if(prog) prog.style.width = (h > 0 ? (y / h) * 100 : 0) + '%';
+    if(top) top.classList.toggle('on', y > 600);
+    if(bar) bar.classList.toggle('stuck', y > 8);
+  }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+
+  if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+    document.querySelectorAll('.card').forEach(function(c){
+      c.addEventListener('mousemove', function(e){
+        var r = c.getBoundingClientRect();
+        c.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+        c.style.setProperty('--my', (e.clientY - r.top) + 'px');
+      });
+    });
+  }
+})();
+
+/* ---------- resaltado de datos clave ---------- */
+(function(){
+  var TERMS = {
+    es: [
+      [/\b1 segundo\b/g,'num'], [/\bapenas 1 segundo\b/g,'num'], [/\b90\s?%/g,'num'],
+      [/0,0005 lux/g,'num'], [/0,0008 lux/g,''],
+      [/\b50\.000 objetivos\b/g,'num'], [/\b300\.000 objetivos\b/g,'num'],
+      [/\b3 días\b/g,'num'], [/\b7 días\b/g,'num'], [/\b30 días\b/g,'num'],
+      [/\b100 resultados\b/g,'num'], [/Max\. 100/g,'num'],
+      [/\b120 dB\b/g,'num'], [/\bIP67\b/g,''],
+      [/\bdemo gratuito\b/gi,''], [/\bgratuito\b/g,''],
+      [/\bSMB\b/g,''], [/\bAcuSeek\b/g,''], [/\bAcuSearch\b/g,''],
+      [/\bHik-IA\b/g,''], [/\bHikIA-ISP\b/g,''],
+      [/\bHik-Connect\b/g,''], [/\b20 cámaras\b/g,'num'], [/\b2 NVR\b/g,'num'],
+      [/14\/09/g,'num'], [/31\/10/g,'num']
+    ],
+    zh: [
+      [/1\s?秒/g,'num'], [/90\s?%/g,'num'],
+      [/0\.0005 lux/g,'num'], [/0\.0008 lux/g,''],
+      [/5万目标/g,'num'], [/30万目标/g,'num'],
+      [/3\s?天/g,'num'], [/7\s?天/g,'num'], [/30\s?天/g,'num'],
+      [/100\s?条/g,'num'], [/120 dB/g,'num'], [/IP67/g,''],
+      [/免费样机/g,''], [/中小型企业/g,''],
+      [/AcuSeek/g,''], [/AcuSearch/g,''],
+      [/Hik-IA/g,''], [/HikIA-ISP/g,''], [/Hik-Connect/g,''],
+      [/20 台/g,'num'], [/2 台/g,'num']
+    ]
+  };
+  var SKIP = {SCRIPT:1, STYLE:1, TABLE:1, THEAD:1, TBODY:1, TR:1, TD:1, TH:1, A:1, CODE:1, PRE:1};
+
+  function unwrap(root){
+    root.querySelectorAll('.kw').forEach(function(el){
+      var t = document.createTextNode(el.textContent);
+      el.parentNode.replaceChild(t, el);
+    });
+    root.normalize();
+  }
+  function walk(node, rules){
+    if(node.nodeType === 3){
+      var txt = node.nodeValue, hit = null, best = -1, cls = '';
+      for(var i=0;i<rules.length;i++){
+        rules[i][0].lastIndex = 0;
+        var m = rules[i][0].exec(txt);
+        if(m && (best === -1 || m.index < best)){ best = m.index; hit = m[0]; cls = rules[i][1]; }
+      }
+      if(hit === null) return;
+      var after = node.splitText(best);
+      var tail = after.splitText(hit.length);
+      var span = document.createElement('span');
+      span.className = 'kw' + (cls ? ' ' + cls : '');
+      span.textContent = hit;
+      after.parentNode.replaceChild(span, after);
+      walk(tail, rules);
+      return;
+    }
+    if(node.nodeType !== 1 || SKIP[node.tagName] || node.classList.contains('kw')) return;
+    var kids = [].slice.call(node.childNodes);
+    kids.forEach(function(k){ walk(k, rules); });
+  }
+  function highlight(){
+    var lang = document.body.classList.contains('zh') ? 'zh' : 'es';
+    var scope = document.querySelector('.wrap');
+    if(!scope) return;
+    unwrap(scope);
+    scope.querySelectorAll('section p, section li, .card p, .card h3, .sp span, .uses p, .evo div, .promo .row .t, .note, .hook .big').forEach(function(el){
+      walk(el, TERMS[lang]);
+    });
+    document.querySelectorAll('section.in .kw').forEach(function(k){ k.classList.add('lit'); });
+  }
+  window.__highlight = highlight;
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', highlight);
+  } else { highlight(); }
+})();
+
+(async function(){ try{ var r=await window.storage.get('doc_lang'); if(r&&r.value==='zh') setLang('zh'); }catch(e){} })();
+</script>
+
+</body>
+</html>
