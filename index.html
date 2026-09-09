@@ -224,7 +224,7 @@ button.p:hover:not(:disabled){filter:brightness(.97)}
           <div class="lhdr"><span>Modelo</span><span>Cant.</span><span>ND</span><span></span></div>
           <div class="line" id="demo-line">
             <select class="l-prod" id="demo-model"></select>
-            <select class="l-qty" id="demo-qty" onchange="onDemoQty()"><option value="1">1</option><option value="0">0</option></select>
+            <select class="l-qty" id="demo-qty" onchange="onDemoQty()"><option value="0">0</option><option value="1">1</option></select>
             <select class="l-nd" id="demo-nd"></select>
             <span></span>
           </div>
@@ -421,6 +421,14 @@ function renderFiles(){
 }
 function rmFile(i){ _files.splice(i,1); renderFiles(); }
 // Demo opcional: si la cantidad es 0, no se compra demo → modelo/ND deshabilitados.
+// Al alcanzar el combo (≥ cámaras y ≥ NVR) el demo pasa a 1 automáticamente; si no, 0.
+function syncDemoQty(){
+  var need = CFG.elig || { cams:0, nvr:0 };
+  var c = comboCounts(readLines());
+  var q = (c.cam >= need.cams && c.nvr >= need.nvr) ? '1' : '0';
+  var sel = document.getElementById('demo-qty');
+  if(sel && sel.value !== q){ sel.value = q; onDemoQty(); }
+}
 function onDemoQty(){
   var buy = val('demo-qty') !== '0';
   ['demo-model','demo-nd'].forEach(function(id){
@@ -474,6 +482,11 @@ function render(){
   var hoy = new Date(); var mm = ('0'+(hoy.getMonth()+1)).slice(-2), dd = ('0'+hoy.getDate()).slice(-2);
   document.getElementById('fecha').value = hoy.getFullYear() + '-' + mm + '-' + dd;
   document.getElementById('cuit').addEventListener('input', updateTier);
+  // Demo por defecto en 0; se autoajusta a 1 al alcanzar el combo.
+  onDemoQty();
+  var eq = document.getElementById('equipos');
+  eq.addEventListener('input', syncDemoQty);
+  eq.addEventListener('change', syncDemoQty);
 }
 var _SKUKIND = {};
 // Suma de cantidades por tipo y test del combo mínimo.
