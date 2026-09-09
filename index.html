@@ -252,6 +252,15 @@ button.p:hover:not(:disabled){filter:brightness(.97)}
       </div>
     </fieldset>
 
+    <fieldset>
+      <legend><i>5</i>ND para tu Nota de Crédito</legend>
+      <div class="hint">ND con el que querés aplicar la NC del demo (puede ser distinto al ND donde comprás el demo).</div>
+      <div class="f">
+        <select id="nc-nd"></select>
+        <div class="err" id="e-nc-nd">Elegí un ND.</div>
+      </div>
+    </fieldset>
+
     <div class="foot" id="t-foot">Los datos se usan únicamente para validar tu compra dentro de la promoción vigente.</div>
 
     </div><!-- /rest -->
@@ -450,6 +459,8 @@ function render(){
   var dm = document.getElementById('demo-model');
   dm.innerHTML = '<option value="">Seleccioná modelo…</option>' + (CFG.demoModels || []).map(function(m){ return '<option value="' + _esc(m) + '">' + _esc(m) + '</option>'; }).join('');
   document.getElementById('demo-nd').innerHTML = ndOptions();
+  var ncnd = document.getElementById('nc-nd');
+  ncnd.innerHTML = '<option value="">Seleccioná un ND…</option>' + (CFG.nds || []).map(function(n){ return '<option value="' + _esc(n) + '">' + _esc(n) + '</option>'; }).join('');
   // Fecha de factura por defecto: hoy
   var hoy = new Date(); var mm = ('0'+(hoy.getMonth()+1)).slice(-2), dd = ('0'+hoy.getDate()).slice(-2);
   document.getElementById('fecha').value = hoy.getFullYear() + '-' + mm + '-' + dd;
@@ -538,6 +549,7 @@ function validar(){
   document.getElementById('demo-line').querySelector('.l-nd').classList.toggle('bad', !val('demo-nd'));
   document.getElementById('e-demo-model').classList.toggle('on', demoBad);
   if(demoBad) ok = false;
+  if(!val('nc-nd')){ mark('nc-nd', true); ok = false; } else mark('nc-nd', false);
   if(!ok){ var first = document.querySelector('.err.on'); if(first) first.scrollIntoView({behavior:'smooth', block:'center'}); }
   return ok;
 }
@@ -652,7 +664,7 @@ async function finalizar(elegible){
       lines: lines, items: lines.map(function(l){ return { sku:l.sku, qty:l.qty }; }),
       factura_files: facturas, rrss_files: rrss,
       factura_fecha: fechaISO(),
-      demo_model: val('demo-model'), nc_nd: val('demo-nd'),
+      demo_model: val('demo-model'), demo_nd: val('demo-nd'), nc_nd: val('nc-nd'),
       source: 'public'
     };
     var res = await sb.from('purchase_registrations').insert(payload);
