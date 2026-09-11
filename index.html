@@ -108,6 +108,11 @@ button.p::after{content:'';position:absolute;top:0;left:-45%;width:32%;height:10
 .identtier{font-family:'Poppins',sans-serif;font-weight:700;font-size:10.5px;letter-spacing:.07em;padding:2px 10px;border-radius:99px;color:#fff;align-self:center}
 .sublbl{display:block;font-size:12.5px;color:var(--dim);margin:14px 0 6px}
 .sublbl small{color:var(--red);font-weight:600}
+.identlbl{transition:color .2s}
+.contact-row{display:flex;align-items:center;gap:10px;margin-top:14px;flex-wrap:wrap}
+.contact-row .sublbl2{flex:0 0 auto;font-size:12.5px;color:var(--dim);white-space:nowrap}
+.contact-row .sublbl2 small{color:var(--red);font-weight:600}
+.contact-row input{flex:1;min-width:190px}
 .actions{position:sticky;bottom:0;background:#fff;border-top:1px solid var(--line);padding:14px 24px;display:flex;gap:9px}
 button.p{flex:1;font-family:'Poppins',sans-serif;font-weight:600;font-size:15px;padding:13px;border-radius:3px;cursor:pointer;border:1px solid var(--red);background:var(--red);color:#fff}
 button.p:disabled{opacity:.6;cursor:default}
@@ -182,13 +187,14 @@ button.p:hover:not(:disabled){filter:brightness(.97)}
     <div id="ident-fs" hidden style="margin:0 0 22px">
       <div class="f">
         <div class="identcard">
-          <span class="identlbl">DPP Fantasy Name</span>
+          <span class="identlbl" id="ident-lbl">DPP Fantasy Name</span>
           <span class="identname" id="ident-dpp">—</span>
-          <span class="identtier" id="ident-tier" style="display:none"></span>
         </div>
         <input type="hidden" id="dpp">
-        <label for="contacto" class="sublbl">Contacto comercial de Hikvision <small>(podés ajustarlo)</small></label>
-        <input type="text" id="contacto" list="chs-list" placeholder="Channel Sales" autocomplete="off">
+        <div class="contact-row">
+          <label for="contacto" class="sublbl2">Contacto Hikvision <small>(podés ajustarlo)</small></label>
+          <input type="text" id="contacto" list="chs-list" placeholder="Channel Sales" autocomplete="off">
+        </div>
         <datalist id="chs-list"></datalist>
         <div class="err" id="e-contacto">Indicá con quién estás trabajando.</div>
       </div>
@@ -526,10 +532,10 @@ function updateTier(){
   var cs = (typeof DPPCHS !== 'undefined' && DPPCHS[cuit]) ? DPPCHS[cuit] : '';
   document.getElementById('dpp').value = nm;
   document.getElementById('ident-dpp').textContent = nm || '—';
-  var tier = tierOf(cuit), tEl = document.getElementById('ident-tier');
-  if(tier){ tEl.textContent = tier; tEl.style.display = 'inline-block';
-    tEl.style.background = tier==='DIAMOND' ? '#0369A1' : tier==='BLACK' ? '#111827' : tier==='GOLD' ? '#B7791F' : tier==='PLATINUM' ? '#64748B' : '#9CA3AF';
-  } else { tEl.style.display = 'none'; }
+  // El nivel del DPP NO se muestra como texto (dato sensible en página pública);
+  // solo se codifica con el color del rótulo "DPP Fantasy Name".
+  var tier = tierOf(cuit), lblEl = document.getElementById('ident-lbl');
+  lblEl.style.color = tier==='DIAMOND' ? '#0369A1' : tier==='BLACK' ? '#111827' : tier==='GOLD' ? '#B7791F' : tier==='PLATINUM' ? '#64748B' : tier ? '#9CA3AF' : 'var(--dim)';
   var cel = document.getElementById('contacto'); if(cs) cel.value = cs;
   ident.hidden = false;
 }
