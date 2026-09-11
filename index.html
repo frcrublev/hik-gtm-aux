@@ -102,17 +102,19 @@ button.p::after{content:'';position:absolute;top:0;left:-45%;width:32%;height:10
 .fileitem{display:flex;align-items:center;gap:8px;font-size:13px;background:var(--bg);border:1px solid var(--line);border-radius:3px;padding:7px 10px}
 .fileitem .x{margin-left:auto;color:var(--dred);cursor:pointer;font-weight:700}
 /* Identidad del DPP (autocompletado por CUIT) */
-.identcard{display:flex;align-items:baseline;flex-wrap:wrap;gap:4px 10px;background:linear-gradient(90deg,#FFF4F4,#fff);border:1px solid var(--line);border-left:3px solid var(--red);border-radius:3px;padding:12px 15px}
+.identcard{display:flex;align-items:center;flex-wrap:wrap;gap:12px 24px;background:linear-gradient(90deg,#FFF4F4,#fff);border:1px solid var(--line);border-left:3px solid var(--red);border-radius:3px;padding:12px 15px}
+.idcol{display:flex;flex-direction:column;gap:3px}
+.idcol:first-child{flex:0 0 auto}
+.idcontact{flex:1;min-width:200px}
+.idcontact input{margin:0}
+.identlbl2{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:var(--dim)}
+.identlbl2 small{color:var(--red);font-weight:600;text-transform:none;letter-spacing:0}
 .identlbl{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:var(--dim)}
 .identname{font-family:'Poppins','Noto Sans SC',sans-serif;font-weight:700;font-size:18px;line-height:1.15;color:var(--ink)}
 .identtier{font-family:'Poppins',sans-serif;font-weight:700;font-size:10.5px;letter-spacing:.07em;padding:2px 10px;border-radius:99px;color:#fff;align-self:center}
 .sublbl{display:block;font-size:12.5px;color:var(--dim);margin:14px 0 6px}
 .sublbl small{color:var(--red);font-weight:600}
 .identlbl{transition:color .2s}
-.contact-row{display:flex;align-items:center;gap:10px;margin-top:14px;flex-wrap:wrap}
-.contact-row .sublbl2{flex:0 0 auto;font-size:12.5px;color:var(--dim);white-space:nowrap}
-.contact-row .sublbl2 small{color:var(--red);font-weight:600}
-.contact-row input{flex:1;min-width:190px}
 .actions{position:sticky;bottom:0;background:#fff;border-top:1px solid var(--line);padding:14px 24px;display:flex;gap:9px}
 button.p{flex:1;font-family:'Poppins',sans-serif;font-weight:600;font-size:15px;padding:13px;border-radius:3px;cursor:pointer;border:1px solid var(--red);background:var(--red);color:#fff}
 button.p:disabled{opacity:.6;cursor:default}
@@ -187,14 +189,16 @@ button.p:hover:not(:disabled){filter:brightness(.97)}
     <div id="ident-fs" hidden style="margin:0 0 22px">
       <div class="f">
         <div class="identcard">
-          <span class="identlbl" id="ident-lbl">DPP Fantasy Name</span>
-          <span class="identname" id="ident-dpp">—</span>
+          <div class="idcol">
+            <span class="identlbl" id="ident-lbl">DPP Fantasy Name</span>
+            <span class="identname" id="ident-dpp">—</span>
+          </div>
+          <div class="idcol idcontact">
+            <label for="contacto" class="identlbl2">Contacto Hikvision <small>(ajustable)</small></label>
+            <input type="text" id="contacto" list="chs-list" placeholder="Channel Sales" autocomplete="off">
+          </div>
         </div>
         <input type="hidden" id="dpp">
-        <div class="contact-row">
-          <label for="contacto" class="sublbl2">Contacto Hikvision <small>(podés ajustarlo)</small></label>
-          <input type="text" id="contacto" list="chs-list" placeholder="Channel Sales" autocomplete="off">
-        </div>
         <datalist id="chs-list"></datalist>
         <div class="err" id="e-contacto">Indicá con quién estás trabajando.</div>
       </div>
