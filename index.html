@@ -19,7 +19,7 @@ h1{font-family:'Poppins',sans-serif;font-weight:800;font-size:26px;line-height:1
 .top p{margin:7px 0 0;font-size:13.5px;opacity:.95}
 .body{padding:22px 24px 0}
 fieldset{border:0;padding:0;margin:0 0 20px}
-legend{font-family:'Poppins',sans-serif;font-weight:700;font-size:15.5px;padding:0;margin-bottom:6px;display:flex;gap:11px;align-items:center;color:var(--ink)}
+legend{font-family:'Poppins',sans-serif;font-weight:700;font-size:15.5px;padding:0;margin-bottom:6px;display:flex;gap:6px 11px;align-items:center;flex-wrap:wrap;color:var(--ink)}
 legend i{font-style:normal;font-size:11.5px;font-weight:700;color:#fff;background:var(--red);width:23px;height:23px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;flex:none;box-shadow:0 1px 3px rgba(230,0,18,.3)}
 .hint{font-size:12.5px;color:var(--dim);margin:0 0 10px 34px}
 .leg-hint{font-family:'Roboto',sans-serif;font-weight:400;font-size:12.5px;color:var(--dim)}
@@ -105,7 +105,7 @@ button.p::after{content:'';position:absolute;top:0;left:-45%;width:32%;height:10
 /* Identidad del DPP: hero limpio, sin caja anidada */
 .ident-hero{padding:6px 2px 2px}
 .ident-kicker{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.16em;color:var(--dim);transition:color .25s}
-.ident-name{font-family:'Poppins','Noto Sans SC',sans-serif;font-weight:800;font-size:clamp(34px,6.5vw,44px);line-height:1.05;letter-spacing:-.015em;margin-top:4px;color:var(--ink)}
+.ident-name{font-family:'Poppins','Noto Sans SC',sans-serif;font-weight:800;font-size:clamp(30px,5vw,42px);line-height:1.06;letter-spacing:-.015em;margin-top:4px;color:var(--ink);max-width:100%;overflow-wrap:anywhere;word-break:break-word}
 .ident-name.anim{
   background:linear-gradient(100deg,var(--ink) 0%,var(--ink) 38%,var(--red) 50%,var(--ink) 62%,var(--ink) 100%);
   background-size:250% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;
@@ -210,8 +210,7 @@ button.p:hover:not(:disabled){filter:brightness(.97)}
     </div>
 
     <fieldset>
-      <legend><i>2</i>Equipos comprados</legend>
-      <div class="hint">Una línea por modelo. Indicá el ND en cada línea.</div>
+      <legend><i>2</i>Equipos comprados <span class="leg-hint">Una línea por modelo. Indicá el ND en cada línea.</span></legend>
       <div class="f">
         <div id="equipos">
           <div class="eqblock">
@@ -544,6 +543,9 @@ function updateTier(){
   var newName = nm || '—';
   if(nameEl.textContent !== newName){          // reproducir la animación solo al cambiar el nombre
     nameEl.textContent = newName;
+    // Nombres largos → tipografía más chica para que no se corte ni desborde.
+    var L = newName.length;
+    nameEl.style.fontSize = L>32 ? '23px' : L>24 ? '28px' : L>16 ? '34px' : '';
     nameEl.classList.remove('anim'); void nameEl.offsetWidth; nameEl.classList.add('anim');
   }
   // El nivel del DPP NO se muestra como texto (dato sensible en página pública);
