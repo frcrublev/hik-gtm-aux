@@ -23,7 +23,7 @@ legend{font-family:'Poppins',sans-serif;font-weight:700;font-size:15.5px;padding
 legend i{font-style:normal;font-size:11.5px;font-weight:700;color:#fff;background:var(--red);width:23px;height:23px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;flex:none;box-shadow:0 1px 3px rgba(230,0,18,.3)}
 .hint{font-size:12.5px;color:var(--dim);margin:0 0 10px 34px}
 .f{margin-left:34px}
-input[type=text],input[type=date],input[type=number],select,textarea{width:100%;background:#fff;border:1px solid var(--line);padding:12px 13px;font-family:'Roboto',sans-serif;font-size:15px;color:var(--ink);border-radius:4px;transition:border-color .15s,box-shadow .15s}
+input[type=text],input[type=url],input[type=date],input[type=number],select,textarea{width:100%;background:#fff;border:1px solid var(--line);padding:12px 13px;font-family:'Roboto',sans-serif;font-size:15px;color:var(--ink);border-radius:4px;transition:border-color .15s,box-shadow .15s}
 input:focus,select:focus,textarea:focus{outline:0;border-color:var(--red);box-shadow:0 0 0 3px rgba(230,0,18,.12)}
 input.bad,select.bad{border-color:var(--dred);background:rgba(184,0,14,.04)}
 .err{color:var(--dred);font-size:12.5px;margin-top:5px;display:none}
@@ -230,6 +230,7 @@ button.p:hover:not(:disabled){filter:brightness(.97)}
           </div>
         </div>
         <div class="err" id="e-demo-model">Elegí el modelo y el ND del demo.</div>
+        <div class="hint" style="margin-top:8px">Hikvision valida y te reintegra el valor de 1 DS-7608NXI-K1/VPro mediante una Nota de Crédito.</div>
       </div>
     </fieldset>
 
@@ -288,11 +289,13 @@ button.p:hover:not(:disabled){filter:brightness(.97)}
 
       <div class="cel-step">
         <div class="cel-step-t">Último paso — subí tu publicación en RRSS</div>
-        <div class="cel-step-d">¡Ya casi está! 🙌 Compartí tu compra en redes y subí una captura del posteo. Con ese último gesto activamos tu Nota de Crédito. 💛</div>
+        <div class="cel-step-d">¡Ya casi está! 🙌 Compartí tu compra en redes y sumá tu publicación: pegá el link del posteo o subí una captura. Con ese último gesto activamos tu Nota de Crédito. 💛</div>
+        <input type="url" id="rrss-link" placeholder="🔗 Pegá el link de tu publicación (https://…)" style="margin-bottom:10px">
+        <div class="hint" style="text-align:center;margin:2px 0 10px">— o —</div>
         <label class="filebox" for="rrss">📸 Tocá para subir tu publicación (imagen o PDF)</label>
         <input type="file" id="rrss" accept="image/*,application/pdf" multiple style="display:none" onchange="onRrss()">
         <div class="filelist" id="rrsslist"></div>
-        <div class="err" id="e-rrss">Subí al menos una captura de RRSS.</div>
+        <div class="err" id="e-rrss">Pegá el link o subí una captura de tu publicación.</div>
       </div>
 
       <div class="banner" id="banner2" style="margin:14px 0 0"></div>
@@ -649,7 +652,8 @@ function launchConfetti(){
 }
 // Paso 2 (elegible): exige RRSS y finaliza.
 function confirmarElegible(){
-  if(_rrss.length === 0){ document.getElementById('e-rrss').classList.add('on'); return; }
+  var link = (val('rrss-link') || '').trim();
+  if(_rrss.length === 0 && !link){ document.getElementById('e-rrss').classList.add('on'); return; }
   finalizar(true);
 }
 async function subir(files, prefix){
@@ -685,7 +689,7 @@ async function finalizar(elegible){
       folio: folio, nc_status: elegible ? 'pending_review' : null,
       nd: Object.keys(ndSet).join(', '),
       lines: lines, items: lines.map(function(l){ return { sku:l.sku, qty:l.qty }; }),
-      factura_files: facturas, rrss_files: rrss,
+      factura_files: facturas, rrss_files: rrss, rrss_link: elegible ? ((val('rrss-link')||'').trim() || null) : null,
       factura_fecha: fechaISO(),
       demo_model: val('demo-model'), demo_nd: val('demo-nd'), nc_nd: val('nc-nd'),
       source: 'public'
