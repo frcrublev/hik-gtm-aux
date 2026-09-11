@@ -105,7 +105,7 @@ button.p::after{content:'';position:absolute;top:0;left:-45%;width:32%;height:10
 /* Identidad del DPP: hero limpio, sin caja anidada */
 .ident-hero{padding:6px 2px 2px}
 .ident-kicker{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.16em;color:var(--dim);transition:color .25s}
-.ident-name{font-family:'Poppins','Noto Sans SC',sans-serif;font-weight:800;font-size:32px;line-height:1.08;letter-spacing:-.01em;margin-top:3px;color:var(--ink)}
+.ident-name{font-family:'Poppins','Noto Sans SC',sans-serif;font-weight:800;font-size:clamp(34px,6.5vw,44px);line-height:1.05;letter-spacing:-.015em;margin-top:4px;color:var(--ink)}
 .ident-name.anim{
   background:linear-gradient(100deg,var(--ink) 0%,var(--ink) 38%,var(--red) 50%,var(--ink) 62%,var(--ink) 100%);
   background-size:250% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;
@@ -114,10 +114,7 @@ button.p::after{content:'';position:absolute;top:0;left:-45%;width:32%;height:10
 @keyframes nameRise{from{opacity:0;transform:translateY(10px) scale(.97)}to{opacity:1;transform:none}}
 @keyframes nameShine{from{background-position:135% 0}to{background-position:-35% 0}}
 @keyframes ruleGrow{from{width:0;opacity:0}to{width:64px;opacity:1}}
-.ident-row{display:flex;flex-wrap:wrap;align-items:center;gap:14px 36px}
-.ident-row .ident-hero{flex:0 0 auto}
-.ident-row .contacto-field{flex:1;min-width:230px;margin-top:0}
-.contacto-field{margin-top:16px}
+.contacto-field{margin-top:18px}
 .contacto-field label{display:block;font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--dim);margin-bottom:5px}
 .contacto-field label small{color:var(--red);font-weight:600;text-transform:none;letter-spacing:0}
 .contacto-field input{border:0;border-bottom:1.5px solid var(--line);border-radius:0;padding:8px 2px;background:transparent;font-size:16px;font-weight:600}
@@ -197,18 +194,16 @@ button.p:hover:not(:disabled){filter:brightness(.97)}
 
     <div id="ident-fs" hidden style="margin:0 0 22px">
       <div class="f">
-        <div class="ident-row">
-          <div class="ident-hero">
-            <div class="ident-kicker" id="ident-lbl">DPP Fantasy Name</div>
-            <div class="ident-name" id="ident-dpp">—</div>
-            <div class="ident-rule"></div>
-          </div>
-          <div class="contacto-field">
-            <label for="contacto">Contacto Hikvision <small>(ajustable)</small></label>
-            <input type="text" id="contacto" list="chs-list" placeholder="Channel Sales" autocomplete="off">
-          </div>
+        <div class="ident-hero">
+          <div class="ident-kicker" id="ident-lbl">DPP Fantasy Name</div>
+          <div class="ident-name" id="ident-dpp">—</div>
+          <div class="ident-rule"></div>
         </div>
         <input type="hidden" id="dpp">
+        <div class="contacto-field">
+          <label for="contacto">Contacto Hikvision <small>(ajustable)</small></label>
+          <input type="text" id="contacto" list="chs-list" placeholder="Channel Sales" autocomplete="off">
+        </div>
         <datalist id="chs-list"></datalist>
         <div class="err" id="e-contacto">Indicá con quién estás trabajando.</div>
       </div>
