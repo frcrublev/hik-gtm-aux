@@ -121,8 +121,12 @@ button.p::after{content:'';position:absolute;top:0;left:-45%;width:32%;height:10
 .ident-name.len-m{font-size:clamp(29px,5.6vw,38px)}   /* nombres medianos */
 .ident-name.len-s{font-size:clamp(25px,5vw,33px)}     /* nombres largos: envuelve, pero no muy chico */
 .ident-name .nw{display:inline-block;white-space:nowrap}   /* palabra entera, sin cortarse */
-.ident-name .nl{display:inline-block;opacity:0;transform:scale(.35) rotate(-8deg);animation:letterIn .5s cubic-bezier(.2,1.6,.3,1) forwards}
+.ident-name .nl{display:inline-block;opacity:0;transform:scale(.35) rotate(-8deg);
+  background:linear-gradient(100deg,#141414 0%,#141414 32%,#6fa8dc 45%,#eaf3ff 50%,#6fa8dc 55%,#141414 68%,#141414 100%);
+  background-size:260% 100%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;
+  animation:letterIn .5s cubic-bezier(.2,1.6,.3,1) forwards, metalFlow 3.4s linear infinite}
 @keyframes letterIn{60%{opacity:1}to{opacity:1;transform:none}}
+@keyframes metalFlow{0%{background-position:185% 0}100%{background-position:-85% 0}}
 /* brillo que barre el nombre */
 .ident-name::after{content:"";position:absolute;inset:-3px;pointer-events:none;background:linear-gradient(105deg,transparent 38%,rgba(255,255,255,.8) 50%,transparent 62%);transform:translateX(-130%)}
 .ident-hero.play .ident-name::after{animation:nameSheen 1.05s cubic-bezier(.3,.15,.2,1) .5s 1}
@@ -621,7 +625,7 @@ function updateTier(){
       var ws = document.createElement('span'); ws.className = 'nw';
       for(var i=0;i<w.length;i++){
         var ls = document.createElement('span'); ls.className = 'nl'; ls.textContent = w[i];
-        ls.style.animationDelay = (k*0.028) + 's'; k++;
+        ls.style.animationDelay = (k*0.028).toFixed(3) + 's, ' + (k*0.05).toFixed(3) + 's'; k++;  // [letterIn, metalFlow]
         ws.appendChild(ls);
       }
       nameEl.appendChild(ws);
