@@ -114,17 +114,14 @@ button.p::after{content:'';position:absolute;top:0;left:-45%;width:32%;height:10
 .ident-name.len-s{font-size:clamp(25px,5vw,33px)}     /* nombres largos: envuelve, pero no muy chico */
 .ident-name .nw{display:inline-block;white-space:nowrap}   /* palabra entera, sin cortarse */
 .ident-name .nl{display:inline-block;opacity:0;transform:scale(.35) rotate(-8deg);
-  background:linear-gradient(100deg,#141414 0%,#141414 34%,#E60012 46%,#ff6b6b 50%,#E60012 54%,#141414 66%,#141414 100%);
-  background-size:260% 100%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;
-  animation:letterIn .5s cubic-bezier(.2,1.6,.3,1) forwards, metalFlow 5s cubic-bezier(.7,0,.2,1) infinite}
+  background:linear-gradient(175deg,#3a3a3d 0%,#141414 42%,#000 100%);
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;
+  animation:letterIn .5s cubic-bezier(.2,1.6,.3,1) forwards}
 @keyframes letterIn{60%{opacity:1}to{opacity:1;transform:none}}
-@keyframes metalFlow{0%,52%{background-position:185% 0}78%,100%{background-position:-85% 0}}
-/* brillo que barre el nombre */
-.ident-name::after{content:"";position:absolute;inset:-3px;pointer-events:none;background:linear-gradient(105deg,transparent 38%,rgba(255,255,255,.8) 50%,transparent 62%);transform:translateX(-130%)}
-.ident-hero.play .ident-name::after{animation:nameSheen 1.05s cubic-bezier(.3,.15,.2,1) .5s 1}
-.ident-hero.play .ident-name{animation:nameGlow 1.3s ease .25s 1}
-@keyframes nameSheen{to{transform:translateX(130%)}}
-@keyframes nameGlow{0%{filter:drop-shadow(0 0 0 rgba(230,0,18,0))}45%{filter:drop-shadow(0 7px 18px rgba(230,0,18,.35))}100%{filter:drop-shadow(0 0 0 rgba(230,0,18,0))}}
+/* barrido de luz único al revelar el nombre (sin movimiento perpetuo) */
+.ident-name::after{content:"";position:absolute;inset:-3px;pointer-events:none;background:linear-gradient(100deg,transparent 42%,rgba(255,255,255,.9) 49%,rgba(255,255,255,.9) 51%,transparent 58%);transform:translateX(-130%) skewX(-14deg);mix-blend-mode:overlay;opacity:0}
+.ident-hero.play .ident-name::after{animation:nameSheen 1.4s cubic-bezier(.25,.6,.15,1) .55s 1}
+@keyframes nameSheen{0%{transform:translateX(-130%) skewX(-14deg);opacity:0}12%{opacity:1}88%{opacity:1}100%{transform:translateX(130%) skewX(-14deg);opacity:0}}
 .ident-rule{position:relative;height:3px;width:0;margin-top:10px;border-radius:99px;background:linear-gradient(90deg,var(--red),transparent)}
 .ident-hero.play .ident-rule{animation:ruleGrow .6s cubic-bezier(.2,.7,.3,1) .15s both}
 .ident-rule::after{content:"";position:absolute;top:50%;left:0;width:9px;height:9px;margin-top:-4.5px;border-radius:50%;background:var(--red);box-shadow:0 0 12px 3px rgba(230,0,18,.55);opacity:0}
