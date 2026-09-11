@@ -105,21 +105,34 @@ button.p::after{content:'';position:absolute;top:0;left:-45%;width:32%;height:10
 /* Identidad del DPP: hero limpio, sin caja anidada */
 .ident-hero{padding:6px 2px 2px}
 .ident-kicker{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.16em;color:var(--dim);transition:color .25s}
-.ident-name{font-family:'Poppins','Noto Sans SC',sans-serif;font-weight:800;font-size:clamp(30px,5vw,42px);line-height:1.06;letter-spacing:-.015em;margin-top:4px;color:var(--ink);max-width:100%;overflow-wrap:anywhere;word-break:break-word}
-.ident-name.anim{
-  background:linear-gradient(100deg,var(--ink) 0%,var(--ink) 38%,var(--red) 50%,var(--ink) 62%,var(--ink) 100%);
-  background-size:250% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;
-  animation:nameRise .55s cubic-bezier(.2,1.35,.4,1) both, nameShine 1.7s ease .35s 1}
-.ident-rule{height:3px;width:0;margin-top:9px;border-radius:99px;background:linear-gradient(90deg,var(--red),transparent);animation:ruleGrow .6s cubic-bezier(.2,.7,.3,1) .15s both}
-@keyframes nameRise{from{opacity:0;transform:translateY(10px) scale(.97)}to{opacity:1;transform:none}}
-@keyframes nameShine{from{background-position:135% 0}to{background-position:-35% 0}}
-@keyframes ruleGrow{from{width:0;opacity:0}to{width:64px;opacity:1}}
+.ident-name{position:relative;font-family:'Poppins','Noto Sans SC',sans-serif;font-weight:800;font-size:clamp(34px,6vw,46px);line-height:1.07;letter-spacing:-.015em;margin-top:4px;color:var(--ink);max-width:100%;overflow-wrap:anywhere}
+.ident-name.len-m{font-size:clamp(29px,5.6vw,38px)}   /* nombres medianos */
+.ident-name.len-s{font-size:clamp(25px,5vw,33px)}     /* nombres largos: envuelve, pero no muy chico */
+.ident-name .nw{display:inline-block;white-space:nowrap}   /* palabra entera, sin cortarse */
+.ident-name .nl{display:inline-block;opacity:0;transform:translateY(20px) scale(.65) rotate(-7deg);animation:letterIn .5s cubic-bezier(.2,1.6,.3,1) forwards}
+@keyframes letterIn{60%{opacity:1}to{opacity:1;transform:none}}
+/* brillo que barre el nombre */
+.ident-name::after{content:"";position:absolute;inset:-3px;pointer-events:none;background:linear-gradient(105deg,transparent 38%,rgba(255,255,255,.8) 50%,transparent 62%);transform:translateX(-130%)}
+.ident-hero.play .ident-name::after{animation:sheen 1.05s cubic-bezier(.3,.15,.2,1) .5s 1}
+.ident-hero.play .ident-name{animation:nameGlow 1.3s ease .25s 1}
+@keyframes sheen{to{transform:translateX(130%)}}
+@keyframes nameGlow{0%{text-shadow:0 0 0 rgba(230,0,18,0)}45%{text-shadow:0 8px 26px rgba(230,0,18,.30)}100%{text-shadow:0 0 0 rgba(230,0,18,0)}}
+.ident-rule{position:relative;height:3px;width:0;margin-top:10px;border-radius:99px;background:linear-gradient(90deg,var(--red),transparent)}
+.ident-hero.play .ident-rule{animation:ruleGrow .6s cubic-bezier(.2,.7,.3,1) .15s both}
+.ident-rule::after{content:"";position:absolute;top:50%;left:0;width:9px;height:9px;margin-top:-4.5px;border-radius:50%;background:var(--red);box-shadow:0 0 12px 3px rgba(230,0,18,.55);opacity:0}
+.ident-hero.play .ident-rule::after{animation:spark 1s ease .25s 1}
+@keyframes ruleGrow{from{width:0;opacity:0}to{width:72px;opacity:1}}
+@keyframes spark{0%{left:0;opacity:0}18%{opacity:1}82%{opacity:1}100%{left:72px;opacity:0}}
 .contacto-field{margin-top:18px}
 .contacto-field label{display:block;font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--dim);margin-bottom:5px}
 .contacto-field label small{color:var(--red);font-weight:600;text-transform:none;letter-spacing:0}
 .contacto-field input{border:0;border-bottom:1.5px solid var(--line);border-radius:0;padding:8px 2px;background:transparent;font-size:16px;font-weight:600}
 .contacto-field input:focus{outline:none;border-bottom-color:var(--red);box-shadow:none}
-@media(prefers-reduced-motion:reduce){.ident-name.anim{animation:none}.ident-rule{animation:none;width:64px;opacity:1}}
+@media(prefers-reduced-motion:reduce){
+  .ident-hero.play .ident-name,.ident-hero.play .ident-name::after,.ident-hero.play .ident-rule,.ident-hero.play .ident-rule::after{animation:none}
+  .ident-name .nl{opacity:1;transform:none;animation:none}
+  .ident-rule{width:72px;opacity:1}
+}
 .sublbl{display:block;font-size:12.5px;color:var(--dim);margin:14px 0 6px}
 .sublbl small{color:var(--red);font-weight:600}
 .actions{position:sticky;bottom:0;background:#fff;border-top:1px solid var(--line);padding:14px 24px;display:flex;gap:9px}
@@ -540,13 +553,28 @@ function updateTier(){
   var cs = (typeof DPPCHS !== 'undefined' && DPPCHS[cuit]) ? DPPCHS[cuit] : '';
   document.getElementById('dpp').value = nm;
   var nameEl = document.getElementById('ident-dpp');
+  var hero = nameEl.parentElement;             // .ident-hero
   var newName = nm || '—';
-  if(nameEl.textContent !== newName){          // reproducir la animación solo al cambiar el nombre
-    nameEl.textContent = newName;
-    // Nombres largos → tipografía más chica para que no se corte ni desborde.
-    var L = newName.length;
-    nameEl.style.fontSize = L>32 ? '23px' : L>24 ? '28px' : L>16 ? '34px' : '';
-    nameEl.classList.remove('anim'); void nameEl.offsetWidth; nameEl.classList.add('anim');
+  if(nameEl.dataset.name !== newName){         // reconstruir + animar solo al cambiar el nombre
+    nameEl.dataset.name = newName;
+    // Nombres largos: envuelven y bajan de tamaño (pero no demasiado).
+    nameEl.classList.remove('len-m','len-s');
+    if(newName.length > 32) nameEl.classList.add('len-s');
+    else if(newName.length > 22) nameEl.classList.add('len-m');
+    // Cada letra en su span → aparición escalonada, preservando palabras.
+    nameEl.textContent = '';
+    var words = newName.split(' '), k = 0;
+    words.forEach(function(w, wi){
+      var ws = document.createElement('span'); ws.className = 'nw';
+      for(var i=0;i<w.length;i++){
+        var ls = document.createElement('span'); ls.className = 'nl'; ls.textContent = w[i];
+        ls.style.animationDelay = (k*0.028) + 's'; k++;
+        ws.appendChild(ls);
+      }
+      nameEl.appendChild(ws);
+      if(wi < words.length-1) nameEl.appendChild(document.createTextNode(' '));
+    });
+    hero.classList.remove('play'); void hero.offsetWidth; hero.classList.add('play');
   }
   // El nivel del DPP NO se muestra como texto (dato sensible en página pública);
   // solo se codifica con el color del rótulo "DPP Fantasy Name".
