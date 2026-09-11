@@ -117,9 +117,9 @@ button.p::after{content:'';position:absolute;top:0;left:-45%;width:32%;height:10
 @keyframes letterIn{60%{opacity:1}to{opacity:1;transform:none}}
 /* brillo que barre el nombre */
 .ident-name::after{content:"";position:absolute;inset:-3px;pointer-events:none;background:linear-gradient(105deg,transparent 38%,rgba(255,255,255,.8) 50%,transparent 62%);transform:translateX(-130%)}
-.ident-hero.play .ident-name::after{animation:sheen 1.05s cubic-bezier(.3,.15,.2,1) .5s 1}
+.ident-hero.play .ident-name::after{animation:nameSheen 1.05s cubic-bezier(.3,.15,.2,1) .5s 1}
 .ident-hero.play .ident-name{animation:nameGlow 1.3s ease .25s 1}
-@keyframes sheen{to{transform:translateX(130%)}}
+@keyframes nameSheen{to{transform:translateX(130%)}}
 @keyframes nameGlow{0%{filter:drop-shadow(0 0 0 rgba(230,0,18,0))}45%{filter:drop-shadow(0 7px 18px rgba(230,0,18,.35))}100%{filter:drop-shadow(0 0 0 rgba(230,0,18,0))}}
 .ident-rule{position:relative;height:3px;width:0;margin-top:10px;border-radius:99px;background:linear-gradient(90deg,var(--red),transparent)}
 .ident-hero.play .ident-rule{animation:ruleGrow .6s cubic-bezier(.2,.7,.3,1) .15s both}
