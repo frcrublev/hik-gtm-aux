@@ -103,20 +103,24 @@ button.p::after{content:'';position:absolute;top:0;left:-45%;width:32%;height:10
 .fileitem .x{margin-left:auto;color:var(--dred);cursor:pointer;font-weight:700}
 /* Identidad del DPP (autocompletado por CUIT) */
 /* Identidad del DPP: hero limpio, sin caja anidada */
-.ident-hero{padding:6px 2px 2px}
+.ident-hero{position:relative;padding:6px 2px 2px}
+.spark-layer{position:absolute;pointer-events:none;z-index:3}
+.spark-dot{position:absolute;width:7px;height:7px;border-radius:50%;opacity:0;background:radial-gradient(circle,#fff 0%,var(--red) 68%,transparent 70%);animation:sparkPop .8s ease-out forwards}
+.spark-dot.gold{background:radial-gradient(circle,#fff 0%,#FFC53D 68%,transparent 70%)}
+@keyframes sparkPop{0%{opacity:0;transform:translate(0,0) scale(0)}25%{opacity:1}100%{opacity:0;transform:translate(var(--dx),var(--dy)) scale(1)}}
 .ident-kicker{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.16em;color:var(--dim);transition:color .25s}
-.ident-name{position:relative;font-family:'Poppins','Noto Sans SC',sans-serif;font-weight:800;font-size:clamp(34px,6vw,46px);line-height:1.07;letter-spacing:-.015em;margin-top:4px;color:var(--ink);max-width:100%;overflow-wrap:anywhere}
+.ident-name{position:relative;overflow:hidden;padding:3px 0;font-family:'Poppins','Noto Sans SC',sans-serif;font-weight:800;font-size:clamp(34px,6vw,46px);line-height:1.07;letter-spacing:-.015em;margin-top:2px;color:var(--ink);max-width:100%;overflow-wrap:anywhere}
 .ident-name.len-m{font-size:clamp(29px,5.6vw,38px)}   /* nombres medianos */
 .ident-name.len-s{font-size:clamp(25px,5vw,33px)}     /* nombres largos: envuelve, pero no muy chico */
 .ident-name .nw{display:inline-block;white-space:nowrap}   /* palabra entera, sin cortarse */
-.ident-name .nl{display:inline-block;opacity:0;transform:translateY(20px) scale(.65) rotate(-7deg);animation:letterIn .5s cubic-bezier(.2,1.6,.3,1) forwards}
+.ident-name .nl{display:inline-block;opacity:0;transform:scale(.35) rotate(-8deg);animation:letterIn .5s cubic-bezier(.2,1.6,.3,1) forwards}
 @keyframes letterIn{60%{opacity:1}to{opacity:1;transform:none}}
 /* brillo que barre el nombre */
 .ident-name::after{content:"";position:absolute;inset:-3px;pointer-events:none;background:linear-gradient(105deg,transparent 38%,rgba(255,255,255,.8) 50%,transparent 62%);transform:translateX(-130%)}
 .ident-hero.play .ident-name::after{animation:sheen 1.05s cubic-bezier(.3,.15,.2,1) .5s 1}
 .ident-hero.play .ident-name{animation:nameGlow 1.3s ease .25s 1}
 @keyframes sheen{to{transform:translateX(130%)}}
-@keyframes nameGlow{0%{text-shadow:0 0 0 rgba(230,0,18,0)}45%{text-shadow:0 8px 26px rgba(230,0,18,.30)}100%{text-shadow:0 0 0 rgba(230,0,18,0)}}
+@keyframes nameGlow{0%{filter:drop-shadow(0 0 0 rgba(230,0,18,0))}45%{filter:drop-shadow(0 7px 18px rgba(230,0,18,.35))}100%{filter:drop-shadow(0 0 0 rgba(230,0,18,0))}}
 .ident-rule{position:relative;height:3px;width:0;margin-top:10px;border-radius:99px;background:linear-gradient(90deg,var(--red),transparent)}
 .ident-hero.play .ident-rule{animation:ruleGrow .6s cubic-bezier(.2,.7,.3,1) .15s both}
 .ident-rule::after{content:"";position:absolute;top:50%;left:0;width:9px;height:9px;margin-top:-4.5px;border-radius:50%;background:var(--red);box-shadow:0 0 12px 3px rgba(230,0,18,.55);opacity:0}
@@ -542,6 +546,29 @@ function ncOf(tier){ return TIER_PRICE[tier] != null ? Math.round(TIER_PRICE[tie
 // Al tipear el CUIT: si es un DPP del padrón, autocompleta DPP y contacto
 // y despliega el bloque "Tus datos". El nivel/NC ya no se muestra acá
 // (se valida al enviar).
+// Estallido de partículas al revelar el nombre (valor emocional).
+function spawnSparkles(nameEl){
+  try{ if(window.matchMedia && matchMedia('(prefers-reduced-motion:reduce)').matches) return; }catch(e){}
+  var hero = nameEl.parentElement;
+  var old = hero.querySelector('.spark-layer'); if(old) old.remove();
+  var w = nameEl.offsetWidth || 220, h = nameEl.offsetHeight || 44;
+  var layer = document.createElement('div'); layer.className = 'spark-layer';
+  layer.style.left = nameEl.offsetLeft + 'px'; layer.style.top = nameEl.offsetTop + 'px';
+  layer.style.width = w + 'px'; layer.style.height = h + 'px';
+  for(var i=0;i<16;i++){
+    var d = document.createElement('span'); d.className = 'spark-dot' + (Math.random()>0.6 ? ' gold' : '');
+    d.style.left = (Math.random()*w) + 'px';
+    d.style.top  = (Math.random()*h) + 'px';
+    var a = Math.random()*6.283, dist = 16 + Math.random()*30;
+    d.style.setProperty('--dx', (Math.cos(a)*dist).toFixed(1) + 'px');
+    d.style.setProperty('--dy', (Math.sin(a)*dist).toFixed(1) + 'px');
+    d.style.animationDelay = (Math.random()*0.18).toFixed(2) + 's';
+    var s = (0.7 + Math.random()*0.9).toFixed(2); d.style.width = d.style.height = (7*s) + 'px';
+    layer.appendChild(d);
+  }
+  hero.appendChild(layer);
+  setTimeout(function(){ if(layer.parentNode) layer.remove(); }, 1150);
+}
 function updateTier(){
   var warn = document.getElementById('cuit-warn');
   var ident = document.getElementById('ident-fs');
@@ -575,6 +602,7 @@ function updateTier(){
       if(wi < words.length-1) nameEl.appendChild(document.createTextNode(' '));
     });
     hero.classList.remove('play'); void hero.offsetWidth; hero.classList.add('play');
+    spawnSparkles(nameEl);
   }
   // El nivel del DPP NO se muestra como texto (dato sensible en página pública);
   // solo se codifica con el color del rótulo "DPP Fantasy Name".
