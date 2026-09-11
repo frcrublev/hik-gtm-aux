@@ -64,9 +64,8 @@ textarea{min-height:64px;resize:vertical}
 #rest>fieldset:nth-of-type(1){animation-delay:.06s}
 #rest>fieldset:nth-of-type(2){animation-delay:.1s}
 #rest>fieldset:nth-of-type(3){animation-delay:.14s}
-.identcard{animation:idPop .45s cubic-bezier(.2,1.3,.4,1) both}
 .line{animation:idPop .3s ease both}
-@media(prefers-reduced-motion:reduce){#form>.body>fieldset,#form #ident-fs,.identcard,.line{animation:none}}
+@media(prefers-reduced-motion:reduce){#form>.body>fieldset,#form #ident-fs,.line{animation:none}}
 
 /* ── Efectos "cool" ── */
 .sheet{position:relative;z-index:1}
@@ -102,19 +101,26 @@ button.p::after{content:'';position:absolute;top:0;left:-45%;width:32%;height:10
 .fileitem{display:flex;align-items:center;gap:8px;font-size:13px;background:var(--bg);border:1px solid var(--line);border-radius:3px;padding:7px 10px}
 .fileitem .x{margin-left:auto;color:var(--dred);cursor:pointer;font-weight:700}
 /* Identidad del DPP (autocompletado por CUIT) */
-.identcard{display:flex;align-items:center;flex-wrap:wrap;gap:12px 24px;background:linear-gradient(90deg,#FFF4F4,#fff);border:1px solid var(--line);border-left:3px solid var(--red);border-radius:3px;padding:12px 15px}
-.idcol{display:flex;flex-direction:column;gap:3px}
-.idcol:first-child{flex:0 0 auto}
-.idcontact{flex:1;min-width:200px}
-.idcontact input{margin:0}
-.identlbl2{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:var(--dim)}
-.identlbl2 small{color:var(--red);font-weight:600;text-transform:none;letter-spacing:0}
-.identlbl{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:var(--dim)}
-.identname{font-family:'Poppins','Noto Sans SC',sans-serif;font-weight:700;font-size:18px;line-height:1.15;color:var(--ink)}
-.identtier{font-family:'Poppins',sans-serif;font-weight:700;font-size:10.5px;letter-spacing:.07em;padding:2px 10px;border-radius:99px;color:#fff;align-self:center}
+/* Identidad del DPP: hero limpio, sin caja anidada */
+.ident-hero{padding:6px 2px 2px}
+.ident-kicker{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.16em;color:var(--dim);transition:color .25s}
+.ident-name{font-family:'Poppins','Noto Sans SC',sans-serif;font-weight:800;font-size:32px;line-height:1.08;letter-spacing:-.01em;margin-top:3px;color:var(--ink)}
+.ident-name.anim{
+  background:linear-gradient(100deg,var(--ink) 0%,var(--ink) 38%,var(--red) 50%,var(--ink) 62%,var(--ink) 100%);
+  background-size:250% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;
+  animation:nameRise .55s cubic-bezier(.2,1.35,.4,1) both, nameShine 1.7s ease .35s 1}
+.ident-rule{height:3px;width:0;margin-top:9px;border-radius:99px;background:linear-gradient(90deg,var(--red),transparent);animation:ruleGrow .6s cubic-bezier(.2,.7,.3,1) .15s both}
+@keyframes nameRise{from{opacity:0;transform:translateY(10px) scale(.97)}to{opacity:1;transform:none}}
+@keyframes nameShine{from{background-position:135% 0}to{background-position:-35% 0}}
+@keyframes ruleGrow{from{width:0;opacity:0}to{width:64px;opacity:1}}
+.contacto-field{margin-top:16px}
+.contacto-field label{display:block;font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--dim);margin-bottom:5px}
+.contacto-field label small{color:var(--red);font-weight:600;text-transform:none;letter-spacing:0}
+.contacto-field input{border:0;border-bottom:1.5px solid var(--line);border-radius:0;padding:8px 2px;background:transparent;font-size:16px;font-weight:600}
+.contacto-field input:focus{outline:none;border-bottom-color:var(--red);box-shadow:none}
+@media(prefers-reduced-motion:reduce){.ident-name.anim{animation:none}.ident-rule{animation:none;width:64px;opacity:1}}
 .sublbl{display:block;font-size:12.5px;color:var(--dim);margin:14px 0 6px}
 .sublbl small{color:var(--red);font-weight:600}
-.identlbl{transition:color .2s}
 .actions{position:sticky;bottom:0;background:#fff;border-top:1px solid var(--line);padding:14px 24px;display:flex;gap:9px}
 button.p{flex:1;font-family:'Poppins',sans-serif;font-weight:600;font-size:15px;padding:13px;border-radius:3px;cursor:pointer;border:1px solid var(--red);background:var(--red);color:#fff}
 button.p:disabled{opacity:.6;cursor:default}
@@ -188,17 +194,16 @@ button.p:hover:not(:disabled){filter:brightness(.97)}
 
     <div id="ident-fs" hidden style="margin:0 0 22px">
       <div class="f">
-        <div class="identcard">
-          <div class="idcol">
-            <span class="identlbl" id="ident-lbl">DPP Fantasy Name</span>
-            <span class="identname" id="ident-dpp">—</span>
-          </div>
-          <div class="idcol idcontact">
-            <label for="contacto" class="identlbl2">Contacto Hikvision <small>(ajustable)</small></label>
-            <input type="text" id="contacto" list="chs-list" placeholder="Channel Sales" autocomplete="off">
-          </div>
+        <div class="ident-hero">
+          <div class="ident-kicker" id="ident-lbl">DPP Fantasy Name</div>
+          <div class="ident-name" id="ident-dpp">—</div>
+          <div class="ident-rule"></div>
         </div>
         <input type="hidden" id="dpp">
+        <div class="contacto-field">
+          <label for="contacto">Contacto Hikvision <small>(ajustable)</small></label>
+          <input type="text" id="contacto" list="chs-list" placeholder="Channel Sales" autocomplete="off">
+        </div>
         <datalist id="chs-list"></datalist>
         <div class="err" id="e-contacto">Indicá con quién estás trabajando.</div>
       </div>
@@ -535,7 +540,12 @@ function updateTier(){
   var nm = (typeof DPPNAME !== 'undefined' && DPPNAME[cuit]) ? DPPNAME[cuit] : '';
   var cs = (typeof DPPCHS !== 'undefined' && DPPCHS[cuit]) ? DPPCHS[cuit] : '';
   document.getElementById('dpp').value = nm;
-  document.getElementById('ident-dpp').textContent = nm || '—';
+  var nameEl = document.getElementById('ident-dpp');
+  var newName = nm || '—';
+  if(nameEl.textContent !== newName){          // reproducir la animación solo al cambiar el nombre
+    nameEl.textContent = newName;
+    nameEl.classList.remove('anim'); void nameEl.offsetWidth; nameEl.classList.add('anim');
+  }
   // El nivel del DPP NO se muestra como texto (dato sensible en página pública);
   // solo se codifica con el color del rótulo "DPP Fantasy Name".
   var tier = tierOf(cuit), lblEl = document.getElementById('ident-lbl');
