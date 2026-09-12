@@ -103,13 +103,18 @@ button.p::after{content:'';position:absolute;top:0;left:-45%;width:32%;height:10
 .fileitem .x{margin-left:auto;color:var(--dred);cursor:pointer;font-weight:700}
 /* Identidad del DPP (autocompletado por CUIT) */
 /* Identidad del DPP: hero limpio, sin caja anidada */
-.ident-hero{position:relative;padding:6px 2px 2px}
+.ident-hero{position:relative;padding:6px 2px 2px;perspective:700px}
 .spark-layer{position:absolute;pointer-events:none;z-index:3}
 .spark-dot{position:absolute;width:7px;height:7px;border-radius:50%;opacity:0;background:radial-gradient(circle,#fff 0%,var(--red) 68%,transparent 70%);animation:sparkPop .8s ease-out forwards}
 .spark-dot.gold{background:radial-gradient(circle,#fff 0%,#FFC53D 68%,transparent 70%)}
 @keyframes sparkPop{0%{opacity:0;transform:translate(0,0) scale(0)}25%{opacity:1}100%{opacity:0;transform:translate(var(--dx),var(--dy)) scale(1)}}
 .ident-kicker{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.16em;color:var(--dim);transition:color .25s}
-.ident-name{position:relative;overflow:hidden;padding:3px 0;font-family:'Poppins','Noto Sans SC',sans-serif;font-weight:800;font-size:clamp(34px,6vw,46px);line-height:1.07;letter-spacing:-.015em;margin-top:2px;color:var(--ink);max-width:100%;overflow-wrap:anywhere}
+.ident-name{position:relative;overflow:hidden;padding:3px 0;font-family:'Poppins','Noto Sans SC',sans-serif;font-weight:800;font-size:clamp(34px,6vw,46px);line-height:1.07;letter-spacing:-.015em;margin-top:2px;color:var(--ink);max-width:100%;overflow-wrap:anywhere;
+  transform:rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));transform-style:preserve-3d;transition:transform .22s ease-out;will-change:transform}
+/* brillo que sigue al puntero → sensación de placa 3D */
+.ident-name .glare{position:absolute;inset:-2px;pointer-events:none;opacity:0;transition:opacity .25s;mix-blend-mode:overlay;background:radial-gradient(130px 130px at var(--gx,50%) var(--gy,40%),rgba(255,255,255,.6),transparent 62%)}
+.ident-name.tilt{transition:transform .06s linear}
+.ident-name.tilt .glare{opacity:1}
 .ident-name.len-m{font-size:clamp(29px,5.6vw,38px)}   /* nombres medianos */
 .ident-name.len-s{font-size:clamp(25px,5vw,33px)}     /* nombres largos: envuelve, pero no muy chico */
 .ident-name .nw{display:inline-block;white-space:nowrap}   /* palabra entera, sin cortarse */
@@ -517,6 +522,7 @@ function render(){
   var hoy = new Date(); var mm = ('0'+(hoy.getMonth()+1)).slice(-2), dd = ('0'+hoy.getDate()).slice(-2);
   document.getElementById('fecha').value = hoy.getFullYear() + '-' + mm + '-' + dd;
   document.getElementById('cuit').addEventListener('input', updateTier);
+  initNameTilt();
   // Demo por defecto en 0; se autoajusta a 1 al alcanzar el combo.
   onDemoQty();
   var eq = document.getElementById('equipos');
@@ -569,6 +575,52 @@ function spawnSparkles(nameEl){
   }
   hero.appendChild(layer);
   setTimeout(function(){ if(layer.parentNode) layer.remove(); }, 1150);
+}
+// Parallax 3D: el nombre se inclina siguiendo el mouse (desktop) o el giroscopio (móvil).
+function initNameTilt(){
+  var nameEl = document.getElementById('ident-dpp');
+  var hero = nameEl && nameEl.parentElement;      // .ident-hero
+  if(!nameEl || !hero || nameEl._tilt) return;
+  try{ if(window.matchMedia && matchMedia('(prefers-reduced-motion:reduce)').matches) return; }catch(e){}
+  nameEl._tilt = true;
+  var MAX = 11;                                   // grados máx. de inclinación
+  function glareEl(){                              // se recrea si updateTier reconstruyó el nombre
+    var g = nameEl.querySelector('.glare');
+    if(!g){ g = document.createElement('span'); g.className = 'glare'; nameEl.appendChild(g); }
+    return g;
+  }
+  glareEl();
+  function apply(px, py){                          // px,py en 0..1 (centro = .5)
+    var ry = (px - 0.5) * 2 * MAX;                 // izq/der → rotación Y
+    var rx = (0.5 - py) * 2 * (MAX * 0.7);         // arriba/abajo → rotación X
+    nameEl.style.setProperty('--ry', ry.toFixed(2) + 'deg');
+    nameEl.style.setProperty('--rx', rx.toFixed(2) + 'deg');
+    var g = glareEl();
+    g.style.setProperty('--gx', (px*100).toFixed(1) + '%');
+    g.style.setProperty('--gy', (py*100).toFixed(1) + '%');
+  }
+  function reset(){
+    nameEl.classList.remove('tilt');
+    nameEl.style.setProperty('--ry','0deg'); nameEl.style.setProperty('--rx','0deg');
+  }
+  // Mouse: área activa = toda la tarjeta de identidad (hero) para que reaccione fácil.
+  hero.addEventListener('pointermove', function(e){
+    if(e.pointerType === 'touch') return;         // en táctil manda el giroscopio
+    var r = hero.getBoundingClientRect();
+    nameEl.classList.add('tilt');
+    apply((e.clientX - r.left)/r.width, (e.clientY - r.top)/r.height);
+  });
+  hero.addEventListener('pointerleave', reset);
+  // Giroscopio: gamma (izq/der ±45°) y beta (adelante/atrás).
+  if(window.DeviceOrientationEvent){
+    window.addEventListener('deviceorientation', function(ev){
+      if(ev.gamma == null && ev.beta == null) return;
+      var gx = Math.max(-1, Math.min(1, (ev.gamma || 0) / 30));   // ±30° → ±1
+      var gy = Math.max(-1, Math.min(1, ((ev.beta || 0) - 45) / 30));
+      nameEl.classList.add('tilt');
+      apply((gx + 1) / 2, (gy + 1) / 2);
+    }, true);
+  }
 }
 function updateTier(){
   var warn = document.getElementById('cuit-warn');
