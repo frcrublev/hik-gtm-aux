@@ -113,13 +113,15 @@ button.p::after{content:'';position:absolute;top:0;left:-45%;width:32%;height:10
 .ident-name.len-m{font-size:clamp(29px,5.6vw,38px)}   /* nombres medianos */
 .ident-name.len-s{font-size:clamp(25px,5vw,33px)}     /* nombres largos: envuelve, pero no muy chico */
 .ident-name .nw{display:inline-block;white-space:nowrap}   /* palabra entera, sin cortarse */
-.ident-name .nl{display:inline-block;opacity:0;
+.ident-name .nl{display:inline-block;opacity:0;transform:scale(.35) rotate(-8deg);
   background:linear-gradient(175deg,#3a3a3d 0%,#141414 42%,#000 100%);
-  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
-.ident-name .nl.on{opacity:1}
-/* cursor tipo máquina de escribir, al final del nombre */
-.ident-name .caret{display:inline-block;width:3px;height:.9em;margin-left:3px;vertical-align:-.08em;border-radius:1px;background:var(--red);animation:caretBlink .7s steps(1) infinite}
-@keyframes caretBlink{50%{opacity:0}}
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;
+  animation:letterIn .5s cubic-bezier(.2,1.6,.3,1) forwards}
+@keyframes letterIn{60%{opacity:1}to{opacity:1;transform:none}}
+/* barrido de luz único al revelar el nombre (sin movimiento perpetuo) */
+.ident-name::after{content:"";position:absolute;inset:-3px;pointer-events:none;background:linear-gradient(100deg,transparent 42%,rgba(255,255,255,.9) 49%,rgba(255,255,255,.9) 51%,transparent 58%);transform:translateX(-130%) skewX(-14deg);mix-blend-mode:overlay;opacity:0}
+.ident-hero.play .ident-name::after{animation:nameSheen 1.4s cubic-bezier(.25,.6,.15,1) .55s 1}
+@keyframes nameSheen{0%{transform:translateX(-130%) skewX(-14deg);opacity:0}12%{opacity:1}88%{opacity:1}100%{transform:translateX(130%) skewX(-14deg);opacity:0}}
 .ident-rule{position:relative;height:3px;width:0;margin-top:10px;border-radius:99px;background:linear-gradient(90deg,var(--red),transparent)}
 .ident-hero.play .ident-rule{animation:ruleGrow .6s cubic-bezier(.2,.7,.3,1) .15s both}
 .ident-rule::after{content:"";position:absolute;top:50%;left:0;width:9px;height:9px;margin-top:-4.5px;border-radius:50%;background:var(--red);box-shadow:0 0 12px 3px rgba(230,0,18,.55);opacity:0}
@@ -132,9 +134,8 @@ button.p::after{content:'';position:absolute;top:0;left:-45%;width:32%;height:10
 .contacto-field input{border:0;border-bottom:1.5px solid var(--line);border-radius:0;padding:8px 2px;background:transparent;font-size:16px;font-weight:600}
 .contacto-field input:focus{outline:none;border-bottom-color:var(--red);box-shadow:none}
 @media(prefers-reduced-motion:reduce){
-  .ident-hero.play .ident-rule,.ident-hero.play .ident-rule::after{animation:none}
-  .ident-name .nl{opacity:1;animation:none}
-  .ident-name .caret{animation:none}
+  .ident-hero.play .ident-name,.ident-hero.play .ident-name::after,.ident-hero.play .ident-rule,.ident-hero.play .ident-rule::after{animation:none}
+  .ident-name .nl{opacity:1;transform:none;animation:none}
   .ident-rule{width:72px;opacity:1}
 }
 .sublbl{display:block;font-size:12.5px;color:var(--dim);margin:14px 0 6px}
@@ -569,32 +570,6 @@ function spawnSparkles(nameEl){
   hero.appendChild(layer);
   setTimeout(function(){ if(layer.parentNode) layer.remove(); }, 1150);
 }
-// Efecto máquina de escribir: revela las letras una a una y deja un cursor rojo al final.
-function typeName(nameEl){
-  var nls = nameEl.querySelectorAll('.nl');
-  var caret = document.createElement('span'); caret.className = 'caret';
-  var token = (nameEl._tw = (nameEl._tw || 0) + 1);   // cancela un tipeo anterior si el nombre cambió
-  var reduce = false;
-  try{ reduce = window.matchMedia && matchMedia('(prefers-reduced-motion:reduce)').matches; }catch(e){}
-  if(reduce){
-    for(var j=0;j<nls.length;j++) nls[j].classList.add('on');
-    nameEl.appendChild(caret);
-    return;
-  }
-  var i = 0;
-  (function step(){
-    if(nameEl._tw !== token) return;                  // llegó otro nombre: abortar
-    if(i < nls.length){
-      nls[i].classList.add('on');
-      nls[i].parentNode.insertBefore(caret, nls[i].nextSibling);   // cursor tras la última letra tecleada
-      i++;
-      setTimeout(step, 52 + Math.random()*38);        // ritmo humano, leve variación
-    } else {
-      nameEl.appendChild(caret);                        // cursor queda parpadeando al final
-      spawnSparkles(nameEl);                            // pequeño destello al terminar
-    }
-  })();
-}
 function updateTier(){
   var warn = document.getElementById('cuit-warn');
   var ident = document.getElementById('ident-fs');
@@ -620,14 +595,15 @@ function updateTier(){
     words.forEach(function(w, wi){
       var ws = document.createElement('span'); ws.className = 'nw';
       for(var i=0;i<w.length;i++){
-        var ls = document.createElement('span'); ls.className = 'nl'; ls.textContent = w[i]; k++;
+        var ls = document.createElement('span'); ls.className = 'nl'; ls.textContent = w[i];
+        ls.style.animationDelay = (k*0.028).toFixed(3) + 's, ' + (k*0.05).toFixed(3) + 's'; k++;  // [letterIn, metalFlow]
         ws.appendChild(ls);
       }
       nameEl.appendChild(ws);
       if(wi < words.length-1) nameEl.appendChild(document.createTextNode(' '));
     });
     hero.classList.remove('play'); void hero.offsetWidth; hero.classList.add('play');
-    typeName(nameEl);
+    spawnSparkles(nameEl);
   }
   // El nivel del DPP NO se muestra como texto (dato sensible en página pública);
   // solo se codifica con el color del rótulo "DPP Fantasy Name".
