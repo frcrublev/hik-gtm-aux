@@ -129,15 +129,6 @@ button.p::after{content:'';position:absolute;top:0;left:-45%;width:32%;height:10
 .ident-hero.play .ident-rule::after{animation:spark 1s ease .25s 1}
 @keyframes ruleGrow{from{width:0;opacity:0}to{width:72px;opacity:1}}
 @keyframes spark{0%{left:0;opacity:0}18%{opacity:1}82%{opacity:1}100%{left:72px;opacity:0}}
-/* "HIK" en rojo dando volteretas por encima del nombre, de izquierda a derecha */
-.name-bot{position:absolute;left:0;top:0;z-index:4;pointer-events:none;opacity:0;filter:drop-shadow(0 1px 1px rgba(0,0,0,.16))}
-.name-bot.show{opacity:1;transition:opacity .3s ease .3s}
-.name-bot.go{animation:botCross 6.5s linear infinite}
-.bot-hop{display:inline-block;animation:botHop 1s ease-in-out infinite}
-.bot-hik{display:inline-block;font-family:'Poppins',sans-serif;font-weight:800;font-size:13px;letter-spacing:.4px;color:var(--red);line-height:1;animation:botFlip 1s linear infinite}
-@keyframes botCross{0%{left:var(--bot-x0,0px)}90%,100%{left:var(--bot-x1,120px)}}
-@keyframes botHop{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
-@keyframes botFlip{to{transform:rotate(360deg)}}
 .contacto-field{margin-top:18px}
 .contacto-field label{display:block;font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--dim);margin-bottom:5px}
 .contacto-field label small{color:var(--red);font-weight:600;text-transform:none;letter-spacing:0}
@@ -146,7 +137,6 @@ button.p::after{content:'';position:absolute;top:0;left:-45%;width:32%;height:10
 @media(prefers-reduced-motion:reduce){
   .ident-hero.play .ident-name,.ident-hero.play .ident-name::after,.ident-hero.play .ident-rule,.ident-hero.play .ident-rule::after{animation:none}
   .ident-name .nl{opacity:1;transform:none;filter:none;animation:none}
-  .name-bot.go,.name-bot .bot-hop,.name-bot .bot-hik{animation:none}
   .ident-rule{width:72px;opacity:1}
 }
 .sublbl{display:block;font-size:12.5px;color:var(--dim);margin:14px 0 6px}
@@ -227,7 +217,6 @@ button.p:hover:not(:disabled){filter:brightness(.97)}
           <div class="ident-kicker" id="ident-lbl">DPP Fantasy Name</div>
           <div class="ident-name" id="ident-dpp">—</div>
           <div class="ident-rule"></div>
-          <div class="name-bot" id="name-bot" aria-hidden="true"><span class="bot-hop"><span class="bot-hik">HIK</span></span></div>
         </div>
         <input type="hidden" id="dpp">
         <div class="contacto-field">
@@ -582,27 +571,6 @@ function spawnSparkles(nameEl){
   hero.appendChild(layer);
   setTimeout(function(){ if(layer.parentNode) layer.remove(); }, 1150);
 }
-// Ubica el robot HIK sobre el nombre y lo pone a pasearse de una punta a la otra.
-function placeBot(nameEl){
-  var bot = document.getElementById('name-bot'); if(!bot) return;
-  var hero = nameEl.parentElement;
-  var hr = hero.getBoundingClientRect();
-  var botW = bot.offsetWidth || 34, botH = bot.offsetHeight || 37;
-  // Recorre exactamente el ancho de las letras (no el bloque completo).
-  var lets = nameEl.querySelectorAll('.nl'), tl = Infinity, tr = -Infinity, topL = Infinity;
-  lets.forEach(function(s){ var r = s.getBoundingClientRect(); if(r.left<tl)tl=r.left; if(r.right>tr)tr=r.right; if(r.top<topL)topL=r.top; });
-  if(!isFinite(tl)){ var nr = nameEl.getBoundingClientRect(); tl = nr.left; tr = nr.right; topL = nr.top; }
-  var left0 = tl - hr.left, span = tr - tl;
-  var x0 = left0 - 3;
-  var x1 = Math.max(x0, left0 + span - botW + 3);
-  bot.style.setProperty('--bot-x0', x0 + 'px');
-  bot.style.setProperty('--bot-x1', x1 + 'px');
-  bot.style.left = x0 + 'px';
-  bot.style.top = ((topL - hr.top) - botH + 14) + 'px';   // rozando el borde superior de las letras; el salto lo eleva al voltear
-  bot.classList.add('show');
-  var reduce = false; try{ reduce = window.matchMedia && matchMedia('(prefers-reduced-motion:reduce)').matches; }catch(e){}
-  if(!reduce){ bot.classList.remove('go'); void bot.offsetWidth; bot.classList.add('go'); }
-}
 function updateTier(){
   var warn = document.getElementById('cuit-warn');
   var ident = document.getElementById('ident-fs');
@@ -637,7 +605,6 @@ function updateTier(){
     });
     hero.classList.remove('play'); void hero.offsetWidth; hero.classList.add('play');
     spawnSparkles(nameEl);
-    _botPending = true;
   }
   // El nivel del DPP NO se muestra como texto (dato sensible en página pública);
   // solo se codifica con el color del rótulo "DPP Fantasy Name".
@@ -645,9 +612,7 @@ function updateTier(){
   lblEl.style.color = tier==='DIAMOND' ? '#0369A1' : tier==='BLACK' ? '#111827' : tier==='GOLD' ? '#B7791F' : tier==='PLATINUM' ? '#64748B' : tier ? '#9CA3AF' : 'var(--dim)';
   var cel = document.getElementById('contacto'); if(cs) cel.value = cs;
   ident.hidden = false;
-  if(_botPending){ _botPending = false; requestAnimationFrame(function(){ placeBot(document.getElementById('ident-dpp')); }); }
 }
-var _botPending = false;
 
 function val(id){ return (document.getElementById(id).value || '').trim(); }
 function mark(id, bad){
