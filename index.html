@@ -461,7 +461,7 @@ function rmFile(i){ _files.splice(i,1); renderFiles(); }
 // Al alcanzar el combo (≥ cámaras y ≥ NVR) el demo pasa a 1 automáticamente; si no, 0.
 function syncDemoQty(){
   var need = CFG.elig || { cams:0, nvr:0 };
-  var c = comboCounts(readLines());
+  var c = comboCounts(readLines().concat(prevLines()));
   var q = (c.cam >= need.cams && c.nvr >= need.nvr) ? '1' : '0';
   var sel = document.getElementById('demo-qty');
   if(sel && sel.value !== q){ sel.value = q; onDemoQty(); }
@@ -532,9 +532,11 @@ function comboCounts(lines){
   lines.forEach(function(l){ var k = _SKUKIND[l.sku]; if(k === 'cam') c.cam += (l.qty||0); else if(k === 'nvr') c.nvr += (l.qty||0); });
   return c;
 }
+// Equipos ya registrados por este DPP en la campaña (se suman para alcanzar el combo)
+function prevLines(){ return (_dup && Array.isArray(_dup.lines)) ? _dup.lines : []; }
 function esElegible(lines){
   var need = CFG.elig || { cams:0, nvr:0 };
-  var c = comboCounts(lines);
+  var c = comboCounts(lines.concat(prevLines()));
   var demo = val('demo-qty') !== '0' && !!val('demo-model'); // +1 NVR de exhibición (demo reintegrado por NC)
   return c.cam >= need.cams && c.nvr >= need.nvr && demo;
 }
@@ -625,8 +627,9 @@ function checkDup(cuit){
     if((document.getElementById('cuit').value || '').replace(/\D/g, '') !== cuit) return;
     if(d && d.exists){
       _dup = d;
-      box.innerHTML = 'Este DPP ya tiene un registro en esta campaña (comprobante <b>' + (d.folio || '—') + '</b>, ' + (d.fecha || '') + ').<br>Lo que envíes ahora se <b>agregará a ese mismo registro</b>: equipos y facturas nuevas. La nota de crédito no se duplica.';
+      box.innerHTML = 'Este DPP ya tiene un registro en esta campaña (comprobante <b>' + (d.folio || '—') + '</b>, ' + (d.fecha || '') + ').<br>Lo que envíes ahora se <b>agregará a ese mismo registro</b>: equipos y facturas nuevas. La nota de crédito no se duplica.<br>Los equipos ya registrados <b>suman</b> para alcanzar el combo.';
       box.style.display = 'block';
+      if(typeof syncDemoQty === 'function') syncDemoQty();
     }
   });
 }
