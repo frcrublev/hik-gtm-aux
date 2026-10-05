@@ -206,6 +206,7 @@ button.p:hover:not(:disabled){filter:brightness(.97)}
         <input type="text" id="cuit" inputmode="numeric" maxlength="13" placeholder="30712345678" autocomplete="off">
         <div id="cuit-warn" style="display:none;margin-top:8px;font-size:13px;font-weight:600;color:#8a1c12;background:#FDECEA;border:1px solid #F5C6C0;padding:8px 11px;border-radius:3px">CUIT no reconocido / no es un DPP de esta promoción.</div>
         <div class="err" id="e-cuit">Ingresá un CUIT de 11 dígitos.</div>
+        <div id="cuit-dup" style="display:none;margin-top:8px;font-size:13px;font-weight:600;color:#7a4b00;background:#FFF6E0;border:1px solid #F3D98B;padding:8px 11px;border-radius:3px"></div>
       </div>
     </fieldset>
 
@@ -612,6 +613,22 @@ function updateTier(){
   lblEl.style.color = tier==='DIAMOND' ? '#0369A1' : tier==='BLACK' ? '#111827' : tier==='GOLD' ? '#B7791F' : tier==='PLATINUM' ? '#64748B' : tier ? '#9CA3AF' : 'var(--dim)';
   var cel = document.getElementById('contacto'); if(cs) cel.value = cs;
   ident.hidden = false;
+  checkDup(cuit);
+}
+// ¿Este DPP ya registró esta campaña? → se avisa y el envío se AGREGA a ese registro (la NC no se duplica)
+var _dup = null;
+function checkDup(cuit){
+  var box = document.getElementById('cuit-dup'); _dup = null; box.style.display = 'none';
+  if(!sb || !sb.rpc) return;
+  sb.rpc('pr_exists', { p_cuit: cuit, p_campaign: SLUG }).then(function(res){
+    var d = res && res.data;
+    if((document.getElementById('cuit').value || '').replace(/\D/g, '') !== cuit) return;
+    if(d && d.exists){
+      _dup = d;
+      box.innerHTML = 'Este DPP ya tiene un registro en esta campaña (comprobante <b>' + (d.folio || '—') + '</b>, ' + (d.fecha || '') + ').<br>Lo que envíes ahora se <b>agregará a ese mismo registro</b>: equipos y facturas nuevas. La nota de crédito no se duplica.';
+      box.style.display = 'block';
+    }
+  });
 }
 
 function val(id){ return (document.getElementById(id).value || '').trim(); }
@@ -774,8 +791,21 @@ async function finalizar(elegible){
       demo_model: val('demo-model'), demo_nd: val('demo-nd'), nc_nd: val('nc-nd'),
       source: 'public'
     };
-    var res = await sb.from('purchase_registrations').insert(payload);
+    // Un registro por DPP y campaña: si ya existe, se agrega al original (función pr_register)
+    var res = await sb.rpc('pr_register', { p: payload }), merged = null;
+    if(res.error && /pr_register|function|PGRST202/i.test((res.error.message || '') + (res.error.code || ''))){
+      res = await sb.from('purchase_registrations').insert(payload);   // sin la función todavía: alta normal
+    } else if(!res.error){ merged = res.data && res.data.merged ? res.data : null; }
     if(res.error) throw res.error;
+    if(merged){
+      document.getElementById('form').style.display = 'none';
+      document.getElementById('celebrate').classList.remove('on');
+      document.getElementById('done-title').textContent = '¡Registro actualizado!';
+      document.getElementById('done-msg').textContent = 'Agregamos estos equipos y facturas a tu registro anterior (comprobante ' + (merged.folio || '—') + ', ' + (merged.fecha || '') + '). La nota de crédito sigue siendo una sola.';
+      document.getElementById('done').classList.add('on');
+      window.scrollTo(0, 0);
+      return;
+    }
     document.getElementById('form').style.display = 'none';
     document.getElementById('celebrate').classList.remove('on');
     if(elegible){
