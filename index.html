@@ -415,6 +415,17 @@ var SUPABASE_URL  = "https://kffbbulbdhuexhysmzie.supabase.co";
 var SUPABASE_ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtmZmJidWxiZGh1ZXhoeXNtemllIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk5MTgxNzcsImV4cCI6MjA5NTQ5NDE3N30.RLsVbFBf85b8A_sbC-3ls8492gz3fFX54Ez_UzXji00";
 var sb = (window.supabase && window.supabase.createClient) ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON) : null;
 
+// Padrón DPP en vivo: la lista general de DPP del portal (dpp_partners) manda sobre la lista fija
+(function loadDppLive(){
+  if(!sb) return;
+  sb.rpc('dpp_public_list').then(function(r){
+    if(r.error || !r.data || !r.data.length) return;
+    r.data.forEach(function(d){ var c = String(d.cuit||'').replace(/\D/g,''); if(c.length !== 11) return;
+      TIER[c] = String(d.tier||'BLACK').toUpperCase(); if(d.name) DPPNAME[c] = d.name; });
+    var el = document.getElementById('cuit'); if(el && el.value) el.dispatchEvent(new Event('input'));
+  });
+})();
+
 var _files = [];  // File[] de facturas
 
 function _groupKind(name){ return /nvr/i.test(name) ? 'nvr' : (/c[áa]mara/i.test(name) ? 'cam' : 'otro'); }
