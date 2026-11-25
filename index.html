@@ -406,25 +406,13 @@ function _esc(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g
 var SLUG = (qp('c') || 'kvpro').toLowerCase();
 var CFG  = CAMPAIGNS[SLUG];
 
-// ── Nivel del DPP por CUIT (FOCO) y precio de NC del demo (1 unidad) ──
-var TIER_PRICE = { DIAMOND: 249.50, BLACK: 274.10 };
-var DPPNAME={"30718948904":"ACCEL SEGURIDAD","30711016666":"ACTIVA 24","30708871202":"ALASTOR SA","30711060169":"ARG SEGURIDAD","20076471062":"ART ELECTRÓNICA","30717343413":"ARTEC","30717090655":"ARTEC","20368733750":"ARTEC","30707392661":"ATOMTECH","30716240432":"ATOMTECH","30707089659":"AVIC SATELITAL SRL","33716519479":"BIOSEGUR","20442411043":"BISTOTTO SEGURIDAD","33714801789":"BLOCK SEGURIDAD","20250227826":"BLOCK SEGURIDAD","30717162451":"BOAZ SOLUCIONES SAS","20358935819":"GRUPOTECNOBUN SA","30717343340":"BYV SEGURIDAD SAS","30709185582":"CAMPAGNA","30716881853":"CAMTEC","20281152166":"CAMTECH","30708559209":"CERRO DIGITAL","30670643510":"COMUNICACIONES FUEGUINAS","20297233433":"CONTROL TEC","30707184155":"D Y R SISTEMAS SRL","20298286506":"D Y R SISTEMAS SRL","20277872847":"DAWA SOLUCIONES","30713746505":"DEALTEC","30716999986":"DEALTEC","30712406883":"DEXA","30710578512":"DEXA","30718285719":"DIGITAL BIT SOLUTIONS SRL","30715580663":"DINAVISION","30710492626":"DISTRI ELECTRO","20241924379":"DISTRIBUIDORA MENDOZA","30712401466":"DISTRIBUIDORA PSENDA SA","30712272976":"DOHKO","20316087184":"DSELEC SAS","20317682892":"DSELEC SAS","30717571939":"DSELEC SAS","30710410816":"ELECTROSISTEMAS DE SEGURIDAD","30717769569":"EM DISTRIBUIDORA","33716389109":"EM DISTRIBUIDORA","30711286639":"EMISOL TODAY SRL","20271635282":"EQUIS TECNOLOGIA","23307754339":"ESTUDIO TECNO","20286524037":"FUSION GROUP","30716899655":"FUSION GROUP","20243348391":"LEPPUS","33717577359":"GRICON SRL","30716078422":"GRICON SRL","20234218299":"LOCOCO","20163955467":"HIGH TECNO","20165114249":"HIGH TECNO","20109830810":"HIK-SECURITY","30711961492":"HURIN","30716608677":"I-CUADRADO","33715587969":"I-CUADRADO","30711071608":"INFOANDINA","30716747022":"IO24","30718934288":"IPSIMPLE SRL","30716832828":"IPAQUETE","30717421511":"ITEC/HANUMAN","30714956481":"ITEC/HANUMAN","30716209802":"IUARG","20085361806":"JRI SEGURDAD","30716884291":"JRI SEGURDAD","30711107645":"KELCOM","30716504618":"LAER TECHNOLOGY GROUP","30710702132":"LANTRÓNICA","20306056914":"LARTECH","30709925284":"LAUDAV","20399848327":"LAURUS PROTECT","30718100964":"LAURUS PROTECT","20323264962":"LEIRAX","30717556956":"LEIRAX","30714780847":"LEVELTECH","30712471472":"LIDERTECH SA","30710239572":"M3K","30715068814":"MAFP TECNOLOGÍA","30716117967":"MÁS TECNOLOGÍA","30707954155":"MÁS TECNOLOGÍA","30709048852":"MÁS TECNOLOGÍA","30697616701":"MAYNAR","20345809016":"NEXOS SEGURIDAD ELECTRÓNICA","27377308145":"NEXOS SEGURIDAD ELECTRÓNICA","30707980512":"NIPRO","30715667386":"OFGOLD","33716464399":"OFIT","30715232355":"OFIT","30714982466":"ONE FIRST SECURITY","30716620634":"ONE P","20255469542":"PC INGENIERIA","23286475329":"PERSALTUM","30711299307":"PERSALTUM","30710721471":"PLANETSTORE","30718039033":"PROACTIVE","30715118617":"PRODUCTOS INTEGRA","30716767279":"PROPIEDAD PROTEGIDA","20255067339":"RABELLINO SERGIO GABRIEL","30715249657":"RADIO NAKAMA","20313846254":"GRUPO SER","30715278517":"GRUPO SER","30718545710":"GRUPO SER","20258083319":"REDVISION","30715905651":"REDVISION","20347443906":"REDVISION","30717584666":"REDVISION","30637903000":"RELET","23323721599":"RIBAUDO","27238386182":"ROMA ELECTRONIC","20254713172":"SATELITAL VISION SA","30713418702":"SATELITAL VISION SA","20508193832":"SEA ONLINE","20341358478":"SEA ONLINE","23250293739":"SEGURAL","20182765962":"SERINAL FLAVIO HECTOR CEFERI","30710513933":"SERVICIOS ETA SRL","30716178060":"SEYTC","30690854771":"SIELSE","30714398659":"SILICON GROUP","30715708066":"SISTEMAS MÓVILES","30688109538":"SITELEC","33714045739":"SMARTEC","23314164229":"SOPORTE CLUSTER","30709673285":"STARX SECURITY","30715264583":"SUR SEGURIDAD","27289469902":"SUR SEGURIDAD","30707835563":"SUTEL","23279335279":"TECNOCOM","20300408274":"TEKNO GROUP","30717536505":"TEKNO GROUP","30597876080":"TELETEX","20338116978":"TODO SEGURIDAD","20322358130":"TORRES ELECTRONICA","20245355980":"TRACE ARGENTINA","20281404084":"VALEIRA","20274020572":"VAZQUEZ CARLOS MAURICIO","30716145316":"WALL SEGURIDAD","30715411640":"XIBEI","20238552142":"ADC","30710804830":"ZG MULTITEC","20467565207":"EM DISTRIBUIDORA","27382926779":"EM DISTRIBUIDORA","27948896864":"EM DISTRIBUIDORA","20270401121":"CETER SEGURIDAD & TELECOMUNICACIONES","20253074761":"AEINSUMOS","30718409825":"INNOVA","20294694839":"SECURITY CONTROL","30714584304":"NOX TECHNOLOGY","30718963423":"WALL SEGURIDAD CABA","20245532513":"VIC","20270720952":"LP seguridad","30717153681":"Nexthaedo","30717628272":"REDVISION","27297199019":"TEKNOVENTAS","20305950697":"IPSIMPLE SRL","20263825188":"AMC Electronica","30719115272":"VIVI INTELIGENTE SAS","30717596362":"MIGUEL AYALA","30716868067":"ABBA MIX SRL","30718071085":"ELECTRIC FEEL","33718568779":"GRUPOTECNOBUN SA","30716075873":"ASTUCOMPRA","30718973542":"LEVELSTORE","20251570494":"ENCRO","30679488593":"CI 5 SA","30693192516":"PRODUCTOS INTEGRA","30719146615":"NOVATECNO TL SRL","30718758250":"BLOCK SEGURIDAD","33717631159":"RIBAUDO","20271953551":"TEKNOVENTAS","20046715943":"Security Center","30719050731":"NEXOS SEGURIDAD ELECTRONICA","20323932795":"TEKNO GROUP","30719226694":"IO24"};
-var TIER={"30718948904":"BLACK","30711016666":"BLACK","30708871202":"DIAMOND","30711060169":"DIAMOND","20076471062":"GOLD","30717343413":"DIAMOND","30717090655":"DIAMOND","20368733750":"DIAMOND","30707392661":"DIAMOND","30716240432":"DIAMOND","30707089659":"GOLD","33716519479":"DIAMOND","20442411043":"BLACK","33714801789":"BLACK","20250227826":"BLACK","30717162451":"BLACK","20358935819":"DIAMOND","30717343340":"GOLD","30709185582":"BLACK","30716881853":"BLACK","20281152166":"PLATINUM","30708559209":"DIAMOND","30670643510":"DIAMOND","20297233433":"BLACK","30707184155":"DIAMOND","20298286506":"DIAMOND","20277872847":"PLATINUM","30713746505":"DIAMOND","30716999986":"DIAMOND","30712406883":"DIAMOND","30710578512":"DIAMOND","30718285719":"DIAMOND","30715580663":"DIAMOND","30710492626":"BLACK","20241924379":"PLATINUM","30712401466":"BLACK","30712272976":"DIAMOND","20316087184":"BLACK","20317682892":"BLACK","30717571939":"BLACK","30710410816":"BLACK","30717769569":"PLATINUM","33716389109":"PLATINUM","30711286639":"PLATINUM","20271635282":"BLACK","23307754339":"BLACK","20286524037":"BLACK","30716899655":"BLACK","20243348391":"PLATINUM","33717577359":"BLACK","30716078422":"BLACK","20234218299":"PLATINUM","20163955467":"BLACK","20165114249":"BLACK","20109830810":"PLATINUM","30711961492":"DIAMOND","30716608677":"DIAMOND","33715587969":"DIAMOND","30711071608":"DIAMOND","30716747022":"BLACK","30718934288":"BLACK","30716832828":"GOLD","30717421511":"PLATINUM","30714956481":"PLATINUM","30716209802":"GOLD","20085361806":"DIAMOND","30716884291":"DIAMOND","30711107645":"BLACK","30716504618":"PLATINUM","30710702132":"PLATINUM","20306056914":"BLACK","30709925284":"PLATINUM","20399848327":"DIAMOND","30718100964":"DIAMOND","20323264962":"BLACK","30717556956":"BLACK","30714780847":"GOLD","30712471472":"BLACK","30710239572":"GOLD","30715068814":"BLACK","30716117967":"DIAMOND","30707954155":"DIAMOND","30709048852":"DIAMOND","30697616701":"DIAMOND","20345809016":"DIAMOND","27377308145":"DIAMOND","30707980512":"BLACK","30715667386":"DIAMOND","33716464399":"DIAMOND","30715232355":"DIAMOND","30714982466":"PLATINUM","30716620634":"PLATINUM","20255469542":"GOLD","23286475329":"DIAMOND","30711299307":"DIAMOND","30710721471":"DIAMOND","30718039033":"PLATINUM","30715118617":"DIAMOND","30716767279":"DIAMOND","20255067339":"BLACK","30715249657":"PLATINUM","20313846254":"DIAMOND","30715278517":"DIAMOND","30718545710":"DIAMOND","20258083319":"DIAMOND","30715905651":"DIAMOND","20347443906":"DIAMOND","30717584666":"DIAMOND","30637903000":"PLATINUM","23323721599":"BLACK","27238386182":"DIAMOND","20254713172":"DIAMOND","30713418702":"DIAMOND","20508193832":"DIAMOND","20341358478":"DIAMOND","23250293739":"PLATINUM","20182765962":"PLATINUM","30710513933":"PLATINUM","30716178060":"BLACK","30690854771":"BLACK","30714398659":"DIAMOND","30715708066":"DIAMOND","30688109538":"PLATINUM","33714045739":"BLACK","23314164229":"BLACK","30709673285":"PLATINUM","30715264583":"BLACK","27289469902":"BLACK","30707835563":"BLACK","23279335279":"BLACK","20300408274":"DIAMOND","30717536505":"DIAMOND","30597876080":"DIAMOND","20338116978":"BLACK","20322358130":"BLACK","20245355980":"BLACK","20281404084":"BLACK","20274020572":"BLACK","30716145316":"DIAMOND","30715411640":"DIAMOND","20238552142":"BLACK","30710804830":"GOLD","20467565207":"PLATINUM","27382926779":"PLATINUM","27948896864":"PLATINUM","20270401121":"PLATINUM","20253074761":"BLACK","30718409825":"BLACK","20294694839":"PLATINUM","30714584304":"PLATINUM","30718963423":"DIAMOND","20245532513":"BLACK","20270720952":"PLATINUM","30717153681":"BLACK","30717628272":"DIAMOND","27297199019":"PLATINUM","20305950697":"BLACK","20263825188":"BLACK","30719115272":"PLATINUM","30717596362":"BLACK","30716868067":"GOLD","30718071085":"DIAMOND","33718568779":"DIAMOND","30716075873":"DIAMOND","30718973542":"BLACK","20251570494":"PLATINUM","30679488593":"GOLD","30693192516":"DIAMOND","30719146615":"BLACK","30718758250":"BLACK","33717631159":"BLACK","20271953551":"PLATINUM","20046715943":"PLATINUM","30719050731":"DIAMOND","20323932795":"DIAMOND","30719226694":"BLACK"};
+// Padrón DPP: se consulta en vivo por CUIT (rpc dpp_lookup). El nivel del DPP
+// NO llega al navegador: pr_register lo calcula en el servidor junto con la NC.
+var _dppInfo = {};   // cuit -> { found, name, chs }
 
 var SUPABASE_URL  = "https://kffbbulbdhuexhysmzie.supabase.co";
 var SUPABASE_ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtmZmJidWxiZGh1ZXhoeXNtemllIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk5MTgxNzcsImV4cCI6MjA5NTQ5NDE3N30.RLsVbFBf85b8A_sbC-3ls8492gz3fFX54Ez_UzXji00";
 var sb = (window.supabase && window.supabase.createClient) ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON) : null;
-
-// Padrón DPP en vivo: la lista general de DPP del portal (dpp_partners) manda sobre la lista fija
-(function loadDppLive(){
-  if(!sb) return;
-  sb.rpc('dpp_public_list').then(function(r){
-    if(r.error || !r.data || !r.data.length) return;
-    r.data.forEach(function(d){ var c = String(d.cuit||'').replace(/\D/g,''); if(c.length !== 11) return;
-      TIER[c] = String(d.tier||'BLACK').toUpperCase(); if(d.name) DPPNAME[c] = d.name; });
-    var el = document.getElementById('cuit'); if(el && el.value) el.dispatchEvent(new Event('input'));
-  });
-})();
 
 var _files = [];  // File[] de facturas
 
@@ -552,13 +540,17 @@ function esElegible(lines){
   return c.cam >= need.cams && c.nvr >= need.nvr && demo;
 }
 
-// Nivel del DPP + NC estimada (1 unidad) a partir del CUIT.
-var DPPCHS={"30711016666":"Key Sepulveda","30708871202":"Key Sepulveda","30711060169":"Key Sepulveda","20076471062":"Paola Velasco","30717343413":"Key Sepulveda","30717090655":"Key Sepulveda","20368733750":"Key Sepulveda","30707392661":"Key Sepulveda","30716240432":"Key Sepulveda","30707089659":"Camila Rodriguez","33716519479":"Ariel Donamari","20442411043":"Nicolás Mardaraz","33714801789":"Ariel Donamari","20250227826":"Ariel Donamari","30717162451":"Diego Ripoli","20358935819":"Diego Ripoli","30717343340":"Camila Rodriguez","30709185582":"Paola Velasco","30716881853":"Paola Velasco","20281152166":"Paola Velasco","30708559209":"Paola Velasco","30670643510":"Camila Rodriguez","20297233433":"Nicolás Mardaraz","30707184155":"Nicolás Mardaraz","20298286506":"Nicolás Mardaraz","20277872847":"Ariel Donamari","30713746505":"Key Sepulveda","30716999986":"Key Sepulveda","30712406883":"Diego Ripoli","30710578512":"Diego Ripoli","30718285719":"Ariel Donamari","30715580663":"Paola Velasco","30710492626":"Key Sepulveda","20241924379":"Paola Velasco","30712401466":"Paola Velasco","30712272976":"Camila Rodriguez","20316087184":"Paola Velasco","20317682892":"Paola Velasco","30717571939":"Paola Velasco","30710410816":"Key Sepulveda","30717769569":"Nicolás Mardaraz","33716389109":"Nicolás Mardaraz","30711286639":"","20271635282":"Nicolás Mardaraz","23307754339":"Paola Velasco","20286524037":"Paola Velasco","30716899655":"Paola Velasco","20243348391":"Ariel Donamari","33717577359":"Paola Velasco","30716078422":"Paola Velasco","20234218299":"Diego Ripoli","20163955467":"Key Sepulveda","20165114249":"Key Sepulveda","20109830810":"Diego Ripoli","30711961492":"Diego Ripoli","30716608677":"Paola Velasco","33715587969":"Paola Velasco","30711071608":"Diego Ripoli","30716747022":"Nicolás Mardaraz","30718934288":"Key Sepulveda","30716832828":"Diego Ripoli","30717421511":"Diego Ripoli","30714956481":"Diego Ripoli","30716209802":"Camila Rodriguez","20085361806":"Ariel Donamari","30716884291":"Ariel Donamari","30711107645":"Ariel Donamari","30716504618":"Diego Ripoli","30710702132":"Ariel Donamari","20306056914":"Paola Velasco","30709925284":"Ariel Donamari","20399848327":"Key Sepulveda","30718100964":"Key Sepulveda","20323264962":"Key Sepulveda","30717556956":"Key Sepulveda","30714780847":"Paola Velasco","30712471472":"Paola Velasco","30710239572":"Camila Rodriguez","30715068814":"Key Sepulveda","30716117967":"Ariel Donamari","30707954155":"Ariel Donamari","30709048852":"Ariel Donamari","30697616701":"Ariel Donamari","20345809016":"Nicolás Mardaraz","27377308145":"Nicolás Mardaraz","30707980512":"Paola Velasco","30715667386":"Ariel Donamari","33716464399":"Camila Rodriguez","30715232355":"Camila Rodriguez","30714982466":"Paola Velasco","30716620634":"Camila Rodriguez","20255469542":"Nicolás Mardaraz","23286475329":"Paola Velasco","30711299307":"Paola Velasco","30710721471":"Diego Ripoli","30718039033":"Camila Rodriguez","30715118617":"Ariel Donamari","30716767279":"Nicolás Mardaraz","20255067339":"Nicolás Mardaraz","30715249657":"Ariel Donamari","20313846254":"Nicolás Mardaraz","30715278517":"Nicolás Mardaraz","30718545710":"Nicolás Mardaraz","20258083319":"Key Sepulveda","30715905651":"Key Sepulveda","20347443906":"Key Sepulveda","30717584666":"Key Sepulveda","30637903000":"Diego Ripoli","23323721599":"Paola Velasco","27238386182":"Diego Ripoli","20254713172":"Paola Velasco","30713418702":"Paola Velasco","20508193832":"Key Sepulveda","20341358478":"Key Sepulveda","23250293739":"Ariel Donamari","20182765962":"Diego Ripoli","30710513933":"Paola Velasco","30716178060":"Nicolás Mardaraz","30690854771":"Nicolás Mardaraz","30714398659":"Diego Ripoli","30715708066":"Nicolás Mardaraz","30688109538":"Ariel Donamari","33714045739":"Ariel Donamari","23314164229":"Ariel Donamari","30709673285":"Ariel Donamari","30715264583":"Ariel Donamari","27289469902":"Ariel Donamari","30707835563":"Ariel Donamari","23279335279":"Paola Velasco","20300408274":"Ariel Donamari","30717536505":"Ariel Donamari","30597876080":"Diego Ripoli","20338116978":"Camila Rodriguez","20322358130":"Nicolás Mardaraz","20245355980":"Diego Ripoli","20281404084":"Nicolás Mardaraz","20274020572":"Paola Velasco","30716145316":"Paola Velasco","30715411640":"Nicolás Mardaraz","20238552142":"Paola Velasco","30710804830":"Diego Ripoli","20467565207":"Nicolás Mardaraz","27382926779":"Nicolás Mardaraz","27948896864":"Nicolás Mardaraz","20270401121":"Nicolás Mardaraz","20253074761":"Nicolás Mardaraz","30718409825":"Paola Velasco","20294694839":"Key Sepulveda","30714584304":"Diego Ripoli","30718963423":"Camila Rodriguez","20245532513":"Nicolás Mardaraz","20270720952":"Key Sepulveda","30717153681":"Key Sepulveda","30717628272":"Key Sepulveda","27297199019":"Ariel Donamari","20305950697":"Key Sepulveda","20263825188":"Ariel Donamari","30719115272":"Nicolás Mardaraz","30717596362":"Paola Velasco","30716868067":"Paola Velasco","30718071085":"Ariel Donamari","33718568779":"Diego Ripoli","30716075873":"Camila Rodriguez","30718973542":"Paola Velasco","20251570494":"Nicolás Mardaraz","30679488593":"Lisandro Carrara","30693192516":"Ariel Donamari","30719146615":"Diego Ripoli","30718758250":"Ariel Donamari","33717631159":"Paola Velasco","20271953551":"Ariel Donamari","20046715943":"Key Sepulveda","30719050731":"Nicolás Mardaraz","20323932795":"","30719226694":"Nicolás Mardaraz"};
-function isKnownCuit(cuit){ return typeof TIER !== 'undefined' && Object.prototype.hasOwnProperty.call(TIER, cuit); }
-function tierOf(cuit){ return (typeof TIER !== 'undefined' && TIER[cuit]) ? TIER[cuit] : ''; }
-// La NC reintegra el 90% del precio de lista del NVR demo (el DPP lo compró con 10% off).
-var NC_FACTOR = 0.9;
-function ncOf(tier){ return TIER_PRICE[tier] != null ? Math.round(TIER_PRICE[tier] * NC_FACTOR * 100) / 100 : null; }
+// ¿El CUIT es un DPP del padrón? (respuesta de dpp_lookup, cacheada por CUIT)
+function isKnownCuit(cuit){ var d = _dppInfo[cuit]; return !!(d && d.found); }
+function lookupDpp(cuit){
+  if(_dppInfo[cuit] || !sb) return;
+  _dppInfo[cuit] = { pending: true };
+  sb.rpc('dpp_lookup', { p_cuit: cuit }).then(function(r){
+    if(r.error || !r.data){ delete _dppInfo[cuit]; return; }
+    _dppInfo[cuit] = { found: !!r.data.found, name: r.data.name || '', chs: r.data.chs || '' };
+    if((document.getElementById('cuit').value || '').replace(/\D/g, '') === cuit) updateTier();
+  });
+}
 // Al tipear el CUIT: si es un DPP del padrón, autocompleta DPP y contacto
 // y despliega el bloque "Tus datos". El nivel/NC ya no se muestra acá
 // (se valida al enviar).
@@ -590,10 +582,12 @@ function updateTier(){
   var ident = document.getElementById('ident-fs');
   var cuit = (document.getElementById('cuit').value || '').replace(/\D/g, '');
   if(cuit.length !== 11){ warn.style.display = 'none'; ident.hidden = true; return; }
+  var info = _dppInfo[cuit];
+  if(!info || info.pending){ warn.style.display = 'none'; ident.hidden = true; lookupDpp(cuit); return; }
   if(!isKnownCuit(cuit)){ warn.style.display = 'block'; ident.hidden = true; document.getElementById('dpp').value = ''; return; }
   warn.style.display = 'none';
-  var nm = (typeof DPPNAME !== 'undefined' && DPPNAME[cuit]) ? DPPNAME[cuit] : '';
-  var cs = (typeof DPPCHS !== 'undefined' && DPPCHS[cuit]) ? DPPCHS[cuit] : '';
+  var nm = info.name || '';
+  var cs = info.chs || '';
   document.getElementById('dpp').value = nm;
   var nameEl = document.getElementById('ident-dpp');
   var hero = nameEl.parentElement;             // .ident-hero
@@ -620,10 +614,6 @@ function updateTier(){
     hero.classList.remove('play'); void hero.offsetWidth; hero.classList.add('play');
     spawnSparkles(nameEl);
   }
-  // El nivel del DPP NO se muestra como texto (dato sensible en página pública);
-  // solo se codifica con el color del rótulo "DPP Fantasy Name".
-  var tier = tierOf(cuit), lblEl = document.getElementById('ident-lbl');
-  lblEl.style.color = tier==='DIAMOND' ? '#0369A1' : tier==='BLACK' ? '#111827' : tier==='GOLD' ? '#B7791F' : tier==='PLATINUM' ? '#64748B' : tier ? '#9CA3AF' : 'var(--dim)';
   var cel = document.getElementById('contacto'); if(cs) cel.value = cs;
   ident.hidden = false;
   checkDup(cuit);
@@ -708,9 +698,8 @@ function enviar(){
   if(!sb){ banner('No se pudo conectar. Revisá tu conexión e intentá de nuevo.'); return; }
   var lines = readLines().filter(function(l){ return l._complete; });
   if(esElegible(lines)){
-    var tier = tierOf(val('cuit').replace(/\D/g, ''));
-    var nc = ncOf(tier);
-    document.getElementById('cel-amt').textContent = nc != null ? 'USD ' + nc.toFixed(2) : 'A confirmar';
+    // El monto depende del nivel del DPP, que solo conoce el servidor: se informa en el comprobante.
+    document.getElementById('cel-amt').textContent = 'Se confirma al enviar';
     document.getElementById('form').style.display = 'none';
     document.getElementById('celebrate').classList.add('on');
     window.scrollTo(0, 0);
@@ -791,12 +780,11 @@ async function finalizar(elegible){
     var rrss = elegible ? await subir(_rrss, 'rrss/') : [];
     var lines = readLines().filter(function(l){ return l._complete; }).map(function(l){ return { sku:l.sku, qty:l.qty, nd:l.nd }; });
     var ndSet = {}; lines.forEach(function(l){ if(l.nd) ndSet[l.nd]=1; });
-    var tier = tierOf(cuit), nc = ncOf(tier);
     var folio = 'NC-' + cuit.slice(-4) + '-' + Date.now().toString(36).toUpperCase();
     var payload = {
       campaign: SLUG, campaign_name: CFG.label,
       cuit: cuit, dpp: val('dpp'), contacto: val('contacto'),
-      tier: tier || null, nc_amount: nc, eligible: !!elegible,
+      eligible: !!elegible,
       folio: folio, nc_status: elegible ? 'pending_review' : null,
       nd: Object.keys(ndSet).join(', '),
       lines: lines, items: lines.map(function(l){ return { sku:l.sku, qty:l.qty }; }),
@@ -810,6 +798,7 @@ async function finalizar(elegible){
     if(res.error && /pr_register|function|PGRST202/i.test((res.error.message || '') + (res.error.code || ''))){
       res = await sb.from('purchase_registrations').insert(payload);   // sin la función todavía: alta normal
     } else if(!res.error){ merged = res.data && res.data.merged ? res.data : null; }
+    var nc = (res.data && res.data.nc_amount != null) ? Number(res.data.nc_amount) : null;   // calculada en el servidor
     if(res.error) throw res.error;
     if(merged){
       document.getElementById('form').style.display = 'none';
@@ -824,7 +813,7 @@ async function finalizar(elegible){
     document.getElementById('celebrate').classList.remove('on');
     if(elegible){
       _lastReg = { folio:folio, fecha:new Date().toLocaleDateString('es-AR'), dpp:val('dpp'), cuit:cuit,
-        tier:tier||'—', nc: nc, contacto:val('contacto'),
+        nc: nc, contacto:val('contacto'),
         lines: lines.map(function(l){ return l.sku + ' ×' + l.qty + (l.nd ? ' (' + l.nd + ')' : ''); }) };
       renderReceipt();
       document.getElementById('receipt').classList.add('on');
@@ -850,7 +839,6 @@ function renderReceipt(){
     ['Fecha', r.fecha],
     ['DPP', r.dpp],
     ['CUIT', r.cuit],
-    ['Nivel', r.tier],
     ['NC estimada del demo', _ncTxt(r)],
     ['Contacto Hikvision', r.contacto],
     ['Estado', 'En revisión por Hikvision']
@@ -870,7 +858,6 @@ function _receiptText(){
     'Fecha: ' + r.fecha + '\n' +
     'DPP: ' + r.dpp + '\n' +
     'CUIT: ' + r.cuit + '\n' +
-    'Nivel: ' + r.tier + '\n' +
     'NC estimada del demo: ' + _ncTxt(r) + '\n' +
     'Contacto Hikvision: ' + r.contacto + '\n' +
     'Estado: En revisión por Hikvision\n\n' +
@@ -894,7 +881,7 @@ function downloadReceipt(){
     doc.setDrawColor(220,220,220); doc.line(x, y+8, 547, y+8); y += 30;
     doc.setFontSize(11);
     var rows = [['N.º de comprobante', r.folio],['Fecha', r.fecha],['DPP', r.dpp],['CUIT', r.cuit],
-      ['Nivel', r.tier],['NC estimada del demo', _ncTxt(r)],['Contacto Hikvision', r.contacto],['Promoción', CFG.label]];
+      ['NC estimada del demo', _ncTxt(r)],['Contacto Hikvision', r.contacto],['Promoción', CFG.label]];
     rows.forEach(function(row){
       doc.setFont('helvetica','normal'); doc.setTextColor(110,110,110); doc.text(row[0], x, y);
       doc.setFont('helvetica','bold'); doc.setTextColor(20,20,20); doc.text(String(row[1]), 547, y, {align:'right'}); y += 22;
